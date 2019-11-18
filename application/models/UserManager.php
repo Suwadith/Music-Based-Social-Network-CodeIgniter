@@ -58,5 +58,18 @@ class UserManager extends CI_Model
         }
     }
 
+    public function searchUsers($selectedGenre) {
+        if($selectedGenre!==null){
+            $this->db->like('likedGenres', $selectedGenre);
+            $result = $this->db->get('users');
+
+            if($result->num_rows() > 0) {
+                return $result->custom_result_object('User');
+            }
+        }
+
+//        print_r($result);
+    }
+
 
 }
