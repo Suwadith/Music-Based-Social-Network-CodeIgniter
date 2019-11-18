@@ -42,8 +42,22 @@ class SiteController extends CI_Controller {
 
         $username = $this->UserManager->loginUser($formUsername, $formPassword);
 
-        $this->session->username = $username;
+        if($username !== NULL) {
+            $this->session->username = $username;
 
-        redirect('/SiteController/profile');
+            redirect('/SiteController/profile');
+        }
+    }
+
+    public function createProfile() {
+	    $password = $this->input->post('password');
+	    $formProfileName = $this->input->post('profileName');
+        $formAvatarUrl = $this->input->post('avatarUrl');
+        $formGenres = $this->input->post('genres');
+        $this->load->model('UserManager');
+
+        $result = $this->UserManager->updateProfile($formProfileName, $formAvatarUrl, $formGenres, $password);
+
+
     }
 }

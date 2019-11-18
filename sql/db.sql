@@ -7,10 +7,9 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
 );
 
 CREATE TABLE IF NOT EXISTS `users` (
-        `user_id` int(128) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        `username` varchar(16) NOT NULL,
+        `username` varchar(16) NOT NULL PRIMARY KEY,
         `password` varchar(255) NOT NULL,
-        `profile_name` varchar(32),
-        `avatar_ulr` VARCHAR(2083),
-        `liked_genres` varchar(255)
+        `profileName` varchar(32),
+        `avatarUrl` VARCHAR(2083),
+        `likedGenres` varchar(255)
 );

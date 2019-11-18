@@ -9,56 +9,22 @@
 class User
 {
 
-    private $username;
-    private $password_hash;
-    private $profileName;
-    private $avatarUrl;
-    private $likedGenres;
+    public $username;
+    public $password;
+    public $profileName;
+    public $avatarUrl;
+    public $likedGenres;
 
     public function __construct($un, $ph)
     {
         $this->username = $un;
-        $this->password_hash = $ph;
+        $this->password = $ph;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPasswordHash()
-    {
-        return $this->password_hash;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getProfileName()
-    {
-        return $this->profileName;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAvatarUrl()
-    {
-        return $this->avatarUrl;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLikedGenres()
-    {
-        return $this->likedGenres;
+    public function updateProfileData($pN, $aU, $lG) {
+        $this->profileName = $pN;
+        $this->avatarUrl = $aU;
+        $this->likedGenres = implode(',', (array) $lG);
     }
 
 }
