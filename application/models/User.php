@@ -15,16 +15,53 @@ class User
     public $avatarUrl;
     public $likedGenres;
 
-    public function __construct($un, $ph)
-    {
-        $this->username = $un;
-        $this->password = $ph;
+//    /**
+//     * User constructor.
+//     * @param $username
+//     * @param $password
+//     */
+//    public function __construct($username, $password)
+//    {
+//        $this->username = $username;
+//        $this->password = $password;
+//    }
+
+    public function createUser($username, $password) {
+        $this->username = $username;
+        $this->password = $password;
     }
 
-    public function updateProfileData($pN, $aU, $lG) {
-        $this->profileName = $pN;
-        $this->avatarUrl = $aU;
-        $this->likedGenres = implode(',', (array) $lG);
+
+    public function updateProfileData($profileName, $avatarUrl, $likedGenres) {
+        $this->profileName = $profileName;
+        $this->avatarUrl = $avatarUrl;
+        $this->likedGenres = implode(',', (array) $likedGenres);
     }
+
+    /**
+     * @return mixed
+     */
+    public function getProfileName()
+    {
+        return $this->profileName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatarUrl()
+    {
+        return $this->avatarUrl;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLikedGenres()
+    {
+        return $this->likedGenres;
+    }
+
+
 
 }

@@ -22,3 +22,4 @@
 </head>
 <body>
 
+<a href="<?php echo site_url('/SiteController/logoutUser'); ?>">Logout</a>

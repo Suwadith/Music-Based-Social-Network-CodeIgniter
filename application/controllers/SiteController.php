@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class SiteController extends CI_Controller {
 
+    public $postResult = '';
+
 	public function login()
 	{
 		$this->load->view('header');
@@ -23,6 +25,19 @@ class SiteController extends CI_Controller {
         $this->load->view('footer');
     }
 
+    public function homepage() {
+        $this->load->view('header');
+        $this->displayPosts();
+        $this->load->view('footer');
+    }
+
+    public function searchPage() {
+	    $this->load->view('header');
+        $this->load->view('user_search');
+        $this->load->view('footer');
+
+    }
+
     public function registerUser() {
         $formUsername = $this->input->post('username');
         $formPassword = $this->input->post('password');
@@ -40,24 +55,58 @@ class SiteController extends CI_Controller {
 
         $this->load->model('UserManager');
 
-        $username = $this->UserManager->loginUser($formUsername, $formPassword);
+        $userData = $this->UserManager->loginUser($formUsername, $formPassword);
 
-        if($username !== NULL) {
-            $this->session->username = $username;
+        if($userData !== NULL) {
+            $this->session->userData = $userData;
+
+//            print_r($this->session->userData);
 
             redirect('/SiteController/profile');
         }
     }
 
+    public function logoutUser() {
+        $this->session->sess_destroy();
+
+        redirect('/SiteController/login');
+    }
+
+
     public function createProfile() {
-	    $password = $this->input->post('password');
+//	    $password = $this->input->post('password');
 	    $formProfileName = $this->input->post('profileName');
         $formAvatarUrl = $this->input->post('avatarUrl');
         $formGenres = $this->input->post('genres');
         $this->load->model('UserManager');
 
-        $result = $this->UserManager->updateProfile($formProfileName, $formAvatarUrl, $formGenres, $password);
+        $result = $this->UserManager->createProfile($formProfileName, $formAvatarUrl, $formGenres);
 
 
     }
+
+    public function createPost() {
+	    $postData = $this->input->post('postContent');
+	    $userId = $this->session->userData[1];
+
+	    $this->load->model('PostManager');
+
+	    $result = $this->PostManager->createPost($postData, $userId);
+
+       $this->homepage();
+
+    }
+
+    public function displayPosts() {
+	    $userId = $this->session->userData[1];
+
+        $this->load->model('PostManager');
+
+        $postResult = $this->PostManager->retrievePosts($userId);
+
+        $this->load->view('user_homepage', array('posts' => $postResult));
+
+//        print_r($postResult);
+    }
+
 }
