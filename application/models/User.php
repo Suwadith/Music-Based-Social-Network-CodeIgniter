@@ -8,23 +8,15 @@
 
 class User
 {
-
+    public $userId;
     public $username;
     public $password;
     public $profileName;
+    public $userEmail;
     public $avatarUrl;
     public $likedGenres;
-
-//    /**
-//     * User constructor.
-//     * @param $username
-//     * @param $password
-//     */
-//    public function __construct($username, $password)
-//    {
-//        $this->username = $username;
-//        $this->password = $password;
-//    }
+    public $followersId;
+    public $followingId;
 
     public function createUser($username, $password) {
         $this->username = $username;
@@ -32,10 +24,19 @@ class User
     }
 
 
-    public function updateProfileData($profileName, $avatarUrl, $likedGenres) {
+    public function updateProfileData($profileName, $avatarUrl, $likedGenres, $userEmail) {
         $this->profileName = $profileName;
         $this->avatarUrl = $avatarUrl;
         $this->likedGenres = implode(',', (array) $likedGenres);
+        $this->userEmail = $userEmail;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->userId;
     }
 
     /**
@@ -61,6 +62,48 @@ class User
     {
         return $this->likedGenres;
     }
+
+    /**
+     * @return array
+     */
+    public function getFollowersId()
+    {
+        return $this->followersId;
+    }
+
+    /**
+     * @param array $followersId
+     */
+    public function setFollowersId($followersId)
+    {
+        $this->followersId = $followersId;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFollowingId()
+    {
+        return $this->followingId;
+    }
+
+    /**
+     * @param array $followingId
+     */
+    public function setFollowingId($followingId)
+    {
+        $this->followingId = $followingId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUserEmail()
+    {
+        return $this->userEmail;
+    }
+
+
 
 
 

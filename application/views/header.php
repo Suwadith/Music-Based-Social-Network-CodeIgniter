@@ -10,7 +10,7 @@
 
     <link rel="stylesheet" type="text/css" href="/2015214/semantic/semantic.css">
 
-    <title>Document</title>
+    <title>Testing</title>
 
 
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
@@ -22,4 +22,4 @@
 </head>
 <body>
 
-<a href="<?php echo site_url('/SiteController/logoutUser'); ?>">Logout</a>
+<!--<a href="--><?php //echo site_url('/SiteController/logoutUser'); ?><!--">Logout</a>-->

@@ -11,8 +11,11 @@ CREATE TABLE IF NOT EXISTS `users` (
         `username` VARCHAR(16) NOT NULL UNIQUE,
         `password` VARCHAR(255) NOT NULL,
         `profileName` VARCHAR(32),
+        `userEmail` VARCHAR(128),
         `avatarUrl` VARCHAR(2083),
-        `likedGenres` VARCHAR(255)
+        `likedGenres` VARCHAR(255),
+        `followersId` MEDIUMTEXT,
+        `followingId` MEDIUMTEXT
 );
 
 CREATE TABLE IF NOT EXISTS `posts` (
@@ -20,4 +23,4 @@ CREATE TABLE IF NOT EXISTS `posts` (
         `postContent` MEDIUMTEXT NOT NULL,
         `dateTime` TIMESTAMP NOT NULL,
         `userId` INT(128) NOT NULL
-)
+);

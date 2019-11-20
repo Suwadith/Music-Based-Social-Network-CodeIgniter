@@ -6,7 +6,7 @@
  * Time: 11:11 AM
  */
 
-include "Post.php";
+include_once('Post.php');
 
 class PostManager extends CI_Model {
 

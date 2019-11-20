@@ -17,13 +17,29 @@
 </form>
 
 <div class="load_users">
-    <?php if(isset($usersList)) { ?>
+    <?php if($usersList["result"] !== null) {
+//        print_r($usersList);?>
         <ul>
-            <?php foreach ($usersList as $obj) { ?>
+            <?php foreach ($usersList["result"] as $obj): ?>
+
+                <?php
+                $userId = $obj->getUserId();
+                ?>
+
                 <li>
-                    <?php echo $obj->getProfileName(); ?>
+                    <!--                    --><?php //echo $obj->getProfileName(), ' ', $obj->getUserId(); ?>
+                    <a href="<?php echo site_url('/SiteController/viewUserProfile/') . $userId ?>"><?php echo $obj->getProfileName() ?></a>
+
+
+                    <?php if (in_array($userId, $usersList["relations"])): ?>
+                        <a class="unfollow_user" href="<?php echo site_url('/SiteController/unfollowUser/') . $userId ?>">Unfollow</a>
+                    <?php else: ?>
+                        <a class="follow_user" href="<?php echo site_url('/SiteController/followUser/') . $userId ?>">Follow</a>
+                    <?php endif; ?>
+                    <!--                    <a class="follow_user" href="--><?php //echo site_url('/SiteController/followUser/') . $obj->getUserId(); ?><!--">Follow</a>-->
+                    <!--                    <a class="unfollow_user" href="--><?php //echo site_url('/SiteController/unfollowUser/') . $obj->getUserId(); ?><!--">Unfollow</a>-->
                 </li>
-            <?php } ?>
+            <?php endforeach; ?>
         </ul>
     <?php }; ?>
 </div>
