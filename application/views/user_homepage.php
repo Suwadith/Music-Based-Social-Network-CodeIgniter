@@ -10,11 +10,15 @@
     }
 
     img {
-        max-height: 200px;
+        max-height: 290px;
     }
 
     .shape {
         text-align: center;
+    }
+
+    .container {
+        min-width: 100%;
     }
 
 </style>
@@ -33,39 +37,12 @@
                                 <a><?php echo $profileData[0]->getUserEmail(); ?></a>
                             </div>
                             <div class="description">
-                                Steve Jobes is a fictional character designed to resemble someone familiar to readers.
-                            </div>
-                        </div>
-                        <div class="extra content">
-          <span class="right floated">
-            Joined in 2014
-          </span>
-                            <span>
-            <i class="user icon"></i>
-            151 Friends
-          </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="side">
-                    <div class="ui card">
-                        <div class="image">
-                            <img src="/images/avatar/large/stevie.jpg">
-                        </div>
-                        <div class="content">
-                            <a class="header">Stevie Feliciano</a>
-                            <div class="meta">
-                                <span class="date">Joined in 2014</span>
-                            </div>
-                            <div class="description">
-                                Stevie Feliciano is a library scientist living in New York City. She likes to spend her
-                                time reading, running, and writing.
+                                <?php echo ($profileData[0]->getLikedGenres()); ?>
                             </div>
                         </div>
                         <div class="extra content">
                             <a>
-                                <i class="user icon"></i>
-                                22 Friends
+                                <a href="<?php echo site_url('/SiteController/profile'); ?>"><button class="ui blue button">Edit Profile</button></a>
                             </a>
                         </div>
                     </div>
@@ -74,40 +51,40 @@
         </div>
     </div>
 </div>
-<div class="ui segment">
+    <div class="ui segment">
 
-    <form class="create_post_form" action="<?php echo site_url('/SiteController/createPost'); ?>" method="post">
+        <form class="create_post_form" action="<?php echo site_url('/SiteController/createPost'); ?>" method="post">
 
-        <div class="ui form">
-            <div class="field">
-                <label>Post Content</label>
-                <textarea spellcheck="false" id="postContent" name="postContent"></textarea>
-            </div>
-            <div class="submit-button">
-                <button class="ui grey button" type="submit">Post</button>
-            </div>
-
-        </div>
-
-    </form>
-
-</div>
-
-<div class="ui segment load_posts">
-    <?php if ($posts !== null) { ?>
-        <ul>
-            <?php foreach ($posts as $obj) { ?>
-
-                <div class="ui segment posts">
-                    <p><?php echo $obj->getPostContent(); ?></p>
+            <div class="ui form">
+                <div class="field">
+                    <label>Post Content</label>
+                    <textarea spellcheck="false" id="postContent" name="postContent"></textarea>
+                </div>
+                <div class="submit-button">
+                    <button class="ui grey button" type="submit">Post</button>
                 </div>
 
-            <?php } ?>
-        </ul>
-    <?php }; ?>
+            </div>
 
-</div>
+        </form>
 
-<script language="javascript">
-    document.title = "Home";
-</script>
+    </div>
+
+    <div class="ui segment load_posts">
+        <?php if ($posts !== null) { ?>
+            <ul>
+                <?php foreach ($posts as $obj) { ?>
+
+                    <div class="ui segment posts">
+                        <p><?php echo $obj->getPostContent(); ?></p>
+                    </div>
+
+                <?php } ?>
+            </ul>
+        <?php }; ?>
+
+    </div>
+
+    <script language="javascript">
+        document.title = "Home";
+    </script>

@@ -21,10 +21,13 @@ class UserManager extends CI_Model
 
     public function registerUser($username, $password)
     {
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $userData = new User();
-        $userData->createUser($username, $hashedPassword);
-        $result = $this->db->insert('users', $userData);
+
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            $userData = new User();
+            $userData->createUser($username, $hashedPassword);
+            $result = $this->db->insert('users', $userData);
+
+
     }
 
     public function loginUser($username, $password)
@@ -36,8 +39,6 @@ class UserManager extends CI_Model
             if (password_verify($password, $dbPassword)) {
                 return array($result->row(0)->username, $result->row(0)->userId);
             }
-        } else {
-            return NULL;
         }
     }
 
@@ -61,6 +62,12 @@ class UserManager extends CI_Model
         if ($result->num_rows() == 1) {
             return $result->custom_result_object('User');
         }
+    }
+
+    public function deleteProfileData() {
+        $userId = $this->session->userData[1];
+        $this->db->where('userId', $userId);
+        $this->db->delete('users');
     }
 
     private function resultsFollowUser($results)

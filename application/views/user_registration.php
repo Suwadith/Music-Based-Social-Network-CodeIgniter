@@ -9,25 +9,34 @@
     body {
         background-color: #DADADA;
     }
+
     body > .grid {
         height: 100%;
     }
+
     .image {
         margin-top: -100px;
     }
+
     .column {
         max-width: 450px;
     }
 </style>
 
-<div class="ui middle aligned center aligned grid" >
+<?php echo validation_errors(); ?>
+
+<div class="ui middle aligned center aligned grid">
     <div class="column">
         <h2 class="ui teal image header">
             <div class="content">
                 Registration
             </div>
         </h2>
-        <form class="ui large form" action="<?php echo site_url('/SiteController/registerUser'); ?>" method="post" id="registration_form">
+
+
+        <?php echo form_open(site_url('/SiteController/registerUser')); ?>
+<!--        <form class="ui large form" action="--><?php //echo site_url('/SiteController/registerUser'); ?><!--" method="post" id="registration_form">-->
+            <div class="ui large form">
             <div class="ui stacked segment">
                 <div class="field">
                     <div class="ui left icon input">
@@ -38,17 +47,25 @@
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="lock icon"></i>
-                        <input type="password" name="password" placeholder="Password">
+                        <input type="password" id="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
                     </div>
                 </div>
                 <!--                <div class="ui fluid large teal submit button">-->
-                <button class="ui fluid large teal submit button" type="submit" form="registration_form" value="Submit">Submit</button>
+                <button class="ui fluid large teal submit button" type="submit" value="Submit">
+                    Submit
+                </button>
                 <!--            </div>-->
             </div>
 
             <div class="ui error message"></div>
-
-        </form>
+            </div>
+<!--        </form>-->
 
         <div class="ui message">
             Already have an account? <a href="<?php echo site_url('/SiteController/login'); ?>">Login</a>

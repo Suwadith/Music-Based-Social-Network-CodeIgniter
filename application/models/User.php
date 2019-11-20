@@ -44,7 +44,13 @@ class User
      */
     public function getProfileName()
     {
-        return $this->profileName;
+        if($this->profileName !== NULL){
+            return $this->profileName;
+        }
+        else {
+            return "Profile Name";
+        }
+
     }
 
     /**
@@ -52,7 +58,12 @@ class User
      */
     public function getAvatarUrl()
     {
-        return $this->avatarUrl;
+        if($this->avatarUrl !== NULL ) {
+            return $this->avatarUrl;
+        } else {
+            return "https://semantic-ui.com/images/avatar/large/steve.jpg";
+        }
+
     }
 
     /**
@@ -60,7 +71,17 @@ class User
      */
     public function getLikedGenres()
     {
-        return $this->likedGenres;
+        $output = '';
+        $genreArray = explode(',', $this->likedGenres);
+
+        foreach ($genreArray as $genre) {
+            $output .= ucfirst($genre) . ', ';
+        }
+
+        return rtrim($output, ", ");
+
+
+
     }
 
     /**

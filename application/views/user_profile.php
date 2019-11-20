@@ -1,5 +1,3 @@
-
-
 <style>
     .input {
         min-width: 40%;
@@ -14,13 +12,13 @@
 <div class="ui segment">
     <form class="profile_form" action="<?php echo site_url('/SiteController/createProfile'); ?>" method="post">
         <div class="ui segment ui input focus">
-            <input type="text" id="profileName" name="profileName" placeholder="Profile Name">
+            <input type="text" id="profileName" name="profileName" placeholder="Profile Name" value="<?php echo $userDbProfileData[0]->getProfileName(); ?>">
         </div>
         <div class="ui segment ui input focus">
-            <input type="email" id="emailAddress" name="emailAddress" placeholder="Email (suwadith@gmail.com)">
+            <input type="email" id="emailAddress" name="emailAddress" placeholder="Email (suwadith@gmail.com)" value="<?php echo $userDbProfileData[0]->getUserEmail(); ?>">
         </div>
         <div class="ui segment ui input focus">
-            <input type="url" id="avatarUrl" name="avatarUrl" placeholder="Image URL (https://i.imgur.com/MI8uxnl.jpg)">
+            <input type="url" id="avatarUrl" name="avatarUrl" placeholder="Image URL (https://i.imgur.com/MI8uxnl.jpg)" value="<?php echo $userDbProfileData[0]->getAvatarUrl(); ?>">
         </div>
         <div class="ui segment ui input focus">
             <div class="ui fluid multiple search selection dropdown">
@@ -40,7 +38,16 @@
         </div>
         <br><br>
         <button class="ui grey button" type="submit">Submit</button>
+        <br><br>
     </form>
+
+    <div class="profile_form">
+        <a style="text-align: center" href="<?php echo site_url('/SiteController/deleteProfile'); ?>">
+            <button class="ui red button">Delete Account</button>
+        </a>
+    </div>
+
+
 </div>
 
 <script language="javascript">

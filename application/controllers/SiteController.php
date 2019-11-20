@@ -35,9 +35,11 @@ class SiteController extends CI_Controller
 
     public function profile()
     {
+        $userId = $this->session->userData[1];
         $this->load->view('header');
         $this->load->view('navigation_bar');
-        $this->load->view('user_profile');
+        $results = $this->UserManager->getProfileData($userId);
+        $this->load->view('user_profile', array('userDbProfileData' => $results));
         $this->load->view('footer');
     }
 
@@ -57,6 +59,7 @@ class SiteController extends CI_Controller
     public function searchPage()
     {
         $this->load->view('header');
+        $this->load->view('navigation_bar');
         $this->displaySearch();
         $this->load->view('footer');
 
@@ -71,20 +74,31 @@ class SiteController extends CI_Controller
 
     public function registerUser()
     {
-        $formUsername = $this->input->post('username');
-        $formPassword = $this->input->post('password');
-        $this->UserManager->registerUser($formUsername, $formPassword);
-        redirect('/SiteController/login');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|is_unique[users.username]');
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[confirmPassword]');
+        $this->form_validation->set_rules('confirmPassword', 'trim|Password Confirmation', 'required');
+//        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+
+        if($this->form_validation->run() == FALSE) {
+            redirect('/SiteController/registration');
+
+        } else {
+            $formUsername = $this->input->post('username');
+            $formPassword = $this->input->post('password');
+            $this->UserManager->registerUser($formUsername, $formPassword);
+            redirect('/SiteController/login');
+        }
     }
 
     public function loginUser()
     {
+
         $formUsername = $this->input->post('username');
         $formPassword = $this->input->post('password');
         $userData = $this->UserManager->loginUser($formUsername, $formPassword);
         if ($userData !== NULL) {
             $this->session->userData = $userData;
-            redirect('/SiteController/profile');
+            redirect('/SiteController/homepage');
         }
     }
 
@@ -102,7 +116,12 @@ class SiteController extends CI_Controller
         $formGenres = $this->input->post('genres');
         $formEmail =  $this->input->post('emailAddress');
         $result = $this->UserManager->createProfile($formProfileName, $formAvatarUrl, $formGenres, $formEmail);
+        redirect('/SiteController/homepage');
+    }
 
+    public function deleteProfile() {
+        $result = $this->UserManager->deleteProfileData();
+        $this->logoutUser();
     }
 
     public function displayProfileData() {

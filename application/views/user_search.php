@@ -1,24 +1,49 @@
-<form class="search_users" action="<?php echo site_url('/SiteController/searchUser'); ?>" method="post">
-    <div class="ui fluid search selection dropdown">
-        <input type="hidden" name="genres" id="genres">
-        <i class="dropdown icon"></i>
-        <div class="default text">Select Genres</div>
-        <div class="menu">
-            <div class="item" data-value="rock">Rock</div>
-            <div class="item" data-value="jazz">Jazz</div>
-            <div class="item" data-value="dubstep">Dubstep</div>
-            <div class="item" data-value="techno">Techno</div>
-            <div class="item" data-value="country">Country</div>
-            <div class="item" data-value="electro">Electro</div>
-            <div class="item" data-value="pop">Pop</div>
-        </div>
-    </div>
-    <input type="submit">
-</form>
+<style>
 
-<div class="load_users">
-    <?php if($usersList["result"] !== null) {
+    .ui.fluid.inner.search.selection.dropdown {
+        max-width: 60%;
+    }
+
+    .move {
+        padding-left: 30%;
+    }
+
+</style>
+
+
+<div class="ui segment center aligned">
+    <form class="search_users" action="<?php echo site_url('/SiteController/searchUser'); ?>" method="post">
+        <div class="move">
+            <div class="ui fluid inner search selection dropdown">
+                <input type="hidden" name="genres" id="genres">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select Genres</div>
+                <div class="menu">
+                    <div class="item" data-value="rock">Rock</div>
+                    <div class="item" data-value="jazz">Jazz</div>
+                    <div class="item" data-value="dubstep">Dubstep</div>
+                    <div class="item" data-value="techno">Techno</div>
+                    <div class="item" data-value="country">Country</div>
+                    <div class="item" data-value="electro">Electro</div>
+                    <div class="item" data-value="pop">Pop</div>
+                </div>
+
+            </div>
+        </div>
+
+        <br><br>
+        <button class="ui grey button" type="submit">Search</button>
+    </form>
+</div>
+</div>
+
+
+</div>
+
+
+<?php if ($usersList["result"] !== null) {
 //        print_r($usersList);?>
+    <div class="ui segment">
         <ul>
             <?php foreach ($usersList["result"] as $obj): ?>
 
@@ -32,17 +57,25 @@
 
 
                     <?php if (in_array($userId, $usersList["relations"])): ?>
-                        <a class="unfollow_user" href="<?php echo site_url('/SiteController/unfollowUser/') . $userId ?>">Unfollow</a>
+                        <a class="unfollow_user"
+                           href="<?php echo site_url('/SiteController/unfollowUser/') . $userId ?>">
+                            <button class="ui red button">Unfollow</button>
+                        </a>
                     <?php else: ?>
-                        <a class="follow_user" href="<?php echo site_url('/SiteController/followUser/') . $userId ?>">Follow</a>
+                        <a class="follow_user" href="<?php echo site_url('/SiteController/followUser/') . $userId ?>">
+                            <button class="ui blue button">Follow</button>
+                        </a>
                     <?php endif; ?>
-                    <!--                    <a class="follow_user" href="--><?php //echo site_url('/SiteController/followUser/') . $obj->getUserId(); ?><!--">Follow</a>-->
-                    <!--                    <a class="unfollow_user" href="--><?php //echo site_url('/SiteController/unfollowUser/') . $obj->getUserId(); ?><!--">Unfollow</a>-->
+                    <!--                    <a class="follow_user" href="-->
+                    <?php //echo site_url('/SiteController/followUser/') . $obj->getUserId(); ?><!--">Follow</a>-->
+                    <!--                    <a class="unfollow_user" href="-->
+                    <?php //echo site_url('/SiteController/unfollowUser/') . $obj->getUserId(); ?><!--">Unfollow</a>-->
                 </li>
             <?php endforeach; ?>
         </ul>
-    <?php }; ?>
-</div>
+    </div>
+<?php }; ?>
+
 
 <script>
     $('.ui.dropdown').dropdown();
