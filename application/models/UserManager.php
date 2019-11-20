@@ -7,6 +7,7 @@
  */
 
 include_once('User.php');
+include_once('Connections.php');
 
 class UserManager extends CI_Model
 {
@@ -200,6 +201,27 @@ class UserManager extends CI_Model
                 $this->db->trans_complete();
             }
         }
+    }
+
+
+    public function userActions($actionType, $foundUserId) {
+
+        $userId = $this->session->userData[1];
+
+        if($actionType !== null && $foundUserId !== null) {
+            if($actionType === 'followUser') {
+
+                $followObj = new Connections();
+                $followObj->setUserIds($userId, $foundUserId);
+                $this->db->insert('connections', $followObj);
+
+            }elseif($actionType === 'unfollowUser') {
+
+
+
+            }
+        }
+
     }
 
 

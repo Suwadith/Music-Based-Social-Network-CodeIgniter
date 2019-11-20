@@ -185,14 +185,16 @@ class SiteController extends CI_Controller
     public function followUser() {
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
-        $actionResult = $this->UserManager->userAction($actionType, $foundUserId);
+        $actionResult = $this->UserManager->userActions($actionType, $foundUserId);
+        redirect('/SiteController/searchPage');
 
     }
 
     public function unfollowUser() {
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
-        $actionResult = $this->UserManager->userAction($actionType, $foundUserId);
+        $actionResult = $this->UserManager->userActions($actionType, $foundUserId);
+        redirect('/SiteController/searchPage');
     }
 
 }
