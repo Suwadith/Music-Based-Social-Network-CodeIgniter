@@ -18,6 +18,11 @@ CREATE TABLE IF NOT EXISTS `users` (
   `followingId` MEDIUMTEXT
 );
 
+CREATE TABLE IF NOT EXISTS `genres` (
+  `userId`      INT(128) NOT NULL,
+  `likedGenres` VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS `posts` (
   `postId`      INT(128)   NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `postContent` MEDIUMTEXT NOT NULL,
@@ -26,6 +31,6 @@ CREATE TABLE IF NOT EXISTS `posts` (
 );
 
 CREATE TABLE IF NOT EXISTS `connections` (
-  `currentUserId` INT(128),
-  `followingId` INT(128)
+  `currentUserId` INT(128) NOT NULL ,
+  `followingId`   INT(128) NOT NULL
 );
