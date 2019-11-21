@@ -5,9 +5,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class SiteController extends CI_Controller
 {
 
-//    public $postResult = '';
-//    public $searchResult = '';
-
     /**
      * SiteController constructor.
      */
@@ -16,6 +13,7 @@ class SiteController extends CI_Controller
         parent::__construct();
         $this->load->model('UserManager');
         $this->load->model('PostManager');
+        $this->form_validation->set_error_delimiters('<div class="errorMessage">', '</div><br>');
     }
 
 
@@ -48,11 +46,11 @@ class SiteController extends CI_Controller
         $this->load->view('header');
         $this->load->view('navigation_bar');
         $this->displayProfileData();
-//        $this->displayPosts();
         $this->load->view('footer');
     }
 
-    public function timelinePage() {
+    public function timelinePage()
+    {
 
     }
 
@@ -65,7 +63,8 @@ class SiteController extends CI_Controller
 
     }
 
-    public function viewUserProfile() {
+    public function viewUserProfile()
+    {
         $this->load->view('header');
         $this->load->view('navigation_bar');
         $this->loadPosts();
@@ -74,38 +73,57 @@ class SiteController extends CI_Controller
 
     public function registerUser()
     {
-        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|is_unique[user.username]');
-        $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[confirmPassword]');
-        $this->form_validation->set_rules('confirmPassword', 'trim|Password Confirmation', 'required');
-//        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[user.email]');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|is_unique[user.username]',
+            array('min_length' => 'Username length has to be between 5 & 12.',
+                'max_length' => 'Username length has to be between 5 & 12.',
+                'is_unique' => 'Username is already in use.'));
+        $this->form_validation->set_rules('password', 'Password', 'required|min_length[8]|max_length[16]|matches[confirmPassword]',
+            array('min_length' => 'Password length has to be between 8 & 16.',
+                'max_length' => 'Password length has to be between 8 & 16.',
+                'matches' => 'Passwords do not match.'));
+        $this->form_validation->set_rules('confirmPassword', 'Password Confirmation', 'required');
+        $this->form_validation->set_rules('emailAddress', 'Email Address', 'required|valid_email|is_unique[user.userEmail]',
+            array('valid_email' => 'Email is not valid.',
+                'is_unique' => 'Email is already in use.'));
 
-        if($this->form_validation->run() == FALSE) {
-            redirect('/SiteController/registration');
-
+        if ($this->form_validation->run() == FALSE) {
+            $this->registration();
         } else {
             $formUsername = $this->input->post('username');
             $formPassword = $this->input->post('password');
-            $this->UserManager->registerUser($formUsername, $formPassword);
-            redirect('/SiteController/login');
+            $formEmailAddress = $this->input->post('emailAddress');
+            $this->UserManager->registerUser($formUsername, $formPassword, $formEmailAddress);
+            $this->login();
         }
     }
 
     public function loginUser()
     {
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
 
-        $formUsername = $this->input->post('username');
-        $formPassword = $this->input->post('password');
-        $userData = $this->UserManager->loginUser($formUsername, $formPassword);
-        if ($userData !== NULL) {
-            $this->session->userData = $userData;
-            redirect('/SiteController/homepage');
+        if ($this->form_validation->run() == FALSE) {
+            $this->login();
+        } else {
+            $formUsername = $this->input->post('username');
+            $formPassword = $this->input->post('password');
+            $userData = $this->UserManager->loginUser($formUsername, $formPassword);
+            if (gettype($userData) !== 'string') {
+//                $this->session->userData = $userData;
+                $this->session->set_userdata($userData);
+                $this->homepage();
+            }else{
+//                $this->session->errorMsg = $userData;
+                $this->session->set_userdata('errorMsg', $userData);
+                $this->login();
+            }
         }
     }
 
     public function logoutUser()
     {
         $this->session->sess_destroy();
-        redirect('/SiteController/login');
+        $this->login();
     }
 
 
@@ -114,24 +132,24 @@ class SiteController extends CI_Controller
         $formProfileName = $this->input->post('profileName');
         $formAvatarUrl = $this->input->post('avatarUrl');
         $formGenres = $this->input->post('genres');
-        $formEmail =  $this->input->post('emailAddress');
+        $formEmail = $this->input->post('emailAddress');
         $result = $this->UserManager->createProfile($formProfileName, $formAvatarUrl, $formGenres, $formEmail);
         redirect('/SiteController/homepage');
     }
 
-    public function deleteProfile() {
+    public function deleteProfile()
+    {
         $result = $this->UserManager->deleteProfileData();
         $this->logoutUser();
     }
 
-    public function displayProfileData() {
+    public function displayProfileData()
+    {
         $userId = $this->session->userData[1];
         $getProfileResult = $this->UserManager->getProfileData($userId);
         $postResult = $this->PostManager->retrievePosts($userId);
         $this->load->view('user_homepage', array('posts' => $postResult,
             'profileData' => $getProfileResult));
-//        return $getProfileResult;
-//        $this->load->view('user_homepage', array('profileData' => $getProfileResult));
     }
 
     public function createPost()
@@ -143,38 +161,24 @@ class SiteController extends CI_Controller
 
     }
 
-//    public function displayPosts()
-//    {
-//        $userId = $this->session->userData[1];
-//        $postResult = $this->PostManager->retrievePosts($userId);
-//        $getProfileResult = $this->displayProfileData($userId);
-//        $this->load->view('user_homepage', array('posts' => $postResult,
-//            'profileData' => $getProfileResult));
-//    }
-
 
     public function searchUser()
     {
         $this->session->selectedGenre = $this->input->post('genres');
-//        $searchResult = $this->UserManager->searchUsers($this->session->selectedGenre);
         $searchResult = $this->UserManager->searchUsers($this->session->selectedGenre);
-
-//        print_r($searchResult["result"]);
-
         $this->session->searchResult = $searchResult;
         redirect('/SiteController/searchPage');
-//        $this->session->searchResult = $searchResult;
-//        print_r($searchResult);
-//        redirect('/SiteController/searchPage');
     }
 
-    public function displaySearch() {
+    public function displaySearch()
+    {
         $searchResult = $this->UserManager->searchUsers($this->session->selectedGenre);
         $this->load->view('user_search', array('usersList' => $searchResult));
         $this->session->selectedGenre = null;
     }
 
-    public function loadPosts() {
+    public function loadPosts()
+    {
         $userId = $this->uri->segment(3);
         $getProfileResult = $this->UserManager->getProfileData($userId);
         $postResult = $this->PostManager->retrievePosts($userId);
@@ -182,7 +186,8 @@ class SiteController extends CI_Controller
             'profileData' => $getProfileResult));
     }
 
-    public function followUser() {
+    public function followUser()
+    {
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
         $actionResult = $this->UserManager->userActions($actionType, $foundUserId);
@@ -190,7 +195,8 @@ class SiteController extends CI_Controller
 
     }
 
-    public function unfollowUser() {
+    public function unfollowUser()
+    {
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
         $actionResult = $this->UserManager->userActions($actionType, $foundUserId);

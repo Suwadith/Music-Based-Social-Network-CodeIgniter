@@ -20,14 +20,13 @@ class UserManager extends CI_Model
         $this->load->database();
     }
 
-    public function registerUser($username, $password)
+    public function registerUser($username, $password, $emailAddress)
     {
 
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
             $userData = new User();
-            $userData->createUser($username, $hashedPassword);
+            $userData->createUser($username, $hashedPassword, $emailAddress);
             $result = $this->db->insert('user', $userData);
-
 
     }
 
@@ -39,7 +38,11 @@ class UserManager extends CI_Model
             $dbPassword = $result->row(0)->password;
             if (password_verify($password, $dbPassword)) {
                 return array($result->row(0)->username, $result->row(0)->userId);
+            }else{
+                return 'Invalid Password.';
             }
+        }else {
+            return 'User not found.';
         }
     }
 

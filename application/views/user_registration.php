@@ -1,10 +1,3 @@
-<!--<form class="registration_form" action="--><?php //echo site_url('/SiteController/registerUser'); ?><!--" method="post">-->
-<!--    <input type="text" name="username" id="username" placeholder="username" required>-->
-<!--    <input type="password" name="password" id="password" placeholder="password" required>-->
-<!--    <input type="submit">-->
-<!--    <a href="--><?php //echo site_url('/SiteController/login'); ?><!--">Login</a>-->
-<!--</form>-->
-
 <style type="text/css">
     body {
         background-color: #DADADA;
@@ -21,9 +14,12 @@
     .column {
         max-width: 450px;
     }
-</style>
 
-<?php echo validation_errors(); ?>
+    .errorMessage {
+        color: red;
+    }
+
+</style>
 
 <div class="ui middle aligned center aligned grid">
     <div class="column">
@@ -33,39 +29,42 @@
             </div>
         </h2>
 
+        <?php echo validation_errors(); ?>
 
         <?php echo form_open(site_url('/SiteController/registerUser')); ?>
-<!--        <form class="ui large form" action="--><?php //echo site_url('/SiteController/registerUser'); ?><!--" method="post" id="registration_form">-->
-            <div class="ui large form">
+        <div class="ui large form">
             <div class="ui stacked segment">
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="user icon"></i>
-                        <input type="text" name="username" id="username" placeholder="Username">
+                        <input type="text" name="username" id="username" placeholder="Username" required>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="email" name="emailAddress" id="emailAddress" placeholder="Email Address" required>
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="lock icon"></i>
-                        <input type="password" id="password" name="password" placeholder="Password">
+                        <input type="password" id="password" name="password" placeholder="Password" required>
                     </div>
                 </div>
                 <div class="field">
                     <div class="ui left icon input">
                         <i class="lock icon"></i>
-                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
+                        <input type="password" id="confirmPassword" name="confirmPassword"
+                               placeholder="Confirm Password" required>
                     </div>
                 </div>
-                <!--                <div class="ui fluid large teal submit button">-->
                 <button class="ui fluid large teal submit button" type="submit" value="Submit">
                     Submit
                 </button>
-                <!--            </div>-->
             </div>
-
-            <div class="ui error message"></div>
-            </div>
-<!--        </form>-->
+        </div>
+        <?php echo form_close(); ?>
 
         <div class="ui message">
             Already have an account? <a href="<?php echo site_url('/SiteController/login'); ?>">Login</a>

@@ -10,12 +10,9 @@ CREATE TABLE IF NOT EXISTS `user` (
   `userId`      INT(128)     NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `username`    VARCHAR(16)  NOT NULL UNIQUE,
   `password`    VARCHAR(255) NOT NULL,
+  `userEmail`   VARCHAR(64) NOT NULL,
   `profileName` VARCHAR(32),
-  `userEmail`   VARCHAR(128),
-  `avatarUrl`   VARCHAR(2083),
-  `likedGenres` VARCHAR(255),
-  `followersId` MEDIUMTEXT,
-  `followingId` MEDIUMTEXT
+  `avatarUrl`   VARCHAR(2083)
 );
 
 CREATE TABLE IF NOT EXISTS `genre` (
@@ -31,6 +28,6 @@ CREATE TABLE IF NOT EXISTS `post` (
 );
 
 CREATE TABLE IF NOT EXISTS `connection` (
-  `currentUserId` INT(128) NOT NULL ,
-  `followingId`   INT(128) NOT NULL
+  `currentUserId`   INT(128) NOT NULL,
+  `followingUserId` INT(128) NOT NULL
 );

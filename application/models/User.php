@@ -14,13 +14,11 @@ class User
     public $profileName;
     public $userEmail;
     public $avatarUrl;
-    public $likedGenres;
-    public $followersId;
-    public $followingId;
 
-    public function createUser($username, $password) {
+    public function createUser($username, $password, $userEmail) {
         $this->username = $username;
         $this->password = $password;
+        $this->userEmail = $userEmail;
     }
 
 
