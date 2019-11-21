@@ -23,13 +23,13 @@ class PostManager extends CI_Model {
         $dateTime = date("Y-m-d H:i:s");
         $newPost = new Post();
         $newPost->createPost($postContent, $dateTime, $userId);
-        $this->db->insert('posts', $newPost);
+        $this->db->insert('post', $newPost);
     }
 
     public function retrievePosts($userId) {
         $this->db->where('userId', $userId);
         $this->db->order_by('dateTime', 'desc');
-        $result = $this->db->get('posts');
+        $result = $this->db->get('post');
 
         if($result->num_rows() > 0) {
             return $result->custom_result_object('Post');

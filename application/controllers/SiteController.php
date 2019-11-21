@@ -74,10 +74,10 @@ class SiteController extends CI_Controller
 
     public function registerUser()
     {
-        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|is_unique[users.username]');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|is_unique[user.username]');
         $this->form_validation->set_rules('password', 'Password', 'trim|required|matches[confirmPassword]');
         $this->form_validation->set_rules('confirmPassword', 'trim|Password Confirmation', 'required');
-//        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[users.email]');
+//        $this->form_validation->set_rules('email', 'Email', 'required|valid_email|is_unique[user.email]');
 
         if($this->form_validation->run() == FALSE) {
             redirect('/SiteController/registration');
