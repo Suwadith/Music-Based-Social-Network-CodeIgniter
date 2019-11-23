@@ -9,11 +9,11 @@
 class Connection {
 
     public $currentUserId;
-    public $followingId;
+    public $followingUserId;
 
-    public function setUserIds($currentUserId, $followingId) {
+    public function setUserIds($currentUserId, $followingUserId) {
         $this->currentUserId = $currentUserId;
-        $this->followingId = $followingId;
+        $this->followingUserId = $followingUserId;
     }
 
 }

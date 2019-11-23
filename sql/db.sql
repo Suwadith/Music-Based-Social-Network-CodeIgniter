@@ -28,6 +28,6 @@ CREATE TABLE IF NOT EXISTS `post` (
 );
 
 CREATE TABLE IF NOT EXISTS `connection` (
-  `currentUserId`   INT(128) NOT NULL PRIMARY KEY,
+  `currentUserId`   INT(128) NOT NULL,
   `followingUserId` INT(128) NOT NULL
 );

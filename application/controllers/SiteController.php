@@ -219,15 +219,19 @@ class SiteController extends CI_Controller
 
     public function searchUser()
     {
+        $userId = $this->session->userdata('userId');
         $this->session->selectedGenre = $this->input->post('genres');
-        $searchResult = $this->UserManager->searchUsers($this->session->selectedGenre);
+//        $searchResult = $this->UserManager->searchUsers($userId, $this->session->selectedGenre);
+        $searchResult = $this->UserManager->searchUsersNew($userId, $this->session->selectedGenre);
         $this->session->searchResult = $searchResult;
         redirect('/SiteController/searchPage');
+
     }
 
     public function displaySearch()
     {
-        $searchResult = $this->UserManager->searchUsers($this->session->selectedGenre);
+        $userId = $this->session->userdata('userId');
+        $searchResult = $this->UserManager->searchUsersNew($userId, $this->session->selectedGenre);
         $this->load->view('user_search', array('usersList' => $searchResult));
         $this->session->selectedGenre = null;
     }
@@ -243,18 +247,20 @@ class SiteController extends CI_Controller
 
     public function followUser()
     {
+        $userId = $this->session->userdata('userId');
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
-        $actionResult = $this->UserManager->userActions($actionType, $foundUserId);
+        $actionResult = $this->UserManager->userActions($userId, $actionType, $foundUserId);
         redirect('/SiteController/searchPage');
 
     }
 
     public function unfollowUser()
     {
+        $userId = $this->session->userdata('userId');
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
-        $actionResult = $this->UserManager->userActions($actionType, $foundUserId);
+        $actionResult = $this->UserManager->userActions($userId, $actionType, $foundUserId);
         redirect('/SiteController/searchPage');
     }
 
