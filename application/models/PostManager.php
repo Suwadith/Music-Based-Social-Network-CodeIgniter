@@ -36,5 +36,30 @@ class PostManager extends CI_Model {
         }
     }
 
+    public function editSelectedPost($postId) {
+        $this->db->where('postId', $postId);
+        $result = $this->db->get('post');
+             if($result->num_rows() > 0) {
+                 return $result->custom_result_object('Post');
+             }
+    }
+
+    public function updateSelectedPost($postId, $postContent) {
+        $this->db->where('postId', $postId);
+        $result = $this->db->get('post');
+        if($result->num_rows() > 0) {
+            $postObjArray = $result->custom_result_object('Post');
+            $postObj = $postObjArray[0];
+            $postObj->updatePostData($postContent);
+            $this->db->where('postId', $postId);
+            $this->db->update('post', $postObj);
+        }
+    }
+
+    public function deleteSelectedPost($postId) {
+        $this->db->where('postId', $postId);
+        $this->db->delete('post');
+    }
+
 
 }

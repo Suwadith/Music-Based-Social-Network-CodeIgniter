@@ -7,7 +7,8 @@
  */
 
 include_once('User.php');
-include_once('Connections.php');
+include_once('Genre.php');
+include_once('Connection.php');
 
 class UserManager extends CI_Model
 {
@@ -26,8 +27,14 @@ class UserManager extends CI_Model
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
             $userData = new User();
             $userData->createUser($username, $hashedPassword, $emailAddress);
-            $result = $this->db->insert('user', $userData);
-
+            $results = $this->db->insert('user', $userData);
+            $this->db->where('username', $username);
+            $result = $this->db->get('user');
+            if ($result->num_rows() == 1) {
+                $userId = $result->row(0)->userId;
+                $genreData = new Genre($userId, NULL);
+                $resultss = $this->db->insert('genre', $genreData);
+            }
     }
 
     public function loginUser($username, $password)
@@ -37,7 +44,7 @@ class UserManager extends CI_Model
         if ($result->num_rows() == 1) {
             $dbPassword = $result->row(0)->password;
             if (password_verify($password, $dbPassword)) {
-                return array($result->row(0)->username, $result->row(0)->userId);
+                return array('username' => $result->row(0)->username, 'userId' => $result->row(0)->userId);
             }else{
                 return 'Invalid Password.';
             }
@@ -46,30 +53,42 @@ class UserManager extends CI_Model
         }
     }
 
-    public function createProfile($formProfileName, $formAvatarUrl, $formGenres, $formEmail)
+    public function createProfile($userId, $formProfileName, $formAvatarUrl, $formGenres, $formEmail)
     {
-        $userId = $this->session->userData[1];
         $this->db->where('userId', $userId);
-        $result = $this->db->get('user');
-        if ($result->num_rows() == 1) {
-            $userObjArray = $result->custom_result_object('User');
+        $userResult = $this->db->get('user');
+        $genreResult = $this->db->get('genre');
+        if ($userResult->num_rows() == 1) {
+            $userObjArray = $userResult->custom_result_object('User');
             $userObj = $userObjArray[0];
-            $userObj->updateProfileData($formProfileName, $formAvatarUrl, $formGenres, $formEmail);
+            $userObj->updateProfileData($formProfileName, $formAvatarUrl, $formEmail);
             $this->db->where('userId', $userId);
             $this->db->update('user', $userObj);
+        }
+        if ($genreResult->num_rows() == 1) {
+            $genreObjArray = $genreResult->custom_result_object('Genre');
+            $genreObj = $genreObjArray[0];
+            $genreObj->setGenres($userId, $formGenres);
+            $this->db->where('userId', $userId);
+            $this->db->update('genre', $genreObj);
         }
     }
 
     public function getProfileData($userId) {
         $this->db->where('userId', $userId);
-        $result = $this->db->get('user');
-        if ($result->num_rows() == 1) {
-            return $result->custom_result_object('User');
+        $userResult = $this->db->get('user');
+        $genreResult = $this->db->get('genre');
+        $output = array();
+        if ($userResult->num_rows() == 1) {
+            array_push($output, $userResult->custom_result_object('User'));
         }
+        if($genreResult->num_rows() == 1) {
+            array_push($output, $genreResult->custom_result_object('Genre'));
+        }
+        return $output;
     }
 
-    public function deleteProfileData() {
-        $userId = $this->session->userData[1];
+    public function deleteProfileData($userId) {
         $this->db->where('userId', $userId);
         $this->db->delete('user');
     }
@@ -214,9 +233,9 @@ class UserManager extends CI_Model
         if($actionType !== null && $foundUserId !== null) {
             if($actionType === 'followUser') {
 
-                $followObj = new Connections();
+                $followObj = new Connection();
                 $followObj->setUserIds($userId, $foundUserId);
-                $this->db->insert('connections', $followObj);
+                $this->db->insert('Connection', $followObj);
 
             }elseif($actionType === 'unfollowUser') {
 

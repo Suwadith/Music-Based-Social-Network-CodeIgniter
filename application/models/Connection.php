@@ -6,7 +6,7 @@
  * Time: 6:55 PM
  */
 
-class Connections {
+class Connection {
 
     public $currentUserId;
     public $followingId;

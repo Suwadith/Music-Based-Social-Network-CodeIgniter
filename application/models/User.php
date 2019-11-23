@@ -22,10 +22,12 @@ class User
     }
 
 
-    public function updateProfileData($profileName, $avatarUrl, $likedGenres, $userEmail) {
+    public function updateProfileData($profileName, $avatarUrl, $userEmail) {
         $this->profileName = $profileName;
+        if(empty($avatarUrl)) {
+            $avatarUrl = NULL;
+        }
         $this->avatarUrl = $avatarUrl;
-        $this->likedGenres = implode(',', (array) $likedGenres);
         $this->userEmail = $userEmail;
     }
 
@@ -40,13 +42,23 @@ class User
     /**
      * @return mixed
      */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+
+
+    /**
+     * @return mixed
+     */
     public function getProfileName()
     {
         if($this->profileName !== NULL){
             return $this->profileName;
         }
         else {
-            return "Profile Name";
+            return NULL;
         }
 
     }
@@ -56,7 +68,7 @@ class User
      */
     public function getAvatarUrl()
     {
-        if($this->avatarUrl !== NULL ) {
+        if(isset($this->avatarUrl)) {
             return $this->avatarUrl;
         } else {
             return "https://semantic-ui.com/images/avatar/large/steve.jpg";
@@ -67,7 +79,7 @@ class User
     /**
      * @return mixed
      */
-    public function getLikedGenres()
+    /*public function getLikedGenres()
     {
         $output = '';
         $genreArray = explode(',', $this->likedGenres);
@@ -78,41 +90,7 @@ class User
 
         return rtrim($output, ", ");
 
-
-
-    }
-
-    /**
-     * @return array
-     */
-    public function getFollowersId()
-    {
-        return $this->followersId;
-    }
-
-    /**
-     * @param array $followersId
-     */
-    public function setFollowersId($followersId)
-    {
-        $this->followersId = $followersId;
-    }
-
-    /**
-     * @return array
-     */
-    public function getFollowingId()
-    {
-        return $this->followingId;
-    }
-
-    /**
-     * @param array $followingId
-     */
-    public function setFollowingId($followingId)
-    {
-        $this->followingId = $followingId;
-    }
+    }*/
 
     /**
      * @return mixed

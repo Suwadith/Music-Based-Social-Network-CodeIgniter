@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 );
 
 CREATE TABLE IF NOT EXISTS `genre` (
-  `userId`      INT(128) NOT NULL,
-  `likedGenres` VARCHAR(255) NOT NULL
+  `userId`      INT(128) NOT NULL PRIMARY KEY,
+  `likedGenres` VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS `post` (
@@ -28,6 +28,6 @@ CREATE TABLE IF NOT EXISTS `post` (
 );
 
 CREATE TABLE IF NOT EXISTS `connection` (
-  `currentUserId`   INT(128) NOT NULL,
+  `currentUserId`   INT(128) NOT NULL PRIMARY KEY,
   `followingUserId` INT(128) NOT NULL
 );

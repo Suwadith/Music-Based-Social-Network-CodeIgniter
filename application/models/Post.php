@@ -8,6 +8,7 @@
 
 class Post {
 
+    public $postId;
     public $postContent;
     public $dateTime;
     public $userId;
@@ -34,12 +35,24 @@ class Post {
         $output = preg_replace($regex_images, "<br> <img src='\\0'> <br>", $output);
         $output = preg_replace($regex_links, "<a href='\\0'>\\0</a>", $output);
 
-
-
-
         return $output;
     }
 
+    public function getRawPostContent() {
+        return $this->postContent;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPostId()
+    {
+        return $this->postId;
+    }
+
+    public function updatePostData($postContent) {
+        $this->postContent = $postContent;
+    }
 
 
 

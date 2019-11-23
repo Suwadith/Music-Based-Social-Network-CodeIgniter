@@ -1,15 +1,3 @@
-<!--<div class="load_posts">-->
-<!--    --><?php //if($posts !== null) { ?>
-<!--        <ul>-->
-<!--            --><?php //foreach ($posts as $obj) { ?>
-<!--                <li>-->
-<!--                    --><?php //echo $obj->getPostContent(); ?>
-<!--                </li>-->
-<!--            --><?php //} ?>
-<!--        </ul>-->
-<!--    --><?php //}; ?>
-<!--</div>-->
-
 <style>
 
     .submit-button {
@@ -36,12 +24,12 @@
                         <img src="<?php echo $profileData[0]->getAvatarUrl(); ?>">
                     </div>
                     <div class="content">
-                        <div class="header"><?php echo $profileData[0]->getProfileName(); ?></div>
+                        <div class="header"><?php echo '@' . $profileData[0]->getUsername(); ?></div>
                         <div class="meta">
                             <a><?php echo $profileData[0]->getUserEmail(); ?></a>
                         </div>
                         <div class="description">
-                            <?php echo ($profileData[0]->getLikedGenres()); ?>
+                            <?php echo $genreData[0]->getLikedGenres(); ?>
                         </div>
                     </div>
                 </div>
