@@ -137,7 +137,7 @@
                                         <?php } ?>
                                     <div class="ui text menu" style="margin-top: -75px;">
                                         <div class="ui right dropdown item">
-                                            More
+                                            Options
                                             <i class="dropdown icon"></i>
                                             <div class="menu">
                                                 <div class="item"><a href="<?php echo site_url('/SiteController/editPost/' . $obj->getPostId()); ?>">Edit Post</a></div>

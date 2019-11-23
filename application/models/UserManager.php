@@ -27,13 +27,20 @@ class UserManager extends CI_Model
             $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
             $userData = new User();
             $userData->createUser($username, $hashedPassword, $emailAddress);
+        $this->db->trans_start();
             $results = $this->db->insert('user', $userData);
+
             $this->db->where('username', $username);
             $result = $this->db->get('user');
+
             if ($result->num_rows() == 1) {
+
                 $userId = $result->row(0)->userId;
-                $genreData = new Genre($userId, NULL);
+//                print_r($userId);
+                $genreData = new Genre();
+                $genreData->setGenres($userId, NULL);
                 $resultss = $this->db->insert('genre', $genreData);
+                $this->db->trans_complete();
             }
     }
 
@@ -57,7 +64,7 @@ class UserManager extends CI_Model
     {
         $this->db->where('userId', $userId);
         $userResult = $this->db->get('user');
-        $genreResult = $this->db->get('genre');
+
         if ($userResult->num_rows() == 1) {
             $userObjArray = $userResult->custom_result_object('User');
             $userObj = $userObjArray[0];
@@ -65,6 +72,8 @@ class UserManager extends CI_Model
             $this->db->where('userId', $userId);
             $this->db->update('user', $userObj);
         }
+        $this->db->where('userId', $userId);
+        $genreResult = $this->db->get('genre');
         if ($genreResult->num_rows() == 1) {
             $genreObjArray = $genreResult->custom_result_object('Genre');
             $genreObj = $genreObjArray[0];
@@ -76,14 +85,17 @@ class UserManager extends CI_Model
 
     public function getProfileData($userId) {
         $this->db->where('userId', $userId);
-        $userResult = $this->db->get('user');
-        $genreResult = $this->db->get('genre');
         $output = array();
+        $userResult = $this->db->get('user');
         if ($userResult->num_rows() == 1) {
             array_push($output, $userResult->custom_result_object('User'));
+//            print_r($userResult);
         }
+        $this->db->where('userId', $userId);
+        $genreResult = $this->db->get('genre');
         if($genreResult->num_rows() == 1) {
             array_push($output, $genreResult->custom_result_object('Genre'));
+//            print_r($genreResult);
         }
         return $output;
     }
