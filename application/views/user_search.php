@@ -37,77 +37,56 @@
 </div>
 
 
-<?php //if ($usersList["result"] !== null) {
-////        print_r($usersList);?>
-<!--    <div class="ui segment">-->
-<!--        <ul>-->
-<!--            --><?php //foreach ($usersList["result"] as $obj): ?>
-<!---->
-<!--                --><?php
-//                $userId = $obj->getUserId();
-//                ?>
-<!---->
-<!--                <li>-->
-<!--                    <!--                    --><?php ////echo $obj->getProfileName(), ' ', $obj->getUserId(); ?>
-<!--                    <a href="--><?php //echo site_url('/SiteController/viewUserProfile/') . $userId ?><!--">--><?php //echo $obj->getProfileName() ?><!--</a>-->
-<!---->
-<!---->
-<!--                    --><?php //if (in_array($userId, $usersList["relations"])): ?>
-<!--                        <a class="unfollow_user"-->
-<!--                           href="--><?php //echo site_url('/SiteController/unfollowUser/') . $userId ?><!--">-->
-<!--                            <button class="ui red button">Unfollow</button>-->
-<!--                        </a>-->
-<!--                    --><?php //else: ?>
-<!--                        <a class="follow_user" href="--><?php //echo site_url('/SiteController/followUser/') . $userId ?><!--">-->
-<!--                            <button class="ui blue button">Follow</button>-->
-<!--                        </a>-->
-<!--                    --><?php //endif; ?>
-<!--                    <!--                    <a class="follow_user" href="-->
-<!--                    --><?php ////echo site_url('/SiteController/followUser/') . $obj->getUserId(); ?><!--<!--">Follow</a>-->
-<!--                    <!--                    <a class="unfollow_user" href="-->
-<!--                    --><?php ////echo site_url('/SiteController/unfollowUser/') . $obj->getUserId(); ?><!--<!--">Unfollow</a>-->
-<!--                </li>-->
-<!--            --><?php //endforeach; ?>
-<!--        </ul>-->
-<!--    </div>-->
-<?php //}; ?>
-
 <?php if (!empty($usersList[0]) OR !empty($usersList[1])) { ?>
-    <div class="ui segment">
-        <ul>
-            <?php foreach ($usersList[0] as $key => $value) { ?>
-
-                <li>
-                    <a href="<?php echo site_url('/SiteController/viewUserProfile/') . $key ?>"><?php echo $value; ?></a>
-                    <a class="unfollow_user" href="<?php echo site_url('/SiteController/unfollowUser/') . $key; ?>">
-                        <button class="ui red button">Unfollow</button>
-                    </a>
-                </li>
-            <?php } ?>
-            <?php foreach ($usersList[1] as $key => $value) { ?>
-                <li>
-                    <a href="<?php echo site_url('/SiteController/viewUserProfile/') . $key ?>"><?php echo $value; ?></a>
-                    <a class="follow_user" href="<?php echo site_url('/SiteController/followUser/') . $key; ?>">
-                        <button class="ui blue button">Follow</button>
-                    </a>
-                </li>
-            <?php } ?>
-        </ul>
+<div class="ui segment">
+<div class="ui middle aligned divided list">
+    <?php foreach ($usersList[0] as $key => $value) { ?>
+    <div class="item">
+        <div class="right floated content">
+            <a class="follow_user" href="<?php echo site_url('/SiteController/unfollowUser/') . $key; ?>">
+            <div class="ui button red">Unfollow</div>
+            </a>
+        </div>
+<!--        <img class="ui avatar image" src="/images/avatar2/small/lena.png">-->
+        <div class="content">
+            <a href="<?php echo site_url('/SiteController/viewUserProfile/') . $key ?>"><?php echo $value; ?></a>
+        </div>
     </div>
+    <?php } ?>
+    <?php foreach ($usersList[1] as $key => $value) { ?>
+        <div class="item">
+            <div class="right floated content">
+                <a class="follow_user" href="<?php echo site_url('/SiteController/followUser/') . $key; ?>">
+                <div class="ui button blue">Follow</div>
+                </a>
+            </div>
+<!--            <img class="ui avatar image" src="/images/avatar2/small/lena.png">-->
+            <div class="content">
+                <a href="<?php echo site_url('/SiteController/viewUserProfile/') . $key ?>"><?php echo $value; ?></a>
+            </div>
+        </div>
+    <?php } ?>
+</div>
+</div>
 <?php } elseif (!empty($usersList[2])) { ?>
-    <div class="ui segment">
-        <ul>
-            <?php foreach ($usersList[2] as $obj) { ?>
-                <li>
-                    <a href="<?php echo site_url('/SiteController/viewUserProfile/') . $obj->getUserId(); ?>"><?php echo $obj->getUsername(); ?></a>
-                    <a class="follow_user"
-                       href="<?php echo site_url('/SiteController/followUser/') . $obj->getUserId(); ?>">
-                        <button class="ui blue button">Follow</button>
-                    </a>
-                </li>
-            <?php } ?>
-        </ul>
+<div class="ui segment">
+    <div class="ui middle aligned divided list">
+    <?php foreach ($usersList[2] as $obj) { ?>
+        <div class="item">
+            <div class="right floated content">
+                <a class="follow_user"
+                   href="<?php echo site_url('/SiteController/followUser/') . $obj->getUserId(); ?>">
+                <div class="ui button blue">Follow</div>
+                </a>
+            </div>
+<!--            <img class="ui avatar image" src="/images/avatar2/small/lena.png">-->
+            <div class="content">
+                <a href="<?php echo site_url('/SiteController/viewUserProfile/') . $obj->getUserId(); ?>"><?php echo $obj->getUsername(); ?></a>
+            </div>
+        </div>
+<?php } ?>
     </div>
+</div>
 <?php } ?>
 
 
