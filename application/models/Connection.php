@@ -6,7 +6,7 @@
  * Time: 6:55 PM
  */
 
-class Connection {
+class Connection extends CI_Model {
 
 
     public $currentUserId;

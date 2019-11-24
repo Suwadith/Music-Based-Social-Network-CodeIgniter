@@ -6,8 +6,7 @@
  * Time: 2:20 AM
  */
 
-class Genre
-{
+class Genre extends CI_Model {
 
     public $userId;
     public $likedGenres;

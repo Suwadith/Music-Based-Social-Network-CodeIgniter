@@ -6,8 +6,7 @@
  * Time: 8:03 AM
  */
 
-class User
-{
+class User extends CI_Model {
     public $userId;
     public $username;
     public $password;

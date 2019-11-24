@@ -20,6 +20,9 @@
     <a class="item" href="<?php echo site_url('/SiteController/searchPage'); ?>">
         Search
     </a>
+    <a class="item" href="<?php echo site_url('/SiteController/connections'); ?>">
+        Connections
+    </a>
     <div class="right menu">
         <a class="ui item" href="<?php echo site_url('/SiteController/logoutUser'); ?>">
             Logout

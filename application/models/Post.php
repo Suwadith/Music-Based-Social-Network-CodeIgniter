@@ -6,7 +6,7 @@
  * Time: 11:11 AM
  */
 
-class Post {
+class Post extends CI_Model{
 
     public $postId;
     public $postContent;

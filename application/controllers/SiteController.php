@@ -76,6 +76,19 @@ class SiteController extends CI_Controller
         $this->load->view('footer');
     }
 
+    public function connections() {
+        $userId = $this->session->userdata('userId');
+        $this->load->view('header');
+        $this->load->view('navigation_bar');
+        $followingResult = $this->UserManager->getFollowing($userId);
+        $followerResult = $this->UserManager->getFollowers($userId);
+        $friendsResult = $this->UserManager->getFriends($userId);
+        $this->load->view('user_connections', array('followingData' => $followingResult,
+            'followerData' => $followerResult,
+            'friendsData' => $friendsResult));
+        $this->load->view('footer');
+    }
+
 
     public function registerUser() {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|is_unique[user.username]',
@@ -156,7 +169,7 @@ class SiteController extends CI_Controller
             $formAvatarUrl = $this->input->post('avatarUrl');
             $formGenres = $this->input->post('genres');
             $formEmail = $this->input->post('emailAddress');
-            $result = $this->UserManager->createProfile($userId, $formProfileName, $formAvatarUrl, $formGenres, $formEmail);
+            $createProfileResult = $this->UserManager->createProfile($userId, $formProfileName, $formAvatarUrl, $formGenres, $formEmail);
             redirect('/SiteController/homepage');
         }
 
@@ -166,7 +179,7 @@ class SiteController extends CI_Controller
     public function deleteProfile() {
 
         $userId = $this->session->userdata('userId');
-        $result = $this->UserManager->deleteProfileData($userId);
+        $deleteProfileResult = $this->UserManager->deleteProfileData($userId);
         $this->logoutUser();
     }
 
@@ -197,7 +210,7 @@ class SiteController extends CI_Controller
         } else {
             $postData = $this->input->post('postContent');
             $userId = $this->session->userdata('userId');
-            $result = $this->PostManager->createPost($postData, $userId);
+            $createPostResult = $this->PostManager->createPost($postData, $userId);
             redirect('/SiteController/homepage');
         }
     }
@@ -213,7 +226,7 @@ class SiteController extends CI_Controller
         } else {
             $postData = $this->input->post('postContent');
             $userId = $this->session->userdata('userId');
-            $result = $this->PostManager->createPost($postData, $userId);
+            $createPostResult = $this->PostManager->createPost($postData, $userId);
             redirect('/SiteController/timelinePage');
         }
     }
@@ -263,9 +276,13 @@ class SiteController extends CI_Controller
 
 
     public function displaySearch() {
+        $emptyResult = '';
         $userId = $this->session->userdata('userId');
         $searchResult = $this->UserManager->searchUsers($userId, $this->session->selectedGenre);
-        $this->load->view('user_search', array('usersList' => $searchResult));
+        if(empty($searchResult[0]) AND empty($searchResult[1]) AND empty($searchResult[2]) AND isset($this->session->selectedGenre)) {
+            $emptyResult = 'No Users Found.';
+        }
+        $this->load->view('user_search', array('usersList' => $searchResult, 'notFound' => $emptyResult));
         $this->session->selectedGenre = null;
     }
 

@@ -6,13 +6,12 @@
  * Time: 12:29 PM
  */
 
-include_once('User.php');
-include_once('Genre.php');
-include_once('Connection.php');
+//include_once('User.php');
+//include_once('Genre.php');
+//include_once('Connection.php');
 
 class UserManager extends CI_Model
 {
-
 
     public function __construct() {
         $this->load->database();
@@ -25,17 +24,17 @@ class UserManager extends CI_Model
         $userData = new User();
         $userData->createUser($username, $hashedPassword, $emailAddress);
         $this->db->trans_start();
-        $results = $this->db->insert('user', $userData);
+        $insertUserResult = $this->db->insert('user', $userData);
 
         $this->db->where('username', $username);
-        $result = $this->db->get('user');
+        $getUserResult = $this->db->get('user');
 
-        if ($result->num_rows() == 1) {
+        if ($getUserResult->num_rows() == 1) {
 
-            $userId = $result->row(0)->userId;
+            $userId = $getUserResult->row(0)->userId;
             $genreData = new Genre();
             $genreData->setGenres($userId, NULL);
-            $resultss = $this->db->insert('genre', $genreData);
+            $genreResult = $this->db->insert('genre', $genreData);
             $this->db->trans_complete();
         }
     }
