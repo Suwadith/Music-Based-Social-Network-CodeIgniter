@@ -24,7 +24,7 @@
         Connections
     </a>
     <div class="right menu">
-        <a class="ui item" href="<?php echo site_url('/SiteController/logoutUser'); ?>">
+        <a class="ui item" href="<?php echo site_url('/UserController/logoutUser'); ?>">
             Logout
         </a>
     </div>

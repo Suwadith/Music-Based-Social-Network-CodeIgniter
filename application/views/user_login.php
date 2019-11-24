@@ -37,7 +37,7 @@
         }
         ?>
 
-        <?php echo form_open(site_url('/SiteController/loginUser')); ?>
+        <?php echo form_open(site_url('/UserController/loginUser')); ?>
         <div class="ui large form">
             <div class="ui stacked segment">
                 <div class="field">
@@ -60,7 +60,7 @@
         <?php echo form_close(); ?>
 
         <div class="ui message">
-            New to us? <a href="<?php echo site_url('/SiteController/registration'); ?>">Sign Up</a>
+            New to us? <a href="<?php echo site_url('/UserController/registration'); ?>">Sign Up</a>
         </div>
     </div>
 </div>

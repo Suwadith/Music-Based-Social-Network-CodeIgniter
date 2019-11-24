@@ -6,10 +6,6 @@
  * Time: 12:29 PM
  */
 
-//include_once('User.php');
-//include_once('Genre.php');
-//include_once('Connection.php');
-
 class UserManager extends CI_Model
 {
 
@@ -112,10 +108,7 @@ class UserManager extends CI_Model
         $finalGenreResult = null;
 
         if ($selectedGenre !== null) {
-            $this->db->select('user.userId');
-            $this->db->select('user.username');
-            $this->db->select('genre.userId');
-            $this->db->select('genre.likedGenres');
+            $this->db->select('user.userId, user.username, genre.userId, genre.likedGenres');
             $this->db->from('user');
             $this->db->where_not_in('user.userId', $userId);
             $this->db->join('genre', 'genre.userId = user.userId');
@@ -126,9 +119,7 @@ class UserManager extends CI_Model
             if ($genreResult->num_rows() > 0) {
                 $finalGenreResult = $genreResult->custom_result_object('User');
 
-                $this->db->select('user.userId');
-                $this->db->select('user.username');
-                $this->db->select('connection.followingUserId');
+                $this->db->select('user.userId, user.username, connection.followingUserId');
                 $this->db->from('connection');
                 $this->db->where('connection.currentUserId', $userId);
                 $this->db->join('user', 'user.userId = connection.followingUserId');
@@ -175,10 +166,7 @@ class UserManager extends CI_Model
 
 
     public function getFollowers($userId) {
-        $this->db->select('connection.currentUserId as userId');
-        $this->db->select('connection.followingUserId');
-        $this->db->select('user.username');
-        $this->db->select('user.avatarUrl');
+        $this->db->select('connection.currentUserId as userId, connection.followingUserId, user.username, user.avatarUrl');
         $this->db->from('user');
         $this->db->join('connection', 'connection.currentUserId = user.userId ');
         $this->db->where('connection.followingUserId', $userId);
@@ -192,10 +180,7 @@ class UserManager extends CI_Model
 
 
     public function getFollowing($userId) {
-        $this->db->select('connection.currentUserId');
-        $this->db->select('connection.followingUserId as userId');
-        $this->db->select('user.username');
-        $this->db->select('user.avatarUrl');
+        $this->db->select('connection.currentUserId, connection.followingUserId as userId, user.username, user.avatarUrl');
         $this->db->from('user');
         $this->db->join('connection', 'connection.followingUserId = user.userId ');
         $this->db->where('connection.currentUserId', $userId);
@@ -210,9 +195,7 @@ class UserManager extends CI_Model
 
     public function getFriends($userId) {
 
-        $this->db->select('t1.followingUserId as userId');
-        $this->db->select('user.avatarUrl');
-        $this->db->select('user.username');
+        $this->db->select('t1.followingUserId as userId, user.avatarUrl, user.username');
         $this->db->from('connection t1');
         $this->db->join('connection t2', 't1.currentUserId = t2.followingUserId AND t2.currentUserId = t1.followingUserId');
         $this->db->join('user', 'user.userId = t1.followingUserId');
@@ -227,8 +210,7 @@ class UserManager extends CI_Model
 
 
     public function findIfFollowing($userId, $profileUserId) {
-        $this->db->select('connection.currentUserId');
-        $this->db->select('connection.followingUserId');
+        $this->db->select('connection.currentUserId, connection.followingUserId');
         $this->db->from('connection');
         $this->db->where("connection.currentUserId = $userId AND connection.followingUserId = $profileUserId");
         $ifFollowingResult = $this->db->get();

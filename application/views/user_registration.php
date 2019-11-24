@@ -31,7 +31,7 @@
 
         <?php echo validation_errors(); ?>
 
-        <?php echo form_open(site_url('/SiteController/registerUser')); ?>
+        <?php echo form_open(site_url('/UserController/registerUser')); ?>
         <div class="ui large form">
             <div class="ui stacked segment">
                 <div class="field">
@@ -67,7 +67,7 @@
         <?php echo form_close(); ?>
 
         <div class="ui message">
-            Already have an account? <a href="<?php echo site_url('/SiteController/login'); ?>">Login</a>
+            Already have an account? <a href="<?php echo site_url('/UserController/login'); ?>">Login</a>
         </div>
     </div>
 </div>

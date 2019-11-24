@@ -68,12 +68,7 @@ class PostManager extends CI_Model {
 
 
     public function getTimelinePosts($userId) {
-        $this->db->select('post.postId');
-        $this->db->select('post.postContent');
-        $this->db->select('user.userId');
-        $this->db->select('user.avatarUrl');
-        $this->db->select('user.profileName');
-        $this->db->select('user.username');
+        $this->db->select('post.postId, post.postContent, user.userId, user.avatarUrl, user.profileName, user.username');
         $this->db->from('post');
         $this->db->join('connection', 'post.userId = connection.followingUserId');
         $this->db->join('user', 'connection.followingUserId = user.userId');
