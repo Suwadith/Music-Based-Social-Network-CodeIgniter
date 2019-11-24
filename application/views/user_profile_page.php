@@ -5,7 +5,7 @@
     }
 
     .posts {
-        min-height: 100px;
+        min-height: 150px;
         max-height: 400px;
         font-size: 14px;
         overflow: auto;

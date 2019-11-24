@@ -34,7 +34,9 @@ class Genre extends CI_Model {
         }
     }
 
-
+    /**
+     * @return string
+     */
     public function getTransformedLikedGenres() {
 
         if($this->likedGenres !== NULL) {

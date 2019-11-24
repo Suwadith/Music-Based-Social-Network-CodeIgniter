@@ -44,7 +44,7 @@ class UserManager extends CI_Model
             $dbPassword = $result->row(0)->password;
 
             if (password_verify($password, $dbPassword)) {
-                return array('username' => $result->row(0)->username, 'userId' => $result->row(0)->userId);
+                return array('username' => $result->row(0)->username, 'userId' => $result->row(0)->userId, 'user_logged_in' => true);
             } else {
                 return 'Invalid Password.';
             }

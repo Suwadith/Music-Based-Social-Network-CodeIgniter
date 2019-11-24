@@ -79,8 +79,11 @@ class UserController extends CI_Controller {
     }
 
     public function logoutUser() {
+        $this->session->unset_userdata('username');
+        $this->session->unset_userdata('userId');
+        $this->session->unset_userdata('logged_in');
         $this->session->sess_destroy();
-        $this->login();
+        redirect('/UserController/login');
     }
 
 }

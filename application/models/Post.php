@@ -48,6 +48,16 @@ class Post extends CI_Model{
         return $this->postId;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+
+
 
     public function updatePostData($postContent) {
         $this->postContent = $postContent;
