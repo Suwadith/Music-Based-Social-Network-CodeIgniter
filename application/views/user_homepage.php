@@ -160,7 +160,7 @@
             <div class="ui container segment">
                 <?php echo validation_errors(); ?>
 
-                <?php echo form_open(site_url('/SiteController/createPost')); ?>
+                <?php echo form_open(site_url('/SiteController/createHomePost')); ?>
 <!--                <form class="create_post_form" action="--><?php //echo site_url('/SiteController/createPost'); ?><!--"-->
 <!--                      method="post">-->
 

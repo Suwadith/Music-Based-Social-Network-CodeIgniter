@@ -61,7 +61,8 @@ class PostManager extends CI_Model {
         $this->db->delete('post');
     }
 
-    public function getTimelinePosts($userId) {
+    public function getTimelinePosts($userId)
+    {
         //SELECT post.postContent, user.username, post.dateTime
         //from post
         //join connection
@@ -71,9 +72,32 @@ class PostManager extends CI_Model {
         //WHERE connection.currentUserId = '5'
         //OR post.userId = '5'
         //ORDER BY post.dateTime DESC
+        $userId = 5;
+        $this->db->select('post.postId');
+        $this->db->select('post.postContent');
+        $this->db->select('user.userId');
+        $this->db->select('user.avatarUrl');
+        $this->db->select('user.profileName');
+        $this->db->select('user.username');
+        $this->db->from('post');
+        $this->db->join('connection', 'post.userId = connection.followingUserId');
+        $this->db->join('user', 'connection.followingUserId = user.userId');
+        $this->db->where("connection.currentUserId = $userId OR post.userId = $userId");
+        $this->db->order_by('post.dateTime', 'desc');
+        $timelineResult = $this->db->get();
 
-//        $this->db->select
 
+        if ($timelineResult->num_rows() > 0) {
+            return $timelineResult->result();
+//            foreach ($timelineResult->result() as $row)
+//            {
+//                echo $row->userId;
+//                echo $row->username;
+//                echo $row->postContent;
+//                echo '<br>';
+//            }
+//        }
+        }
     }
 
 

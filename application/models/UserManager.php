@@ -305,5 +305,19 @@ class UserManager extends CI_Model
         }
     }
 
+    public function findIfFollowing($userId, $profileUserId) {
+        $this->db->select('connection.currentUserId');
+        $this->db->select('connection.followingUserId');
+        $this->db->from('connection');
+        $this->db->where("connection.currentUserId = $userId AND connection.followingUserId = $profileUserId");
+        $ifFollowingResult = $this->db->get();
+
+        if($ifFollowingResult->num_rows() > 0) {
+            return TRUE;
+        }else {
+            return FALSE;
+        }
+    }
+
 
 }

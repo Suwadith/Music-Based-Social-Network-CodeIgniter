@@ -52,7 +52,12 @@ class SiteController extends CI_Controller
 
     public function timelinePage()
     {
-
+        $userId = $this->session->userdata('userId');
+        $this->load->view('header');
+        $this->load->view('navigation_bar');
+        $timelinePostsResult = $this->PostManager->getTimelinePosts($userId);
+        $this->load->view('user_timeline', array('timelinePosts' => $timelinePostsResult));
+        $this->load->view('footer');
     }
 
     public function searchPage()
@@ -68,7 +73,8 @@ class SiteController extends CI_Controller
     {
         $this->load->view('header');
         $this->load->view('navigation_bar');
-        $this->loadPosts();
+//        $this->loadPosts();
+        $this->loadUserProfile();
         $this->load->view('footer');
     }
 
@@ -179,7 +185,7 @@ class SiteController extends CI_Controller
             'friendsData' => $friendsResult));
     }
 
-    public function createPost()
+    public function createHomePost()
     {
         $this->form_validation->set_rules('postContent', 'Post Content', 'required|max_length[140]',
             array('max_length' => 'Maximum character length of a post is 140.'));
@@ -190,6 +196,20 @@ class SiteController extends CI_Controller
             $userId = $this->session->userdata('userId');
             $result = $this->PostManager->createPost($postData, $userId);
             redirect('/SiteController/homepage');
+        }
+    }
+
+    public function createTimelinePost()
+    {
+        $this->form_validation->set_rules('postContent', 'Post Content', 'required|max_length[140]',
+            array('max_length' => 'Maximum character length of a post is 140.'));
+        if ($this->form_validation->run() == FALSE) {
+            $this->homepage();
+        } else {
+            $postData = $this->input->post('postContent');
+            $userId = $this->session->userdata('userId');
+            $result = $this->PostManager->createPost($postData, $userId);
+            redirect('/SiteController/timelinePage');
         }
     }
 
@@ -242,14 +262,33 @@ class SiteController extends CI_Controller
         $this->session->selectedGenre = null;
     }
 
-    public function loadPosts()
+    /*public function loadPosts()
     {
         $userId = $this->uri->segment(3);
         $getProfileResult = $this->UserManager->getProfileData($userId);
         $postResult = $this->PostManager->retrievePosts($userId);
         $this->load->view('user_profile_page', array('posts' => $postResult,
             'profileData' => $getProfileResult));
+    }*/
+
+    public function loadUserProfile() {
+        $currentUserId = $userId = $this->session->userdata('userId');
+        $userId = $postId = $this->uri->segment(3);
+        $profileResult = $this->UserManager->getProfileData($userId);
+        $postResult = $this->PostManager->retrievePosts($userId);
+        $followingResult = $this->UserManager->getFollowing($userId);
+        $followerResult = $this->UserManager->getFollowers($userId);
+        $friendsResult = $this->UserManager->getFriends($userId);
+        $ifFollowingResult = $this->UserManager->findIfFollowing($currentUserId, $userId);
+        $this->load->view('user_profile_page', array('posts' => $postResult,
+            'profileData' => $profileResult[0],
+            'genreData' => $profileResult[1],
+            'followingData' => $followingResult,
+            'followerData' => $followerResult,
+            'friendsData' => $friendsResult,
+            'isFollowing' => $ifFollowingResult));
     }
+
 
     public function followUser()
     {
@@ -257,7 +296,7 @@ class SiteController extends CI_Controller
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
         $actionResult = $this->UserManager->userActions($userId, $actionType, $foundUserId);
-        redirect('/SiteController/searchPage');
+        redirect('/SiteController/homepage');
 
     }
 
@@ -267,7 +306,7 @@ class SiteController extends CI_Controller
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
         $actionResult = $this->UserManager->userActions($userId, $actionType, $foundUserId);
-        redirect('/SiteController/searchPage');
+        redirect('/SiteController/homepage');
     }
 
 //    public function displayFollowingUsers() {
