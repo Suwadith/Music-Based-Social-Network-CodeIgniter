@@ -24,24 +24,24 @@ class UserManager extends CI_Model
     public function registerUser($username, $password, $emailAddress)
     {
 
-            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-            $userData = new User();
-            $userData->createUser($username, $hashedPassword, $emailAddress);
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+        $userData = new User();
+        $userData->createUser($username, $hashedPassword, $emailAddress);
         $this->db->trans_start();
-            $results = $this->db->insert('user', $userData);
+        $results = $this->db->insert('user', $userData);
 
-            $this->db->where('username', $username);
-            $result = $this->db->get('user');
+        $this->db->where('username', $username);
+        $result = $this->db->get('user');
 
-            if ($result->num_rows() == 1) {
+        if ($result->num_rows() == 1) {
 
-                $userId = $result->row(0)->userId;
+            $userId = $result->row(0)->userId;
 //                print_r($userId);
-                $genreData = new Genre();
-                $genreData->setGenres($userId, NULL);
-                $resultss = $this->db->insert('genre', $genreData);
-                $this->db->trans_complete();
-            }
+            $genreData = new Genre();
+            $genreData->setGenres($userId, NULL);
+            $resultss = $this->db->insert('genre', $genreData);
+            $this->db->trans_complete();
+        }
     }
 
     public function loginUser($username, $password)
@@ -52,10 +52,10 @@ class UserManager extends CI_Model
             $dbPassword = $result->row(0)->password;
             if (password_verify($password, $dbPassword)) {
                 return array('username' => $result->row(0)->username, 'userId' => $result->row(0)->userId);
-            }else{
+            } else {
                 return 'Invalid Password.';
             }
-        }else {
+        } else {
             return 'User not found.';
         }
     }
@@ -83,7 +83,8 @@ class UserManager extends CI_Model
         }
     }
 
-    public function getProfileData($userId) {
+    public function getProfileData($userId)
+    {
         $this->db->where('userId', $userId);
         $output = array();
         $userResult = $this->db->get('user');
@@ -93,14 +94,15 @@ class UserManager extends CI_Model
         }
         $this->db->where('userId', $userId);
         $genreResult = $this->db->get('genre');
-        if($genreResult->num_rows() == 1) {
+        if ($genreResult->num_rows() == 1) {
             array_push($output, $genreResult->custom_result_object('Genre'));
 //            print_r($genreResult);
         }
         return $output;
     }
 
-    public function deleteProfileData($userId) {
+    public function deleteProfileData($userId)
+    {
         $this->db->where('userId', $userId);
         $this->db->delete('user');
     }
@@ -109,18 +111,15 @@ class UserManager extends CI_Model
     {
         $userId = $this->session->userData[1];
         $relations = array();
-        foreach ($results as $result)
-        {
+        foreach ($results as $result) {
             $resultId = $result->getUserId();
             $followings = $result->getFollowingId();
             $followings = explode(",", $followings);
 
             array_pop($followings);
             $found = false;
-            foreach ($followings as $followee)
-            {
-                if ($followee == $userId)
-                {
+            foreach ($followings as $followee) {
+                if ($followee == $userId) {
                     //$follower->$relation = "follower";
 //                    $x = array(
 //                        "followerId" => $resultId,
@@ -142,15 +141,16 @@ class UserManager extends CI_Model
         }
     }
 
-    public function searchUsers($selectedGenre) {
+    public function searchUsers($selectedGenre)
+    {
         $userId = $this->session->userData[1];
-        if($selectedGenre!==null){
+        if ($selectedGenre !== null) {
             $this->db->trans_start();
             $this->db->like('likedGenres', $selectedGenre);
             $this->db->where_not_in('userId', $userId);
             $result = $this->db->get('user');
 
-            if($result->num_rows() > 0) {
+            if ($result->num_rows() > 0) {
                 $finalResult = $result->custom_result_object('User');
                 // Get user's followers
 //                $this->db->select('*');
@@ -174,20 +174,18 @@ class UserManager extends CI_Model
             }
 
 
-
 //            if($result->num_rows() > 0) {
 //                return $result->custom_result_object('User');
 //            }
         }
     }
 
-    public function searchUsersNew($userId, $selectedGenre) {
-        $searchList = array();
+    public function searchUsersNew($userId, $selectedGenre)
+    {
         $followingList = array();
         $nonFollowingList = array();
         $finalGenreResult = null;
-//        print_r($userId);
-        if($selectedGenre!==null){
+        if ($selectedGenre !== null) {
             $this->db->select('user.userId');
             $this->db->select('user.username');
             $this->db->select('genre.userId');
@@ -198,157 +196,56 @@ class UserManager extends CI_Model
             $this->db->like('genre.likedGenres', $selectedGenre);
 
             $genreResult = $this->db->get();
-            if($genreResult->num_rows() > 0) {
+            if ($genreResult->num_rows() > 0) {
                 $finalGenreResult = $genreResult->custom_result_object('User');
-//                print_r($finalGenreResult);
 
                 $this->db->select('user.userId');
                 $this->db->select('user.username');
                 $this->db->select('connection.followingUserId');
                 $this->db->from('connection');
                 $this->db->where('connection.currentUserId', $userId);
-                //$this->db->where('user.userId !=',$userId);
                 $this->db->join('user', 'user.userId = connection.followingUserId');
                 $followerResult = $this->db->get();
 
-                if($followerResult->num_rows() > 0) {
+                if ($followerResult->num_rows() > 0) {
                     $finalFollowerResult = $followerResult->custom_result_object('User');
-
-//                print_r($finalResult);
-
                     $followResultList = array();
 
-                    foreach($finalFollowerResult as $result){
-                        array_push($followResultList,$result->getUserId());
-//                    print_r($result->getUserId());
+                    foreach ($finalFollowerResult as $result) {
+                        array_push($followResultList, $result->getUserId());
                     }
 
-                    foreach($finalGenreResult as $res){
+                    foreach ($finalGenreResult as $res) {
 
-                        if(in_array($res->getUserId(), $followResultList)){
-                            $res->isFollow = true;
-//                            echo 'in';
-//                            echo $res->getUsername();
+                        if (in_array($res->getUserId(), $followResultList)) {
+//                            $res->isFollow = true;
                             $followingList[$res->getUserId()] = $res->getUsername();
-                        }else{
-                            $res->isFollow = false;
-//                            echo 'out';
-//                            echo $res->getUsername();
+                        } else {
+//                            $res->isFollow = false;
                             $nonFollowingList[$res->getUserId()] = $res->getUsername();
                         }
 
                     }
-
-//                    print_r($followResultList);
-//                    print_r($followingList);
-//                    print_r($finalGenreResult);
-//                    return array($followingList, $nonFollowingList, $finalGenreResult);
                 }
             }
 
-
-
-
-
-
-            /*foreach($followerResult as $result){
-                array_push($followResultList,$result->userId);
-            }
-
-            foreach($genreResult as $res){
-
-                if(in_array($res->userId,$followResultList)){
-                    $res->isFollow = true;
-                }else{
-                   $res->isFollow = false;
-                }
-
-            }
-
-            print_r($genreResult);*/
-
-
-
-//            $result = $this->db->get('user');
-//            if($result->num_rows() > 0) {
-//                return $finalResult = $result->custom_result_object('User');
-//            }
         }
         return array($followingList, $nonFollowingList, $finalGenreResult);
-//        print_r($finalGenreResult);
-//        foreach ($finalGenreResult as $obj) {
-//            echo $obj->getUserId();
-//            echo $obj->getUsername();
-//        }
+
     }
 
-    public function userAction($actionType, $foundUserId) {
 
-        $userId = $this->session->userData[1];
+    public function userActions($userId, $actionType, $foundUserId)
+    {
 
-        if($actionType !== null && $foundUserId !== null) {
-
-            if($actionType === 'followUser') {
-                $this->db->trans_start();
-                $this->db->where('userId', $userId);
-                $resultFollower = $this->db->get('user');
-                if ($resultFollower->num_rows() == 1) {
-                    $userObjArray = $resultFollower->custom_result_object('User');
-                    $userObj = $userObjArray[0];
-
-                    // TODO use getFollowingID to fetch previously stored ids
-                    $userObj->setFollowingId($foundUserId . ',');
-                    $this->db->where('userId', $userId);
-                    $this->db->update('user', $userObj);
-                }
-
-                $this->db->where('userId', $foundUserId);
-                $resultFollowing = $this->db->get('user');
-                if ($resultFollowing->num_rows() == 1) {
-                    $userObjArray = $resultFollowing->custom_result_object('User');
-                    $userObj = $userObjArray[0];
-                    $userObj->setFollowersId($userId . ',');
-                    $this->db->where('userId', $foundUserId);
-                    $this->db->update('user', $userObj);
-                }
-                $this->db->trans_complete();
-
-            } elseif ($actionType === 'unfollowUser') {
-                $this->db->trans_start();
-                $this->db->where('userId', $userId);
-                $resultFollower = $this->db->get('user');
-                if ($resultFollower->num_rows() == 1) {
-                    $userObjArray = $resultFollower->custom_result_object('User');
-                    $userObj = $userObjArray[0];
-                    $userObj->setFollowingId($foundUserId . ',');
-                    $this->db->where('userId', $userId);
-                    $this->db->update('user', $userObj);
-                }
-
-                $this->db->where('userId', $foundUserId);
-                $resultFollowing = $this->db->get('user');
-                if ($resultFollowing->num_rows() == 1) {
-                    $userObjArray = $resultFollowing->custom_result_object('User');
-                    $userObj = $userObjArray[0];
-                    $userObj->setFollowersId($userId . ',');
-                    $this->db->where('userId', $foundUserId);
-                    $this->db->update('user', $userObj);
-                }
-                $this->db->trans_complete();
-            }
-        }
-    }
-
-    public function userActions($userId, $actionType, $foundUserId) {
-
-        if($actionType !== null && $foundUserId !== null) {
-            if($actionType === 'followUser') {
+        if ($actionType !== null && $foundUserId !== null) {
+            if ($actionType === 'followUser') {
 
                 $followObj = new Connection();
                 $followObj->setUserIds($userId, $foundUserId);
                 $this->db->insert('Connection', $followObj);
 
-            }elseif($actionType === 'unfollowUser') {
+            } elseif ($actionType === 'unfollowUser') {
                 $followObj = new Connection();
                 $this->db->delete('Connection', array('currentUserId' => $userId, 'followingUserId' => $foundUserId));
 
@@ -358,7 +255,55 @@ class UserManager extends CI_Model
 
     }
 
+    public function getFollowers($userId)
+    {
+        $this->db->select('connection.currentUserId as userId');
+        $this->db->select('connection.followingUserId');
+        $this->db->select('user.username');
+        $this->db->select('user.avatarUrl');
+        $this->db->from('user');
+        $this->db->join('connection', 'connection.currentUserId = user.userId ');
+        $this->db->where('connection.followingUserId', $userId);
+        $followerResult = $this->db->get();
 
+        if ($followerResult->num_rows() > 0) {
+            $finalFollowerResult = $followerResult->custom_result_object('User');
+            return $finalFollowerResult;
+        }
+    }
+
+    public function getFollowing($userId) {
+        $this->db->select('connection.currentUserId');
+        $this->db->select('connection.followingUserId as userId');
+        $this->db->select('user.username');
+        $this->db->select('user.avatarUrl');
+        $this->db->from('user');
+        $this->db->join('connection', 'connection.followingUserId = user.userId ');
+        $this->db->where('connection.currentUserId', $userId);
+        $followingResult = $this->db->get();
+
+        if ($followingResult->num_rows() > 0) {
+            $finalFollowingResult = $followingResult->custom_result_object('User');
+            return $finalFollowingResult;
+        }
+    }
+
+    public function getFriends($userId) {
+
+        $this->db->select('t1.followingUserId as userId');
+        $this->db->select('user.avatarUrl');
+        $this->db->select('user.username');
+        $this->db->from('connection t1');
+        $this->db->join('connection t2', 't1.currentUserId = t2.followingUserId AND t2.currentUserId = t1.followingUserId');
+        $this->db->join('user', 'user.userId = t1.followingUserId');
+        $this->db->where('t1.currentUserId', $userId);
+        $friendsResult = $this->db->get();
+
+        if ($friendsResult->num_rows() > 0) {
+            $finalFriendsResult = $friendsResult->custom_result_object('User');
+            return $finalFriendsResult;
+        }
+    }
 
 
 }

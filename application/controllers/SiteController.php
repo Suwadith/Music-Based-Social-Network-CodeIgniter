@@ -168,9 +168,15 @@ class SiteController extends CI_Controller
         $userId = $this->session->userdata('userId');
         $profileResult = $this->UserManager->getProfileData($userId);
         $postResult = $this->PostManager->retrievePosts($userId);
+        $followingResult = $this->UserManager->getFollowing($userId);
+        $followerResult = $this->UserManager->getFollowers($userId);
+        $friendsResult = $this->UserManager->getFriends($userId);
         $this->load->view('user_homepage', array('posts' => $postResult,
             'profileData' => $profileResult[0],
-            'genreData' => $profileResult[1]));
+            'genreData' => $profileResult[1],
+            'followingData' => $followingResult,
+            'followerData' => $followerResult,
+            'friendsData' => $friendsResult));
     }
 
     public function createPost()
@@ -263,5 +269,9 @@ class SiteController extends CI_Controller
         $actionResult = $this->UserManager->userActions($userId, $actionType, $foundUserId);
         redirect('/SiteController/searchPage');
     }
+
+//    public function displayFollowingUsers() {
+//
+//    }
 
 }

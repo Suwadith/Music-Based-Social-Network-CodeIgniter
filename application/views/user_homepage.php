@@ -44,7 +44,50 @@
 
 <div class="ui vertically divided grid">
     <div class="three column row">
-        <div class="column"></div>
+        <div class="column">
+            <div class="ui segment">
+                <h3 class="ui dividing header">
+                    Following
+                </h3>
+                <div class="ui middle aligned selection list">
+                    <?php if($followingData !== null) {
+                        foreach ($followingData as $following) {?>
+                    <div class="item">
+                        <img class="ui avatar image" src="<?php echo $following->getAvatarUrl(); ?>">
+                        <div class="content">
+                            <div class="header">
+                                <a href="<?php echo site_url('/SiteController/viewUserProfile/' . $following->getUserId()); ?>">
+                                    <?php echo $following->getUserName(); ?>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <?php }
+                    } ?>
+                </div>
+            </div>
+            <div class="ui segment">
+                <h3 class="ui dividing header">
+                    Followers
+                </h3>
+                <div class="ui middle aligned selection list">
+                    <?php if($followerData !== null) {
+                        foreach ($followerData as $follower) {?>
+                            <div class="item">
+                                <img class="ui avatar image" src="<?php echo $follower->getAvatarUrl(); ?>">
+                                <div class="content">
+                                    <div class="header">
+                                        <a href="<?php echo site_url('/SiteController/viewUserProfile/' . $follower->getUserId()); ?>">
+                                            <?php echo $follower->getUserName(); ?>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+                    } ?>
+                </div>
+            </div>
+        </div>
         <div class="column">
             <div class="ui segment center aligned">
                 <div class="ui people shape">
@@ -83,13 +126,36 @@
                 </div>
             </div>
         </div>
-        <div class="column"></div>
+        <div class="column">
+            <div class="ui segment">
+                <h3 class="ui dividing header">
+                    Friends
+                </h3>
+                <div class="ui middle aligned selection list">
+                    <?php if($friendsData !== null) {
+                        foreach ($friendsData as $friend) {?>
+                            <div class="item">
+                                <img class="ui avatar image" src="<?php echo $friend->getAvatarUrl(); ?>">
+                                <div class="content">
+                                    <div class="header">
+                                        <a href="<?php echo site_url('/SiteController/viewUserProfile/' . $friend->getUserId()); ?>">
+                                            <?php echo $friend->getUserName(); ?>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+                    } ?>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="ui vertically divided grid">
     <div class="three column row">
-        <div class="column"></div>
+        <div class="column">
+        </div>
         <div class="column">
             <div class="ui container segment">
                 <?php echo validation_errors(); ?>

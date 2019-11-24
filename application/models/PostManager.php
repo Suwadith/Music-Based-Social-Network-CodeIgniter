@@ -61,5 +61,20 @@ class PostManager extends CI_Model {
         $this->db->delete('post');
     }
 
+    public function getTimelinePosts($userId) {
+        //SELECT post.postContent, user.username, post.dateTime
+        //from post
+        //join connection
+        //on post.userId = connection.followingUserId
+        //join user
+        //on connection.followingUserId = user.userId
+        //WHERE connection.currentUserId = '5'
+        //OR post.userId = '5'
+        //ORDER BY post.dateTime DESC
+
+//        $this->db->select
+
+    }
+
 
 }
