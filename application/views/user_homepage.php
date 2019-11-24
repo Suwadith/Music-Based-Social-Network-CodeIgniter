@@ -40,16 +40,28 @@
         color: red;
     }
 
+    .userlist {
+        min-height: 160px;
+        max-height: 160px;
+        overflow: auto;
+    }
+
+    .friendslist{
+        min-height: 400px;
+        max-height: 400px;
+        overflow: auto;
+    }
+
 </style>
 
 <div class="ui vertically divided grid">
     <div class="three column row">
         <div class="column">
-            <div class="ui segment">
+            <div class="ui segment ">
                 <h3 class="ui dividing header">
                     Following
                 </h3>
-                <div class="ui middle aligned selection list">
+                <div class="ui middle aligned selection list userlist">
                     <?php if($followingData !== null) {
                         foreach ($followingData as $following) {?>
                     <div class="item">
@@ -70,7 +82,7 @@
                 <h3 class="ui dividing header">
                     Followers
                 </h3>
-                <div class="ui middle aligned selection list">
+                <div class="ui middle aligned selection list userlist">
                     <?php if($followerData !== null) {
                         foreach ($followerData as $follower) {?>
                             <div class="item">
@@ -127,11 +139,11 @@
             </div>
         </div>
         <div class="column">
-            <div class="ui segment">
+            <div class="ui segment ">
                 <h3 class="ui dividing header">
                     Friends
                 </h3>
-                <div class="ui middle aligned selection list">
+                <div class="ui middle aligned selection list friendslist">
                     <?php if($friendsData !== null) {
                         foreach ($friendsData as $friend) {?>
                             <div class="item">
