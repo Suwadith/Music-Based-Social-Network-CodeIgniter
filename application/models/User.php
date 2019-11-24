@@ -48,7 +48,6 @@ class User
     }
 
 
-
     /**
      * @return mixed
      */
@@ -75,22 +74,6 @@ class User
         }
 
     }
-
-    /**
-     * @return mixed
-     */
-    /*public function getLikedGenres()
-    {
-        $output = '';
-        $genreArray = explode(',', $this->likedGenres);
-
-        foreach ($genreArray as $genre) {
-            $output .= ucfirst($genre) . ', ';
-        }
-
-        return rtrim($output, ", ");
-
-    }*/
 
     /**
      * @return mixed

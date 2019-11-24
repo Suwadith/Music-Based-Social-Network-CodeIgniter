@@ -13,16 +13,13 @@ include_once('Connection.php');
 class UserManager extends CI_Model
 {
 
-    private $message = "";
-    public $user_obj = array();
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->load->database();
     }
 
-    public function registerUser($username, $password, $emailAddress)
-    {
+
+    public function registerUser($username, $password, $emailAddress) {
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         $userData = new User();
@@ -36,7 +33,6 @@ class UserManager extends CI_Model
         if ($result->num_rows() == 1) {
 
             $userId = $result->row(0)->userId;
-//                print_r($userId);
             $genreData = new Genre();
             $genreData->setGenres($userId, NULL);
             $resultss = $this->db->insert('genre', $genreData);
@@ -44,12 +40,14 @@ class UserManager extends CI_Model
         }
     }
 
-    public function loginUser($username, $password)
-    {
+
+    public function loginUser($username, $password) {
         $this->db->where('username', $username);
         $result = $this->db->get('user');
+
         if ($result->num_rows() == 1) {
             $dbPassword = $result->row(0)->password;
+
             if (password_verify($password, $dbPassword)) {
                 return array('username' => $result->row(0)->username, 'userId' => $result->row(0)->userId);
             } else {
@@ -60,8 +58,8 @@ class UserManager extends CI_Model
         }
     }
 
-    public function createProfile($userId, $formProfileName, $formAvatarUrl, $formGenres, $formEmail)
-    {
+
+    public function createProfile($userId, $formProfileName, $formAvatarUrl, $formGenres, $formEmail) {
         $this->db->where('userId', $userId);
         $userResult = $this->db->get('user');
 
@@ -74,6 +72,7 @@ class UserManager extends CI_Model
         }
         $this->db->where('userId', $userId);
         $genreResult = $this->db->get('genre');
+
         if ($genreResult->num_rows() == 1) {
             $genreObjArray = $genreResult->custom_result_object('Genre');
             $genreObj = $genreObjArray[0];
@@ -83,108 +82,36 @@ class UserManager extends CI_Model
         }
     }
 
-    public function getProfileData($userId)
-    {
+
+    public function getProfileData($userId) {
         $this->db->where('userId', $userId);
         $output = array();
         $userResult = $this->db->get('user');
+
         if ($userResult->num_rows() == 1) {
             array_push($output, $userResult->custom_result_object('User'));
-//            print_r($userResult);
         }
         $this->db->where('userId', $userId);
         $genreResult = $this->db->get('genre');
+
         if ($genreResult->num_rows() == 1) {
             array_push($output, $genreResult->custom_result_object('Genre'));
-//            print_r($genreResult);
         }
         return $output;
     }
 
-    public function deleteProfileData($userId)
-    {
+
+    public function deleteProfileData($userId) {
         $this->db->where('userId', $userId);
         $this->db->delete('user');
     }
 
-    private function resultsFollowUser($results)
-    {
-        $userId = $this->session->userData[1];
-        $relations = array();
-        foreach ($results as $result) {
-            $resultId = $result->getUserId();
-            $followings = $result->getFollowingId();
-            $followings = explode(",", $followings);
 
-            array_pop($followings);
-            $found = false;
-            foreach ($followings as $followee) {
-                if ($followee == $userId) {
-                    //$follower->$relation = "follower";
-//                    $x = array(
-//                        "followerId" => $resultId,
-//                        "relation" => "follower"
-//                    );
-                    array_push($relations, $resultId);
-                }
-            }
-
-//            if (!$found) {
-//                $x = array(
-//                    "followerId" => $resultId,
-//                    "relation" => "non-follower"
-//                );
-//                array_push($relations, $x);
-//            }
-
-            return $relations;
-        }
-    }
-
-    public function searchUsers($selectedGenre)
-    {
-        $userId = $this->session->userData[1];
-        if ($selectedGenre !== null) {
-            $this->db->trans_start();
-            $this->db->like('likedGenres', $selectedGenre);
-            $this->db->where_not_in('userId', $userId);
-            $result = $this->db->get('user');
-
-            if ($result->num_rows() > 0) {
-                $finalResult = $result->custom_result_object('User');
-                // Get user's followers
-//                $this->db->select('*');
-//                $this->db->where('userId', $userId);
-//                $resulty = $this->db->get('user');
-//
-//                $currentUser = $resulty->custom_result_object('User');
-
-//                print_r($resulty);
-                $this->db->trans_complete();
-
-//                print_r($result);
-//                print_r($result[0]->getUserId());
-
-                $relations = $this->resultsFollowUser($finalResult);
-
-                return array(
-                    "result" => $finalResult,
-                    "relations" => $relations
-                );
-            }
-
-
-//            if($result->num_rows() > 0) {
-//                return $result->custom_result_object('User');
-//            }
-        }
-    }
-
-    public function searchUsersNew($userId, $selectedGenre)
-    {
+    public function searchUsers($userId, $selectedGenre) {
         $followingList = array();
         $nonFollowingList = array();
         $finalGenreResult = null;
+
         if ($selectedGenre !== null) {
             $this->db->select('user.userId');
             $this->db->select('user.username');
@@ -196,6 +123,7 @@ class UserManager extends CI_Model
             $this->db->like('genre.likedGenres', $selectedGenre);
 
             $genreResult = $this->db->get();
+
             if ($genreResult->num_rows() > 0) {
                 $finalGenreResult = $genreResult->custom_result_object('User');
 
@@ -218,29 +146,23 @@ class UserManager extends CI_Model
                     foreach ($finalGenreResult as $res) {
 
                         if (in_array($res->getUserId(), $followResultList)) {
-//                            $res->isFollow = true;
                             $followingList[$res->getUserId()] = $res->getUsername();
+
                         } else {
-//                            $res->isFollow = false;
                             $nonFollowingList[$res->getUserId()] = $res->getUsername();
                         }
-
                     }
                 }
             }
-
         }
         return array($followingList, $nonFollowingList, $finalGenreResult);
-
     }
 
 
-    public function userActions($userId, $actionType, $foundUserId)
-    {
-
+    public function userActions($userId, $actionType, $foundUserId) {
         if ($actionType !== null && $foundUserId !== null) {
-            if ($actionType === 'followUser') {
 
+            if ($actionType === 'followUser') {
                 $followObj = new Connection();
                 $followObj->setUserIds($userId, $foundUserId);
                 $this->db->insert('Connection', $followObj);
@@ -248,15 +170,12 @@ class UserManager extends CI_Model
             } elseif ($actionType === 'unfollowUser') {
                 $followObj = new Connection();
                 $this->db->delete('Connection', array('currentUserId' => $userId, 'followingUserId' => $foundUserId));
-
-
             }
         }
-
     }
 
-    public function getFollowers($userId)
-    {
+
+    public function getFollowers($userId) {
         $this->db->select('connection.currentUserId as userId');
         $this->db->select('connection.followingUserId');
         $this->db->select('user.username');
@@ -271,6 +190,7 @@ class UserManager extends CI_Model
             return $finalFollowerResult;
         }
     }
+
 
     public function getFollowing($userId) {
         $this->db->select('connection.currentUserId');
@@ -287,6 +207,7 @@ class UserManager extends CI_Model
             return $finalFollowingResult;
         }
     }
+
 
     public function getFriends($userId) {
 
@@ -305,6 +226,7 @@ class UserManager extends CI_Model
         }
     }
 
+
     public function findIfFollowing($userId, $profileUserId) {
         $this->db->select('connection.currentUserId');
         $this->db->select('connection.followingUserId');
@@ -312,9 +234,9 @@ class UserManager extends CI_Model
         $this->db->where("connection.currentUserId = $userId AND connection.followingUserId = $profileUserId");
         $ifFollowingResult = $this->db->get();
 
-        if($ifFollowingResult->num_rows() > 0) {
+        if ($ifFollowingResult->num_rows() > 0) {
             return TRUE;
-        }else {
+        } else {
             return FALSE;
         }
     }

@@ -31,7 +31,8 @@
         </div>
         <div class="ui segment ui input focus">
             <div class="ui fluid multiple search selection dropdown">
-                <input type="hidden" name="genres" id="genres" value="<?php echo $genreData[0]->getLikedGenres(); ?>" required>
+                <input type="hidden" name="genres" id="genres" value="<?php echo $genreData[0]->getLikedGenres(); ?>"
+                       required>
                 <i class="dropdown icon"></i>
                 <div class="default text">Select Genres</div>
                 <div class="menu">
@@ -66,6 +67,8 @@
 
 
 <script>
+    document.title = "Edit Profile";
+
     $('.ui.dropdown').dropdown();
 
     $('.ui .input').on('click', function () {

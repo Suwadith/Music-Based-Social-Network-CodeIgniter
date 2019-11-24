@@ -29,12 +29,10 @@
         </h2>
 
 
-
         <?php echo validation_errors();
 
-        if ($this->session->has_userdata('errorMsg'))
-        {
-            echo '<br><div class="errorMessage">'. $this->session->errorMsg . '</div><br>';
+        if ($this->session->has_userdata('errorMsg')) {
+            echo '<br><div class="errorMessage">' . $this->session->errorMsg . '</div><br>';
             $this->session->unset_userdata('errorMsg');
         }
         ?>
@@ -66,3 +64,7 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.title = "Login";
+</script>

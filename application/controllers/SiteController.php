@@ -8,31 +8,30 @@ class SiteController extends CI_Controller
     /**
      * SiteController constructor.
      */
-    public function __construct()
-    {
+    public function __construct() {
         parent::__construct();
+
         $this->load->model('UserManager');
         $this->load->model('PostManager');
         $this->form_validation->set_error_delimiters('<div class="errorMessage">', '</div><br>');
     }
 
 
-    public function login()
-    {
+    public function login() {
         $this->load->view('header');
         $this->load->view('user_login');
         $this->load->view('footer');
     }
 
-    public function registration()
-    {
+
+    public function registration() {
         $this->load->view('header');
         $this->load->view('user_registration');
         $this->load->view('footer');
     }
 
-    public function profile()
-    {
+
+    public function profile() {
         $userId = $this->session->userdata('userId');
         $this->load->view('header');
         $this->load->view('navigation_bar');
@@ -42,16 +41,16 @@ class SiteController extends CI_Controller
         $this->load->view('footer');
     }
 
-    public function homepage()
-    {
+
+    public function homepage() {
         $this->load->view('header');
         $this->load->view('navigation_bar');
         $this->displayProfileData();
         $this->load->view('footer');
     }
 
-    public function timelinePage()
-    {
+
+    public function timelinePage() {
         $userId = $this->session->userdata('userId');
         $this->load->view('header');
         $this->load->view('navigation_bar');
@@ -60,8 +59,8 @@ class SiteController extends CI_Controller
         $this->load->view('footer');
     }
 
-    public function searchPage()
-    {
+
+    public function searchPage() {
         $this->load->view('header');
         $this->load->view('navigation_bar');
         $this->displaySearch();
@@ -69,17 +68,16 @@ class SiteController extends CI_Controller
 
     }
 
-    public function viewUserProfile()
-    {
+
+    public function viewUserProfile() {
         $this->load->view('header');
         $this->load->view('navigation_bar');
-//        $this->loadPosts();
         $this->loadUserProfile();
         $this->load->view('footer');
     }
 
-    public function registerUser()
-    {
+
+    public function registerUser() {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|is_unique[user.username]',
             array('min_length' => 'Username length has to be between 5 & 12 characters.',
                 'max_length' => 'Username length has to be between 5 & 12 characters.',
@@ -95,6 +93,7 @@ class SiteController extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $this->registration();
+
         } else {
             $formUsername = $this->input->post('username');
             $formPassword = $this->input->post('password');
@@ -104,38 +103,38 @@ class SiteController extends CI_Controller
         }
     }
 
-    public function loginUser()
-    {
+
+    public function loginUser() {
         $this->form_validation->set_rules('username', 'Username', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'required');
 
         if ($this->form_validation->run() == FALSE) {
             $this->login();
+
         } else {
             $formUsername = $this->input->post('username');
             $formPassword = $this->input->post('password');
             $userData = $this->UserManager->loginUser($formUsername, $formPassword);
+
             if (gettype($userData) !== 'string') {
-//                $this->session->userData = $userData;
                 $this->session->set_userdata($userData);
                 $this->homepage();
+
             }else{
-//                $this->session->errorMsg = $userData;
                 $this->session->set_userdata('errorMsg', $userData);
                 $this->login();
             }
         }
     }
 
-    public function logoutUser()
-    {
+
+    public function logoutUser() {
         $this->session->sess_destroy();
         $this->login();
     }
 
 
-    public function createProfile()
-    {
+    public function createProfile() {
         $this->form_validation->set_rules('profileName', 'Profile Name', 'trim|required|min_length[8]|max_length[32]|is_unique[user.username]',
             array('min_length' => 'Username length has to be between 8 & 32 characters.',
                 'max_length' => 'Username length has to be between 8 & 32 characters.',
@@ -150,6 +149,7 @@ class SiteController extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $this->profile();
+
         } else {
             $userId = $this->session->userdata('userId');
             $formProfileName = $this->input->post('profileName');
@@ -162,15 +162,16 @@ class SiteController extends CI_Controller
 
     }
 
-    public function deleteProfile()
-    {
+
+    public function deleteProfile() {
+
         $userId = $this->session->userdata('userId');
         $result = $this->UserManager->deleteProfileData($userId);
         $this->logoutUser();
     }
 
-    public function displayProfileData()
-    {
+
+    public function displayProfileData() {
         $userId = $this->session->userdata('userId');
         $profileResult = $this->UserManager->getProfileData($userId);
         $postResult = $this->PostManager->retrievePosts($userId);
@@ -185,12 +186,14 @@ class SiteController extends CI_Controller
             'friendsData' => $friendsResult));
     }
 
-    public function createHomePost()
-    {
+
+    public function createHomePost() {
         $this->form_validation->set_rules('postContent', 'Post Content', 'required|max_length[140]',
             array('max_length' => 'Maximum character length of a post is 140.'));
+
         if ($this->form_validation->run() == FALSE) {
             $this->homepage();
+
         } else {
             $postData = $this->input->post('postContent');
             $userId = $this->session->userdata('userId');
@@ -199,12 +202,14 @@ class SiteController extends CI_Controller
         }
     }
 
-    public function createTimelinePost()
-    {
+
+    public function createTimelinePost() {
         $this->form_validation->set_rules('postContent', 'Post Content', 'required|max_length[140]',
             array('max_length' => 'Maximum character length of a post is 140.'));
+
         if ($this->form_validation->run() == FALSE) {
             $this->homepage();
+
         } else {
             $postData = $this->input->post('postContent');
             $userId = $this->session->userdata('userId');
@@ -212,6 +217,7 @@ class SiteController extends CI_Controller
             redirect('/SiteController/timelinePage');
         }
     }
+
 
     public function editPost() {
         $postId = $this->uri->segment(3);
@@ -222,54 +228,47 @@ class SiteController extends CI_Controller
         $this->load->view('footer');
     }
 
+
     public function updatePost() {
         $this->form_validation->set_rules('postContent', 'Post Content', 'required|max_length[140]',
             array('max_length' => 'Maximum character length of a post is 140.'));
+
         if ($this->form_validation->run() == FALSE) {
             $this->editPost();
+
         } else {
             $postContent = $this->input->post('postContent');
             $postId = $this->uri->segment(3);
             $updatePostResult = $this->PostManager->updateSelectedPost($postId, $postContent);
             redirect('/SiteController/homepage');
         }
-
     }
+
 
     public function deletePost() {
         $postId = $this->uri->segment(3);
         $deletePostResult = $this->PostManager->deleteSelectedPost($postId);
         redirect('/SiteController/homepage');
-}
+    }
 
 
-    public function searchUser()
-    {
+    public function searchUser() {
         $userId = $this->session->userdata('userId');
         $this->session->selectedGenre = $this->input->post('genres');
-//        $searchResult = $this->UserManager->searchUsers($userId, $this->session->selectedGenre);
-        $searchResult = $this->UserManager->searchUsersNew($userId, $this->session->selectedGenre);
+        $searchResult = $this->UserManager->searchUsers($userId, $this->session->selectedGenre);
         $this->session->searchResult = $searchResult;
         redirect('/SiteController/searchPage');
 
     }
 
-    public function displaySearch()
-    {
+
+    public function displaySearch() {
         $userId = $this->session->userdata('userId');
-        $searchResult = $this->UserManager->searchUsersNew($userId, $this->session->selectedGenre);
+        $searchResult = $this->UserManager->searchUsers($userId, $this->session->selectedGenre);
         $this->load->view('user_search', array('usersList' => $searchResult));
         $this->session->selectedGenre = null;
     }
 
-    /*public function loadPosts()
-    {
-        $userId = $this->uri->segment(3);
-        $getProfileResult = $this->UserManager->getProfileData($userId);
-        $postResult = $this->PostManager->retrievePosts($userId);
-        $this->load->view('user_profile_page', array('posts' => $postResult,
-            'profileData' => $getProfileResult));
-    }*/
 
     public function loadUserProfile() {
         $currentUserId = $userId = $this->session->userdata('userId');
@@ -290,8 +289,7 @@ class SiteController extends CI_Controller
     }
 
 
-    public function followUser()
-    {
+    public function followUser() {
         $userId = $this->session->userdata('userId');
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
@@ -300,8 +298,8 @@ class SiteController extends CI_Controller
 
     }
 
-    public function unfollowUser()
-    {
+
+    public function unfollowUser() {
         $userId = $this->session->userdata('userId');
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
@@ -309,8 +307,5 @@ class SiteController extends CI_Controller
         redirect('/SiteController/homepage');
     }
 
-//    public function displayFollowingUsers() {
-//
-//    }
 
 }

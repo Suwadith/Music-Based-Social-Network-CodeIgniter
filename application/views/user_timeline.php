@@ -55,7 +55,8 @@
                 <?php echo validation_errors(); ?>
 
                 <?php echo form_open(site_url('/SiteController/createTimelinePost')); ?>
-                <!--                <form class="create_post_form" action="--><?php //echo site_url('/SiteController/createPost'); ?><!--"-->
+                <!--                <form class="create_post_form" action="-->
+                <?php //echo site_url('/SiteController/createPost'); ?><!--"-->
                 <!--                      method="post">-->
 
                 <div class="ui form">
@@ -90,22 +91,27 @@
                             <div class="ui segment posts">
                                 <div class="postAvatarImage">
                                     <p>
-                                        <a class="userTitle" href="<?php echo site_url('/SiteController/viewUserProfile/' . $post->userId) ?>">
-                                        <img align="top" src="<?php echo $post->avatarUrl; ?>">
-                                        <?php if ($post->profileName !== NULL) { ?>
-                                            <b style="margin-left: 10px;"><?php echo $post->profileName; ?></b><?php echo ' @' . $post->username; ?>
-                                        <?php } else { ?>
-                                            <b><?php echo '@' . $post->username; ?></b>
-                                        <?php } ?>
+                                        <a class="userTitle"
+                                           href="<?php echo site_url('/SiteController/viewUserProfile/' . $post->userId) ?>">
+                                            <img align="top" src="<?php echo $post->avatarUrl; ?>">
+                                            <?php if ($post->profileName !== NULL) { ?>
+                                                <b style="margin-left: 10px;"><?php echo $post->profileName; ?></b><?php echo ' @' . $post->username; ?>
+                                            <?php } else { ?>
+                                                <b><?php echo '@' . $post->username; ?></b>
+                                            <?php } ?>
                                         </a>
-                                    <?php if($this->session->userdata('userId') == $post->userId) { ?>
+                                        <?php if ($this->session->userdata('userId') == $post->userId) { ?>
                                     <div class="ui text menu" style="margin-top: -75px;">
                                         <div class="ui right dropdown item">
                                             Options
                                             <i class="dropdown icon"></i>
                                             <div class="menu">
-                                                <div class="item"><a href="<?php echo site_url('/SiteController/editPost/' . $post->postId); ?>">Edit Post</a></div>
-                                                <div class="item"><a href="<?php echo site_url('/SiteController/deletePost/' . $post->postId); ?>">Delete Post</a></div>
+                                                <div class="item"><a
+                                                            href="<?php echo site_url('/SiteController/editPost/' . $post->postId); ?>">Edit
+                                                        Post</a></div>
+                                                <div class="item"><a
+                                                            href="<?php echo site_url('/SiteController/deletePost/' . $post->postId); ?>">Delete
+                                                        Post</a></div>
                                             </div>
                                         </div>
                                     </div>
@@ -138,8 +144,8 @@
     </div>
 
 <?php }; ?>
-<script language="javascript">
-    document.title = "Home";
+<script>
+    document.title = "Timeline";
     $('.ui.dropdown')
         .dropdown()
     ;

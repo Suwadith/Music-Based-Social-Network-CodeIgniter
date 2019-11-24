@@ -14,7 +14,6 @@ class Post {
     public $userId;
 
 
-
     public function createPost($postContent, $dateTime, $userId) {
         $this->postContent = $postContent;
         $this->dateTime = $dateTime;
@@ -24,8 +23,7 @@ class Post {
     /**
      * @return mixed
      */
-    public function getPostContent()
-    {
+    public function getPostContent() {
 
         $output = $this->postContent;
 
@@ -38,6 +36,7 @@ class Post {
         return $output;
     }
 
+
     public function getRawPostContent() {
         return $this->postContent;
     }
@@ -45,10 +44,10 @@ class Post {
     /**
      * @return mixed
      */
-    public function getPostId()
-    {
+    public function getPostId() {
         return $this->postId;
     }
+
 
     public function updatePostData($postContent) {
         $this->postContent = $postContent;

@@ -71,3 +71,7 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.title = "Registration";
+</script>

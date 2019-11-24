@@ -46,7 +46,7 @@
         overflow: auto;
     }
 
-    .friendslist{
+    .friendslist {
         min-height: 400px;
         max-height: 400px;
         overflow: auto;
@@ -62,19 +62,19 @@
                     Following
                 </h3>
                 <div class="ui middle aligned selection list userlist">
-                    <?php if($followingData !== null) {
-                        foreach ($followingData as $following) {?>
-                    <div class="item">
-                        <img class="ui avatar image" src="<?php echo $following->getAvatarUrl(); ?>">
-                        <div class="content">
-                            <div class="header">
-                                <a href="<?php echo site_url('/SiteController/viewUserProfile/' . $following->getUserId()); ?>">
-                                    <?php echo $following->getUserName(); ?>
-                                </a>
+                    <?php if ($followingData !== null) {
+                        foreach ($followingData as $following) { ?>
+                            <div class="item">
+                                <img class="ui avatar image" src="<?php echo $following->getAvatarUrl(); ?>">
+                                <div class="content">
+                                    <div class="header">
+                                        <a href="<?php echo site_url('/SiteController/viewUserProfile/' . $following->getUserId()); ?>">
+                                            <?php echo $following->getUserName(); ?>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <?php }
+                        <?php }
                     } ?>
                 </div>
             </div>
@@ -83,8 +83,8 @@
                     Followers
                 </h3>
                 <div class="ui middle aligned selection list userlist">
-                    <?php if($followerData !== null) {
-                        foreach ($followerData as $follower) {?>
+                    <?php if ($followerData !== null) {
+                        foreach ($followerData as $follower) { ?>
                             <div class="item">
                                 <img class="ui avatar image" src="<?php echo $follower->getAvatarUrl(); ?>">
                                 <div class="content">
@@ -122,7 +122,7 @@
                                         </div>
                                     <?php } ?>
                                     <div class="description">
-                                        <?php echo $genreData[0]->getLikedGenres(); ?>
+                                        Genres: <?php echo $genreData[0]->getTransformedLikedGenres(); ?>
                                     </div>
                                 </div>
                                 <div class="extra content">
@@ -144,8 +144,8 @@
                     Friends
                 </h3>
                 <div class="ui middle aligned selection list friendslist">
-                    <?php if($friendsData !== null) {
-                        foreach ($friendsData as $friend) {?>
+                    <?php if ($friendsData !== null) {
+                        foreach ($friendsData as $friend) { ?>
                             <div class="item">
                                 <img class="ui avatar image" src="<?php echo $friend->getAvatarUrl(); ?>">
                                 <div class="content">
@@ -173,21 +173,16 @@
                 <?php echo validation_errors(); ?>
 
                 <?php echo form_open(site_url('/SiteController/createHomePost')); ?>
-<!--                <form class="create_post_form" action="--><?php //echo site_url('/SiteController/createPost'); ?><!--"-->
-<!--                      method="post">-->
-
-                    <div class="ui form">
-                        <div class="field">
-                            <label>Post Content</label>
-                            <textarea spellcheck="false" id="postContent" name="postContent"></textarea>
-                        </div>
-                        <div class="submit-button">
-                            <button class="ui grey button" type="submit">Post</button>
-                        </div>
-
+                <div class="ui form">
+                    <div class="field">
+                        <label>Post Content</label>
+                        <textarea spellcheck="false" id="postContent" name="postContent"></textarea>
+                    </div>
+                    <div class="submit-button">
+                        <button class="ui grey button" type="submit">Post</button>
                     </div>
 
-<!--                </form>-->
+                </div>
                 <?php echo form_close(); ?>
             </div>
         </div>
@@ -195,7 +190,7 @@
     </div>
 </div>
 
-    <?php if ($posts !== null) { ?>
+<?php if ($posts !== null) { ?>
     <div class="ui vertically divided grid">
         <div class="three column row">
             <div class="column"></div>
@@ -218,8 +213,12 @@
                                             Options
                                             <i class="dropdown icon"></i>
                                             <div class="menu">
-                                                <div class="item"><a href="<?php echo site_url('/SiteController/editPost/' . $obj->getPostId()); ?>">Edit Post</a></div>
-                                                <div class="item"><a href="<?php echo site_url('/SiteController/deletePost/' . $obj->getPostId()); ?>">Delete Post</a></div>
+                                                <div class="item"><a
+                                                            href="<?php echo site_url('/SiteController/editPost/' . $obj->getPostId()); ?>">Edit
+                                                        Post</a></div>
+                                                <div class="item"><a
+                                                            href="<?php echo site_url('/SiteController/deletePost/' . $obj->getPostId()); ?>">Delete
+                                                        Post</a></div>
                                             </div>
                                         </div>
                                     </div>
@@ -240,10 +239,11 @@
         </div>
     </div>
 
-            <?php }; ?>
-            <script language="javascript">
-                document.title = "Home";
-                $('.ui.dropdown')
-                    .dropdown()
-                ;
-            </script>
+<?php }; ?>
+
+<script>
+    document.title = "Home";
+    $('.ui.dropdown')
+        .dropdown()
+    ;
+</script>

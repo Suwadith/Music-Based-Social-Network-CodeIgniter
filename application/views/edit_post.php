@@ -54,3 +54,7 @@
         <div class="column"></div>
     </div>
 </div>
+
+<script>
+    document.title = "Edit Post";
+</script>

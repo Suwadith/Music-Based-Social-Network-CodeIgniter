@@ -46,7 +46,7 @@
         overflow: auto;
     }
 
-    .friendslist{
+    .friendslist {
         min-height: 400px;
         max-height: 400px;
         overflow: auto;
@@ -62,8 +62,8 @@
                     Following
                 </h3>
                 <div class="ui middle aligned selection list userlist">
-                    <?php if($followingData !== null) {
-                        foreach ($followingData as $following) {?>
+                    <?php if ($followingData !== null) {
+                        foreach ($followingData as $following) { ?>
                             <div class="item">
                                 <img class="ui avatar image" src="<?php echo $following->getAvatarUrl(); ?>">
                                 <div class="content">
@@ -83,8 +83,8 @@
                     Followers
                 </h3>
                 <div class="ui middle aligned selection list userlist">
-                    <?php if($followerData !== null) {
-                        foreach ($followerData as $follower) {?>
+                    <?php if ($followerData !== null) {
+                        foreach ($followerData as $follower) { ?>
                             <div class="item">
                                 <img class="ui avatar image" src="<?php echo $follower->getAvatarUrl(); ?>">
                                 <div class="content">
@@ -122,20 +122,20 @@
                                         </div>
                                     <?php } ?>
                                     <div class="description">
-                                        <?php echo $genreData[0]->getLikedGenres(); ?>
+                                        Genres: <?php echo $genreData[0]->getTransformedLikedGenres(); ?>
                                     </div>
                                 </div>
-                                <?php if($this->session->userdata('userId') != $profileData[0]->getUserId()){ ?>
+                                <?php if ($this->session->userdata('userId') != $profileData[0]->getUserId()) { ?>
                                     <div class="extra content">
 
-                                        <?php if($isFollowing) { ?>
+                                        <?php if ($isFollowing) { ?>
                                             <a href="<?php echo site_url('/SiteController/unfollowUser/' . $profileData[0]->getUserId()); ?>">
                                                 <button class="ui blue button">Unfollow</button>
                                             </a>
-                                        <?php } else {?>
-                                        <a href="<?php echo site_url('/SiteController/followUser/' .$profileData[0]->getUserId()); ?>">
-                                            <button class="ui blue button">Follow</button>
-                                        </a>
+                                        <?php } else { ?>
+                                            <a href="<?php echo site_url('/SiteController/followUser/' . $profileData[0]->getUserId()); ?>">
+                                                <button class="ui blue button">Follow</button>
+                                            </a>
                                         <?php } ?>
 
                                     </div>
@@ -152,8 +152,8 @@
                     Friends
                 </h3>
                 <div class="ui middle aligned selection list friendslist">
-                    <?php if($friendsData !== null) {
-                        foreach ($friendsData as $friend) {?>
+                    <?php if ($friendsData !== null) {
+                        foreach ($friendsData as $friend) { ?>
                             <div class="item">
                                 <img class="ui avatar image" src="<?php echo $friend->getAvatarUrl(); ?>">
                                 <div class="content">
@@ -209,6 +209,6 @@
 
 <?php }; ?>
 
-<script language="javascript">
-    document.title = "Home";
+<script>
+    document.title = "Profile";
 </script>
