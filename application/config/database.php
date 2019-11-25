@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => '2015214',
+	'hostname' => 'phpmyadmin.ecs.westminster.ac.uk',
+	'username' => 'w1608451',
+	'password' => 'mm8nVUrEp6oD',
+	'database' => 'w1608451_0',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

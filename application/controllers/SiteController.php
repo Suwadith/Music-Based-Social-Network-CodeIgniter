@@ -7,6 +7,7 @@ class SiteController extends CI_Controller
 
     /**
      * SiteController constructor.
+     * Loads both the UserManager & PostManager Models to deal with various tasks.
      */
     public function __construct() {
         parent::__construct();
@@ -16,8 +17,12 @@ class SiteController extends CI_Controller
         $this->form_validation->set_error_delimiters('<div class="errorMessage">', '</div><br>');
     }
 
-
+    /**
+     * Loads the profile edit/update page to gather additional data such as Profile name, email address, Avatar image URL, Genres that the user likes.
+     */
     public function profile() {
+
+        //custom method to prevent users to get access pages using URL without properly logging in.
         if(!$this->session->userdata('user_logged_in')) {
             redirect(base_url('/user/login'));
         }
@@ -30,7 +35,9 @@ class SiteController extends CI_Controller
         $this->load->view('footer');
     }
 
-
+    /**
+     * Loads the home page of a logged in user.
+     */
     public function homepage() {
         if(!$this->session->userdata('user_logged_in')) {
             redirect(base_url('/user/login'));
@@ -41,7 +48,9 @@ class SiteController extends CI_Controller
         $this->load->view('footer');
     }
 
-
+    /**
+     * Loads the timeline page where the user will be able to see both his posts and the posts of the users' he's following.
+     */
     public function timelinePage() {
         if(!$this->session->userdata('user_logged_in')) {
             redirect(base_url('/user/login'));
@@ -54,7 +63,9 @@ class SiteController extends CI_Controller
         $this->load->view('footer');
     }
 
-
+    /**
+     * Loads the search page where the user will be able to find other users under a selected genre.
+     */
     public function searchPage() {
         if(!$this->session->userdata('user_logged_in')) {
             redirect(base_url('/user/login'));
@@ -67,6 +78,9 @@ class SiteController extends CI_Controller
     }
 
 
+    /**
+     * Loads a selected user's public home page.
+     */
     public function viewUserProfile() {
         if(!$this->session->userdata('user_logged_in')) {
             redirect(base_url('/user/login'));

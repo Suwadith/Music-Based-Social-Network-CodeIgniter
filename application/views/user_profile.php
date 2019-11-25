@@ -61,10 +61,6 @@
 
 </div>
 
-<script language="javascript">
-    document.title = "Profile";
-</script>
-
 
 <script>
     document.title = "Edit Profile";

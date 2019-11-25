@@ -10,7 +10,7 @@ class UserController extends CI_Controller {
 
     /**
      * UserController constructor.
-     * Loads the UserManager model to deal with login/registration/logout tasks
+     * Loads the UserManager model to deal with login/registration/logout tasks.
      */
     public function __construct() {
         parent::__construct();
@@ -19,20 +19,27 @@ class UserController extends CI_Controller {
         $this->form_validation->set_error_delimiters('<div class="errorMessage">', '</div><br>');
     }
 
-
+    /**
+     * Loading the needed components for the login page.
+     */
     public function login() {
         $this->load->view('header');
         $this->load->view('user_login');
         $this->load->view('footer');
     }
 
-
+    /**
+     * Loading the needed components for the registration page.
+     */
     public function registration() {
         $this->load->view('header');
         $this->load->view('user_registration');
         $this->load->view('footer');
     }
 
+    /**
+     * Performs the needed validations for a user to get registered properly.
+     */
     public function registerUser() {
         $this->form_validation->set_rules('username', 'Username', 'trim|required|min_length[5]|max_length[12]|is_unique[user.username]',
             array('min_length' => 'Username length has to be between 5 & 12 characters.',
@@ -59,7 +66,9 @@ class UserController extends CI_Controller {
         }
     }
 
-
+    /**
+     * Performs the needed validations for a user to get logged in properly.
+     */
     public function loginUser() {
         $this->form_validation->set_rules('username', 'Username', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'required');
@@ -83,6 +92,9 @@ class UserController extends CI_Controller {
         }
     }
 
+    /**
+     * logs out the user.
+     */
     public function logoutUser() {
         $this->session->unset_userdata('username');
         $this->session->unset_userdata('userId');
