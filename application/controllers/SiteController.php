@@ -199,8 +199,8 @@ class SiteController extends CI_Controller
         }
         $postId = $this->uri->segment(3);
         $editPostResult = $this->PostManager->editSelectedPost($postId);
-        if($this->session->userdata('userId') != $editPostResult[0]->getUserId()){
-            redirect('/UserController/login');
+        if($this->PostManager->getPostOwnerId($postId) === 'Error' OR $this->session->userdata('userId') != $editPostResult[0]->getUserId()){
+            redirect('/SiteController/homepage');
         }
         $this->load->view('header');
         $this->load->view('navigation_bar');
@@ -275,18 +275,15 @@ class SiteController extends CI_Controller
         }
         $currentUserId = $userId = $this->session->userdata('userId');
         $userId = $postId = $this->uri->segment(3);
+        if($this->UserManager->checkIfUserExists($userId) === 'Error') {
+            redirect('/SiteController/homepage');
+        }
         $profileResult = $this->UserManager->getProfileData($userId);
         $postResult = $this->PostManager->retrievePosts($userId);
-        $followingResult = $this->UserManager->getFollowing($userId);
-        $followerResult = $this->UserManager->getFollowers($userId);
-        $friendsResult = $this->UserManager->getFriends($userId);
         $ifFollowingResult = $this->UserManager->findIfFollowing($currentUserId, $userId);
         $this->load->view('user_profile_page', array('posts' => $postResult,
             'profileData' => $profileResult[0],
             'genreData' => $profileResult[1],
-            'followingData' => $followingResult,
-            'followerData' => $followerResult,
-            'friendsData' => $friendsResult,
             'isFollowing' => $ifFollowingResult));
     }
 

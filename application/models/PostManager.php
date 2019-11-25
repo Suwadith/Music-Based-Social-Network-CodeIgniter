@@ -81,6 +81,7 @@ class PostManager extends CI_Model {
         }
     }
 
+
     public function getPostOwnerId($postId) {
         $this->db->select('userId');
         $this->db->where('postId', $postId);
@@ -88,6 +89,8 @@ class PostManager extends CI_Model {
 
         if ($ownerResult->num_rows() > 0) {
             return $ownerResult->row(0)->userId;
+        } else {
+            return 'Error';
         }
 
     }

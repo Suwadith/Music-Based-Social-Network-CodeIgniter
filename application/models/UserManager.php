@@ -222,5 +222,17 @@ class UserManager extends CI_Model
         }
     }
 
+    public function checkIfUserExists($userId) {
+        $this->db->select('userId');
+        $this->db->where('userId', $userId);
+        $userResult = $this->db->get('user');
+
+        if ($userResult->num_rows() > 0) {
+            return $userResult->row(0)->userId;
+        } else {
+            return 'Error';
+        }
+    }
+
 
 }
