@@ -11,20 +11,20 @@
 
 </style>
 <div class="ui secondary pointing menu">
-    <a class="item" href="<?php echo base_url('/user/timeline'); ?>">
+    <a class="item" href="<?php echo site_url('/SiteController/timelinePage'); ?>">
         Timeline
     </a>
-    <a class="item" href="<?php echo base_url('/user/home'); ?>">
+    <a class="item" href="<?php echo site_url('/SiteController/homePage'); ?>">
         Home
     </a>
-    <a class="item" href="<?php echo base_url('/user/search'); ?>">
+    <a class="item" href="<?php echo site_url('/SiteController/searchPage'); ?>">
         Search
     </a>
-    <a class="item" href="<?php echo base_url('/user/connections'); ?>">
+    <a class="item" href="<?php echo site_url('/SiteController/connections'); ?>">
         Connections
     </a>
     <div class="right menu">
-        <a class="ui item" href="<?php echo base_url('/user/logout'); ?>">
+        <a class="ui item" href="<?php echo site_url('/UserController/logoutUser'); ?>">
             Logout
         </a>
     </div>

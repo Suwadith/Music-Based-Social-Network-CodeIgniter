@@ -36,7 +36,7 @@
             <div class="ui container segment">
                 <?php echo validation_errors(); ?>
 
-                <?php echo form_open(base_url('user/update/post/' . $posts[0]->getPostId())); ?>
+                <?php echo form_open(site_url('/SiteController/updatePost/' . $posts[0]->getPostId())); ?>
 
                     <div class="ui form">
                         <div class="field">

@@ -83,7 +83,7 @@ class UserController extends CI_Controller {
 
             if (gettype($userData) !== 'string') {
                 $this->session->set_userdata($userData);
-                redirect(base_url('/user/home'));
+                redirect('/SiteController/homepage');
 
             }else{
                 $this->session->set_userdata('errorMsg', $userData);
@@ -100,7 +100,7 @@ class UserController extends CI_Controller {
         $this->session->unset_userdata('userId');
         $this->session->unset_userdata('logged_in');
         $this->session->sess_destroy();
-        redirect(base_url('/user/login'));
+        redirect('/UserController/login');
     }
 
 }

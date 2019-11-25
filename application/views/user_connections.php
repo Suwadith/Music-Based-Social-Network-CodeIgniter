@@ -24,7 +24,7 @@
                     <img class="ui avatar image" src="<?php echo $following->getAvatarUrl(); ?>">
                     <div class="content">
                         <div class="header">
-                            <a href="<?php echo base_url('/user/view/profile/' . $following->getUserId()); ?>">
+                            <a href="<?php echo site_url('/SiteController/viewUserProfile/' . $following->getUserId()); ?>">
                                 <?php echo $following->getUserName(); ?>
                             </a>
                         </div>
@@ -48,7 +48,7 @@
                     <img class="ui avatar image" src="<?php echo $follower->getAvatarUrl(); ?>">
                     <div class="content">
                         <div class="header">
-                            <a href="<?php echo base_url('/user/view/profile/' . $follower->getUserId()); ?>">
+                            <a href="<?php echo site_url('/SiteController/viewUserProfile/' . $follower->getUserId()); ?>">
                                 <?php echo $follower->getUserName(); ?>
                             </a>
                         </div>
@@ -72,7 +72,7 @@
                     <img class="ui avatar image" src="<?php echo $friends->getAvatarUrl(); ?>">
                     <div class="content">
                         <div class="header">
-                            <a href="<?php echo base_url('/user/view/profile/' . $friends->getUserId()); ?>">
+                            <a href="<?php echo site_url('/SiteController/viewUserProfile/' . $friends->getUserId()); ?>">
                                 <?php echo $friends->getUserName(); ?>
                             </a>
                         </div>

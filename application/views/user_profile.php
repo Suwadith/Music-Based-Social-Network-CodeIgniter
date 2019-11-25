@@ -15,7 +15,7 @@
 <div class="ui segment">
     <?php echo validation_errors(); ?>
 
-    <?php echo form_open(base_url('/user/create/profile')); ?>
+    <?php echo form_open(site_url('/SiteController/createProfile')); ?>
     <div class="profile_form">
         <div class="ui segment ui input focus">
             <input type="text" id="profileName" name="profileName" placeholder="Profile Name"
@@ -53,13 +53,17 @@
     <?php echo form_close(); ?>
 
     <div class="profile_form">
-        <a style="text-align: center" href="<?php echo base_url('/user/delete/profile'); ?>">
+        <a style="text-align: center" href="<?php echo site_url('/SiteController/deleteProfile'); ?>">
             <button class="ui red button">Delete Account</button>
         </a>
     </div>
 
 
 </div>
+
+<script language="javascript">
+    document.title = "Profile";
+</script>
 
 
 <script>

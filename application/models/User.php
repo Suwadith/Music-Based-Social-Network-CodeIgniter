@@ -14,6 +14,13 @@ class User extends CI_Model {
     public $userEmail;
     public $avatarUrl;
 
+    /**
+     * @param $username
+     * @param $password
+     * @param $userEmail
+     *
+     * Method to set important user data on registration on to the user object.
+     */
     public function createUser($username, $password, $userEmail) {
         $this->username = $username;
         $this->password = $password;
@@ -21,6 +28,13 @@ class User extends CI_Model {
     }
 
 
+    /**
+     * @param $profileName
+     * @param $avatarUrl
+     * @param $userEmail
+     *
+     * Method to update profile data
+     */
     public function updateProfileData($profileName, $avatarUrl, $userEmail) {
         $this->profileName = $profileName;
         if(empty($avatarUrl)) {

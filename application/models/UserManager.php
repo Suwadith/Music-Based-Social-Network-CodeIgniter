@@ -9,11 +9,22 @@
 class UserManager extends CI_Model
 {
 
+    /**
+     * UserManager constructor.
+     * Loaded the DB connection module to do DB functions.
+     */
     public function __construct() {
         $this->load->database();
     }
 
 
+    /**
+     * @param $username
+     * @param $password
+     * @param $emailAddress
+     *
+     * Registering a new user with the above parameters
+     */
     public function registerUser($username, $password, $emailAddress) {
 
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
@@ -36,6 +47,13 @@ class UserManager extends CI_Model
     }
 
 
+    /***
+     * @param $username
+     * @param $password
+     * @return array|string
+     *
+     * Logging in user. Returning string value to display login errors.
+     */
     public function loginUser($username, $password) {
         $this->db->where('username', $username);
         $result = $this->db->get('user');
@@ -53,7 +71,15 @@ class UserManager extends CI_Model
         }
     }
 
-
+    /**
+     * @param $userId
+     * @param $formProfileName
+     * @param $formAvatarUrl
+     * @param $formGenres
+     * @param $formEmail
+     *
+     * Sending needed parameters to create/update the profile of a new user.
+     */
     public function createProfile($userId, $formProfileName, $formAvatarUrl, $formGenres, $formEmail) {
         $this->db->where('userId', $userId);
         $userResult = $this->db->get('user');
@@ -77,7 +103,12 @@ class UserManager extends CI_Model
         }
     }
 
-
+    /**
+     * @param $userId
+     * @return array
+     *
+     * Gathering User and Genre data of a selected user.
+     */
     public function getProfileData($userId) {
         $this->db->where('userId', $userId);
         $output = array();
@@ -96,12 +127,23 @@ class UserManager extends CI_Model
     }
 
 
+    /**
+     * @param $userId
+     *
+     * Deleting user.
+     */
     public function deleteProfileData($userId) {
         $this->db->where('userId', $userId);
         $this->db->delete('user');
     }
 
-
+    /**
+     * @param $userId
+     * @param $selectedGenre
+     * @return array
+     *
+     * populating the search page with proper follow/unfollow buttons by combining all 3 connection, genre & user tables.
+     */
     public function searchUsers($userId, $selectedGenre) {
         $followingList = array();
         $nonFollowingList = array();
@@ -152,19 +194,24 @@ class UserManager extends CI_Model
     public function userActions($userId, $actionType, $foundUserId) {
         if ($actionType !== null && $foundUserId !== null) {
 
-            if ($actionType === 'follow') {
+            if ($actionType === 'followUser') {
                 $followObj = new Connection();
                 $followObj->setUserIds($userId, $foundUserId);
-                $this->db->insert('Connection', $followObj);
+                $this->db->insert('connection', $followObj);
 
-            } elseif ($actionType === 'unfollow') {
+            } elseif ($actionType === 'unfollowUser') {
                 $followObj = new Connection();
-                $this->db->delete('Connection', array('currentUserId' => $userId, 'followingUserId' => $foundUserId));
+                $this->db->delete('connection', array('currentUserId' => $userId, 'followingUserId' => $foundUserId));
             }
         }
     }
 
-
+    /**
+     * @param $userId
+     * @return mixed
+     *
+     * Method to populate follower list.
+     */
     public function getFollowers($userId) {
         $this->db->select('connection.currentUserId as userId, connection.followingUserId, user.username, user.avatarUrl');
         $this->db->from('user');
@@ -178,7 +225,12 @@ class UserManager extends CI_Model
         }
     }
 
-
+    /**
+     * @param $userId
+     * @return mixed
+     *
+     * Method to populate following user list.
+     */
     public function getFollowing($userId) {
         $this->db->select('connection.currentUserId, connection.followingUserId as userId, user.username, user.avatarUrl');
         $this->db->from('user');
@@ -193,6 +245,12 @@ class UserManager extends CI_Model
     }
 
 
+    /**
+     * @param $userId
+     * @return mixed
+     *
+     * Method to find friends (Following & Followed)
+     */
     public function getFriends($userId) {
 
         $this->db->select('t1.followingUserId as userId, user.avatarUrl, user.username');
@@ -208,7 +266,13 @@ class UserManager extends CI_Model
         }
     }
 
-
+    /**
+     * @param $userId
+     * @param $profileUserId
+     * @return bool
+     *
+     * Method to find only the following users.
+     */
     public function findIfFollowing($userId, $profileUserId) {
         $this->db->select('connection.currentUserId, connection.followingUserId');
         $this->db->from('connection');
@@ -222,6 +286,12 @@ class UserManager extends CI_Model
         }
     }
 
+    /**
+     * @param $userId
+     * @return string
+     *
+     * Validation to prevent unauthorized URL manipulation
+     */
     public function checkIfUserExists($userId) {
         $this->db->select('userId');
         $this->db->where('userId', $userId);

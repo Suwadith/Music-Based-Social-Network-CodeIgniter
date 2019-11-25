@@ -15,6 +15,8 @@ class Genre extends CI_Model {
      * Genre constructor.
      * @param $userId
      * @param $likedGenres
+     *
+     * adding genres to the genre table of a specific user using his user id.
      */
     public function setGenres($userId, $likedGenres) {
         $this->userId = $userId;
@@ -23,6 +25,8 @@ class Genre extends CI_Model {
 
     /**
      * @return mixed
+     *
+     * Return liked genres and returns empty string if genre hasn't been set by the user.
      */
     public function getLikedGenres() {
 
@@ -36,6 +40,8 @@ class Genre extends CI_Model {
 
     /**
      * @return string
+     *
+     * Capitalizing the file letter of each favorite genre and returning them to display on user's profile page.
      */
     public function getTransformedLikedGenres() {
 

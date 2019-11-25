@@ -76,7 +76,7 @@
                     </div>
                     <div class="extra content">
                         <a>
-                            <a href="<?php echo base_url('/user/edit/profile'); ?>">
+                            <a href="<?php echo site_url('/SiteController/profile'); ?>">
                                 <button class="ui blue button">Edit Profile</button>
                             </a>
                         </a>
@@ -90,7 +90,7 @@
 <div class="ui raised very padded text container segment">
     <?php echo validation_errors(); ?>
 
-    <?php echo form_open(base_url('/user/create/post')); ?>
+    <?php echo form_open(site_url('/SiteController/createHomePost')); ?>
     <div class="ui form">
         <div class="field">
             <label>Post Content</label>
@@ -123,10 +123,10 @@
                             <i class="dropdown icon"></i>
                             <div class="menu">
                                 <div class="item"><a
-                                            href="<?php echo base_url('/user/edit/post/' . $obj->getPostId()); ?>">Edit
+                                            href="<?php echo site_url('/SiteController/editPost/' . $obj->getPostId()); ?>">Edit
                                         Post</a></div>
                                 <div class="item"><a
-                                            href="<?php echo base_url('/user/delete/post/' . $obj->getPostId()); ?>">Delete
+                                            href="<?php echo site_url('/SiteController/deletePost/' . $obj->getPostId()); ?>">Delete
                                         Post</a></div>
                             </div>
                         </div>

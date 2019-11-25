@@ -13,7 +13,13 @@ class Post extends CI_Model{
     public $dateTime;
     public $userId;
 
-
+    /**
+     * @param $postContent
+     * @param $dateTime
+     * @param $userId
+     *
+     * Method to create a post.
+     */
     public function createPost($postContent, $dateTime, $userId) {
         $this->postContent = $postContent;
         $this->dateTime = $dateTime;
@@ -22,6 +28,8 @@ class Post extends CI_Model{
 
     /**
      * @return mixed
+     *
+     * Method to display images and urls in proper formats using regex
      */
     public function getPostContent() {
 

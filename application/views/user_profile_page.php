@@ -86,11 +86,11 @@
                         <div class="extra content">
 
                             <?php if ($isFollowing) { ?>
-                                <a href="<?php echo base_url('/user/unfollow/' . $profileData[0]->getUserId()); ?>">
+                                <a href="<?php echo site_url('/SiteController/unfollowUser/' . $profileData[0]->getUserId()); ?>">
                                     <button class="ui blue button">Unfollow</button>
                                 </a>
                             <?php } else { ?>
-                                <a href="<?php echo base_url('/user/follow/' . $profileData[0]->getUserId()); ?>">
+                                <a href="<?php echo site_url('/SiteController/followUser/' . $profileData[0]->getUserId()); ?>">
                                     <button class="ui blue button">Follow</button>
                                 </a>
                             <?php } ?>
