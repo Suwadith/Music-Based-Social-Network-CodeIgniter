@@ -19,7 +19,7 @@ class SiteController extends CI_Controller
 
     public function profile() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $userId = $this->session->userdata('userId');
         $this->load->view('header');
@@ -33,7 +33,7 @@ class SiteController extends CI_Controller
 
     public function homepage() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $this->load->view('header');
         $this->load->view('navigation_bar');
@@ -44,7 +44,7 @@ class SiteController extends CI_Controller
 
     public function timelinePage() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $userId = $this->session->userdata('userId');
         $this->load->view('header');
@@ -57,7 +57,7 @@ class SiteController extends CI_Controller
 
     public function searchPage() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $this->load->view('header');
         $this->load->view('navigation_bar');
@@ -69,7 +69,7 @@ class SiteController extends CI_Controller
 
     public function viewUserProfile() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $this->load->view('header');
         $this->load->view('navigation_bar');
@@ -79,7 +79,7 @@ class SiteController extends CI_Controller
 
     public function connections() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $userId = $this->session->userdata('userId');
         $this->load->view('header');
@@ -96,7 +96,7 @@ class SiteController extends CI_Controller
 
     public function createProfile() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $this->form_validation->set_rules('profileName', 'Profile Name', 'trim|required|min_length[8]|max_length[32]|is_unique[user.username]',
             array('min_length' => 'Username length has to be between 8 & 32 characters.',
@@ -120,7 +120,7 @@ class SiteController extends CI_Controller
             $formGenres = $this->input->post('genres');
             $formEmail = $this->input->post('emailAddress');
             $createProfileResult = $this->UserManager->createProfile($userId, $formProfileName, $formAvatarUrl, $formGenres, $formEmail);
-            redirect('/SiteController/homepage');
+            redirect(base_url('/user/home'));
         }
 
     }
@@ -128,17 +128,17 @@ class SiteController extends CI_Controller
 
     public function deleteProfile() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $userId = $this->session->userdata('userId');
         $deleteProfileResult = $this->UserManager->deleteProfileData($userId);
-        $this->logoutUser();
+        redirect(base_url('/user/logout'));
     }
 
 
     public function displayProfileData() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $userId = $this->session->userdata('userId');
         $profileResult = $this->UserManager->getProfileData($userId);
@@ -157,7 +157,7 @@ class SiteController extends CI_Controller
 
     public function createHomePost() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $this->form_validation->set_rules('postContent', 'Post Content', 'required|max_length[140]',
             array('max_length' => 'Maximum character length of a post is 140.'));
@@ -169,14 +169,14 @@ class SiteController extends CI_Controller
             $postData = $this->input->post('postContent');
             $userId = $this->session->userdata('userId');
             $createPostResult = $this->PostManager->createPost($postData, $userId);
-            redirect('/SiteController/homepage');
+            redirect(base_url('/user/home'));
         }
     }
 
 
     public function createTimelinePost() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $this->form_validation->set_rules('postContent', 'Post Content', 'required|max_length[140]',
             array('max_length' => 'Maximum character length of a post is 140.'));
@@ -188,19 +188,19 @@ class SiteController extends CI_Controller
             $postData = $this->input->post('postContent');
             $userId = $this->session->userdata('userId');
             $createPostResult = $this->PostManager->createPost($postData, $userId);
-            redirect('/SiteController/timelinePage');
+            redirect(base_url('/user/timeline'));
         }
     }
 
 
     public function editPost() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
-        $postId = $this->uri->segment(3);
+        $postId = $this->uri->segment(4);
         $editPostResult = $this->PostManager->editSelectedPost($postId);
         if($this->PostManager->getPostOwnerId($postId) === 'Error' OR $this->session->userdata('userId') != $editPostResult[0]->getUserId()){
-            redirect('/SiteController/homepage');
+            redirect(base_url('/user/home'));
         }
         $this->load->view('header');
         $this->load->view('navigation_bar');
@@ -211,7 +211,7 @@ class SiteController extends CI_Controller
 
     public function updatePost() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $this->form_validation->set_rules('postContent', 'Post Content', 'required|max_length[140]',
             array('max_length' => 'Maximum character length of a post is 140.'));
@@ -221,42 +221,42 @@ class SiteController extends CI_Controller
 
         } else {
             $postContent = $this->input->post('postContent');
-            $postId = $this->uri->segment(3);
+            $postId = $this->uri->segment(4);
             $updatePostResult = $this->PostManager->updateSelectedPost($postId, $postContent);
-            redirect('/SiteController/homepage');
+            redirect(base_url('/user/home'));
         }
     }
 
 
     public function deletePost() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
-        $postId = $this->uri->segment(3);
+        $postId = $this->uri->segment(4);
         if($this->session->userdata('userId') != $this->PostManager->getPostOwnerId($postId)){
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $deletePostResult = $this->PostManager->deleteSelectedPost($postId);
-        redirect('/SiteController/homepage');
+        redirect(base_url('/user/home'));
     }
 
 
     public function searchUser() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $userId = $this->session->userdata('userId');
         $this->session->selectedGenre = $this->input->post('genres');
         $searchResult = $this->UserManager->searchUsers($userId, $this->session->selectedGenre);
         $this->session->searchResult = $searchResult;
-        redirect('/SiteController/searchPage');
+        redirect(base_url('/user/search'));
 
     }
 
 
     public function displaySearch() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $emptyResult = '';
         $userId = $this->session->userdata('userId');
@@ -271,12 +271,12 @@ class SiteController extends CI_Controller
 
     public function loadUserProfile() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $currentUserId = $userId = $this->session->userdata('userId');
-        $userId = $postId = $this->uri->segment(3);
+        $userId = $postId = $this->uri->segment(4);
         if($this->UserManager->checkIfUserExists($userId) === 'Error') {
-            redirect('/SiteController/homepage');
+            redirect(base_url('/user/home'));
         }
         $profileResult = $this->UserManager->getProfileData($userId);
         $postResult = $this->PostManager->retrievePosts($userId);
@@ -290,26 +290,26 @@ class SiteController extends CI_Controller
 
     public function followUser() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $userId = $this->session->userdata('userId');
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
         $actionResult = $this->UserManager->userActions($userId, $actionType, $foundUserId);
-        redirect('/SiteController/homepage');
+        redirect(base_url('/user/home'));
 
     }
 
 
     public function unfollowUser() {
         if(!$this->session->userdata('user_logged_in')) {
-            redirect('/UserController/login');
+            redirect(base_url('/user/login'));
         }
         $userId = $this->session->userdata('userId');
         $actionType = $this->uri->segment(2);
         $foundUserId = $this->uri->segment(3);
         $actionResult = $this->UserManager->userActions($userId, $actionType, $foundUserId);
-        redirect('/SiteController/homepage');
+        redirect(base_url('/user/home'));
     }
 
 

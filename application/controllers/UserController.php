@@ -8,12 +8,17 @@
 
 class UserController extends CI_Controller {
 
+    /**
+     * UserController constructor.
+     * Loads the UserManager model to deal with login/registration/logout tasks
+     */
     public function __construct() {
         parent::__construct();
 
         $this->load->model('UserManager');
         $this->form_validation->set_error_delimiters('<div class="errorMessage">', '</div><br>');
     }
+
 
     public function login() {
         $this->load->view('header');
@@ -69,7 +74,7 @@ class UserController extends CI_Controller {
 
             if (gettype($userData) !== 'string') {
                 $this->session->set_userdata($userData);
-                redirect('/SiteController/homepage');
+                redirect(base_url('/user/home'));
 
             }else{
                 $this->session->set_userdata('errorMsg', $userData);
@@ -83,7 +88,7 @@ class UserController extends CI_Controller {
         $this->session->unset_userdata('userId');
         $this->session->unset_userdata('logged_in');
         $this->session->sess_destroy();
-        redirect('/UserController/login');
+        redirect(base_url('/user/login'));
     }
 
 }

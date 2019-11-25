@@ -51,7 +51,7 @@
 <div class="ui raised very padded text container segment">
     <?php echo validation_errors(); ?>
 
-    <?php echo form_open(site_url('/SiteController/createTimelinePost')); ?>
+    <?php echo form_open(base_url('/user/create/timelinepost')); ?>
 
     <div class="ui form">
         <div class="field">
@@ -76,7 +76,7 @@
                     <div class="postAvatarImage">
                         <p>
                             <a class="userTitle"
-                               href="<?php echo site_url('/SiteController/viewUserProfile/' . $post->userId) ?>">
+                               href="<?php echo base_url('/user/view/profile/' . $post->userId) ?>">
                                 <img align="top" src="<?php echo $post->avatarUrl; ?>">
                                 <?php if ($post->profileName !== NULL) { ?>
                                     <b style="margin-left: 10px;"><?php echo $post->profileName; ?></b><?php echo ' @' . $post->username; ?>
@@ -91,10 +91,10 @@
                                 <i class="dropdown icon"></i>
                                 <div class="menu">
                                     <div class="item"><a
-                                                href="<?php echo site_url('/SiteController/editPost/' . $post->postId); ?>">Edit
+                                                href="<?php echo base_url('/user/edit/post/' . $post->postId); ?>">Edit
                                             Post</a></div>
                                     <div class="item"><a
-                                                href="<?php echo site_url('/SiteController/deletePost/' . $post->postId); ?>">Delete
+                                                href="<?php echo base_url('/user/delete/post/' . $post->postId); ?>">Delete
                                             Post</a></div>
                                 </div>
                             </div>

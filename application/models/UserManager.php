@@ -152,12 +152,12 @@ class UserManager extends CI_Model
     public function userActions($userId, $actionType, $foundUserId) {
         if ($actionType !== null && $foundUserId !== null) {
 
-            if ($actionType === 'followUser') {
+            if ($actionType === 'follow') {
                 $followObj = new Connection();
                 $followObj->setUserIds($userId, $foundUserId);
                 $this->db->insert('Connection', $followObj);
 
-            } elseif ($actionType === 'unfollowUser') {
+            } elseif ($actionType === 'unfollow') {
                 $followObj = new Connection();
                 $this->db->delete('Connection', array('currentUserId' => $userId, 'followingUserId' => $foundUserId));
             }

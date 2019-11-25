@@ -15,7 +15,7 @@
 </style>
 
 <div class="ui raised very padded text container segment center aligned">
-    <form class="search_users" action="<?php echo site_url('/SiteController/searchUser'); ?>" method="post">
+    <form class="search_users" action="<?php echo base_url('/user/usersearch'); ?>" method="post">
         <div class="move">
             <div class="ui fluid inner search selection dropdown">
                 <input type="hidden" name="genres" id="genres">
@@ -45,24 +45,24 @@
         <?php foreach ($usersList[0] as $key => $value) { ?>
             <div class="item">
                 <div class="right floated content">
-                    <a class="follow_user" href="<?php echo site_url('/SiteController/unfollowUser/') . $key; ?>">
+                    <a class="follow_user" href="<?php echo base_url('/user/unfollow/') . $key; ?>">
                         <div class="ui button red">Unfollow</div>
                     </a>
                 </div>
                 <div class="content">
-                    <a href="<?php echo site_url('/SiteController/viewUserProfile/') . $key ?>"><?php echo $value; ?></a>
+                    <a href="<?php echo base_url('/user/view/profile/') . $key ?>"><?php echo $value; ?></a>
                 </div>
             </div>
         <?php } ?>
         <?php foreach ($usersList[1] as $key => $value) { ?>
             <div class="item">
                 <div class="right floated content">
-                    <a class="follow_user" href="<?php echo site_url('/SiteController/followUser/') . $key; ?>">
+                    <a class="follow_user" href="<?php echo base_url('/user/follow/') . $key; ?>">
                         <div class="ui button blue">Follow</div>
                     </a>
                 </div>
                 <div class="content">
-                    <a href="<?php echo site_url('/SiteController/viewUserProfile/') . $key ?>"><?php echo $value; ?></a>
+                    <a href="<?php echo base_url('/user/view/profile/') . $key ?>"><?php echo $value; ?></a>
                 </div>
             </div>
         <?php } ?>
@@ -75,12 +75,12 @@
                 <div class="item">
                     <div class="right floated content">
                         <a class="follow_user"
-                           href="<?php echo site_url('/SiteController/followUser/') . $obj->getUserId(); ?>">
+                           href="<?php echo base_url('/user/follow/') . $obj->getUserId(); ?>">
                             <div class="ui button blue">Follow</div>
                         </a>
                     </div>
                     <div class="content">
-                        <a href="<?php echo site_url('/SiteController/viewUserProfile/') . $obj->getUserId(); ?>"><?php echo $obj->getUsername(); ?></a>
+                        <a href="<?php echo base_url('/user/view/profile/') . $obj->getUserId(); ?>"><?php echo $obj->getUsername(); ?></a>
                     </div>
                 </div>
             <?php } ?>

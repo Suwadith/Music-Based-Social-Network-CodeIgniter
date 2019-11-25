@@ -49,6 +49,29 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'SiteController';
+$route['default_controller'] = 'UserController';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['user/login'] = 'UserController/login';
+$route['user/loginuser'] = 'UserController/loginUser';
+$route['user/register'] = 'UserController/registration';
+$route['user/registeruser'] = 'UserController/registerUser';
+$route['user/logout'] = 'UserController/logoutUser';
+$route['user/home'] = 'SiteController/homepage';
+$route['user/timeline'] = 'SiteController/timelinePage';
+$route['user/search'] = 'SiteController/searchPage';
+$route['user/usersearch'] = 'SiteController/searchUser';
+$route['user/connections'] = 'SiteController/connections';
+$route['user/edit/profile'] = 'SiteController/profile';
+$route['user/create/profile'] = 'SiteController/createProfile';
+$route['user/delete/profile'] = 'SiteController/deleteProfile';
+$route['user/view/profile/(:num)'] = 'SiteController/viewUserProfile/$1';
+$route['user/edit/post/(:num)'] = '/SiteController/editPost/$1';
+$route['user/update/post/(:num)'] = '/SiteController/updatePost/$1';
+$route['user/create/post'] = 'SiteController/createHomePost';
+$route['user/delete/post/(:num)'] = '/SiteController/deletePost/$1';
+$route['user/unfollow/(:num)'] = '/SiteController/unfollowUser/$1';
+$route['user/follow/(:num)'] = '/SiteController/followUser/$1';
+$route['user/create/timelinepost'] = '/SiteController/createTimelinePost';
+
