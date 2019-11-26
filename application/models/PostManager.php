@@ -122,7 +122,7 @@ class PostManager extends CI_Model {
         $this->db->from('post');
         $this->db->join('connection', 'post.userId = connection.followingUserId');
         $this->db->join('user', 'connection.followingUserId = user.userId');
-        $this->db->where("connection.currentUserId = $userId OR post.userId = $userId");
+        $this->db->where("connection.currentUserId = $userId");
         $this->db->order_by('post.dateTime', 'desc');
         $timelineResult = $this->db->get();
 
