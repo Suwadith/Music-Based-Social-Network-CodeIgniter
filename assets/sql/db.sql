@@ -16,18 +16,23 @@ CREATE TABLE IF NOT EXISTS `user` (
 );
 
 CREATE TABLE IF NOT EXISTS `genre` (
-  `userId`      INT(128) NOT NULL PRIMARY KEY,
-  `likedGenres` VARCHAR(255)
+  `genreId` INT(128) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `userId`      INT(128) NOT NULL UNIQUE,
+  `likedGenres` VARCHAR(255),
+  FOREIGN KEY (`userId`) REFERENCES `user`(`userId`) ON DELETE CASCADE ON UPDATE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS `post` (
   `postId`      INT(128)   NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `userId`      INT(128)   NOT NULL,
   `postContent` MEDIUMTEXT NOT NULL,
   `dateTime`    TIMESTAMP  NOT NULL,
-  `userId`      INT(128)   NOT NULL
+  FOREIGN KEY (`userId`) REFERENCES `user`(`userId`) ON DELETE CASCADE ON UPDATE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS `connection` (
+  `connectionId` INT(128) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `currentUserId`   INT(128) NOT NULL,
-  `followingUserId` INT(128) NOT NULL
+  `followingUserId` INT(128) NOT NULL,
+  FOREIGN KEY (`currentUserId`) REFERENCES `user`(`userId`) ON DELETE CASCADE ON UPDATE RESTRICT
 );

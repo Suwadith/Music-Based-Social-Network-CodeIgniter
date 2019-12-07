@@ -217,6 +217,7 @@ class UserManager extends CI_Model
         $this->db->from('user');
         $this->db->join('connection', 'connection.currentUserId = user.userId ');
         $this->db->where('connection.followingUserId', $userId);
+//        $this->db->where_not_in('connection.currentUserId', $userId);
         $followerResult = $this->db->get();
 
         if ($followerResult->num_rows() > 0) {

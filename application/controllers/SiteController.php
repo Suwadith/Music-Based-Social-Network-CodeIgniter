@@ -150,7 +150,7 @@ class SiteController extends CI_Controller
         }
         $userId = $this->session->userdata('userId');
         $deleteProfileResult = $this->UserManager->deleteProfileData($userId);
-        $this->logoutUser();
+        redirect('/UserController/logoutUser');
     }
 
     /**

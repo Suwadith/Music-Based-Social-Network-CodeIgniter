@@ -39,7 +39,7 @@ class Post extends CI_Model{
         $regex_links = '~(?<!src=\')https?://\S+\b~';
 
         $output = preg_replace($regex_images, "<br> <img src='\\0'> <br>", $output);
-        $output = preg_replace($regex_links, "<a href='\\0'>\\0</a>", $output);
+        $output = preg_replace($regex_links, "<a href='\\0' target=\"_blank\">\\0</a>", $output);
 
         return $output;
     }

@@ -19,23 +19,43 @@
     </h3>
     <div class="ui middle aligned selection list userlist">
         <?php if ($followingData !== null) {
-            foreach ($followingData as $following) { ?>
-                <div class="item">
-                    <img class="ui avatar image" src="<?php echo $following->getAvatarUrl(); ?>">
-                    <div class="content">
-                        <div class="header">
-                            <a href="<?php echo site_url('/SiteController/viewUserProfile/' . $following->getUserId()); ?>">
-                                <?php echo $following->getUserName(); ?>
-                            </a>
+            foreach ($followingData as $following) {
+                if ($friendsData !== null) {
+                    foreach ($friendsData as $friends) {
+                        if ($following->getUserId() === $friends->getUserId()) {
+                            continue;
+                        } else { ?>
+                            <div class="item">
+                                <img class="ui avatar image" src="<?php echo $following->getAvatarUrl(); ?>">
+                                <div class="content">
+                                    <div class="header">
+                                        <a href="<?php echo site_url('/SiteController/viewUserProfile/' . $following->getUserId()); ?>">
+                                            <?php echo $following->getUserName(); ?>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+                    }
+                } else { ?>
+                    <div class="item">
+                        <img class="ui avatar image" src="<?php echo $following->getAvatarUrl(); ?>">
+                        <div class="content">
+                            <div class="header">
+                                <a href="<?php echo site_url('/SiteController/viewUserProfile/' . $following->getUserId()); ?>">
+                                    <?php echo $following->getUserName(); ?>
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php }
+                <?php }
+            }
         } else { ?>
-            <div class="errorMessage"> You haven't followed anyone. </div><br>
+            <div class="errorMessage"> You haven't followed anyone.</div><br>
         <?php } ?>
     </div>
 </div>
+
 
 <div class="ui raised very padded text container segment">
     <h3 class="ui dividing header">
@@ -56,7 +76,7 @@
                 </div>
             <?php }
         } else { ?>
-            <div class="errorMessage"> Users haven't followed you yet. </div><br>
+            <div class="errorMessage"> Users haven't followed you yet.</div><br>
         <?php } ?>
     </div>
 </div>
@@ -80,7 +100,7 @@
                 </div>
             <?php }
         } else { ?>
-            <div class="errorMessage"> You haven't made any friends yet. </div><br>
+            <div class="errorMessage"> You haven't made any friends yet.</div><br>
         <?php } ?>
     </div>
 </div>
