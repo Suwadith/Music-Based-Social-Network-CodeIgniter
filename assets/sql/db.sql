@@ -36,3 +36,20 @@ CREATE TABLE IF NOT EXISTS `connection` (
   `followingUserId` INT(128) NOT NULL,
   FOREIGN KEY (`currentUserId`) REFERENCES `user`(`userId`) ON DELETE CASCADE ON UPDATE RESTRICT
 );
+
+CREATE TABLE IF NOT EXISTS `contact_user` (
+  `contactId` INT(128) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `userId`      INT(128) NOT NULL,
+  `firstName` VARCHAR(30) NOT NULL,
+  `lastName` VARCHAR(30) NOT NULL,
+  `emailAddress` VARCHAR(90) NOT NULL,
+  `telephoneNumber` VARCHAR(16) NOT NULL,
+  FOREIGN KEY (`userId`) REFERENCES `user`(`userId`) ON DELETE CASCADE ON UPDATE RESTRICT
+);
+
+CREATE TABLE IF NOT EXISTS `contact_tag` (
+  `tegId` INT(128) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `contactId` INT(128) NOT NULL UNIQUE,
+  `relationalTag` VARCHAR(32),
+  FOREIGN KEY (`contactId`) REFERENCES `contact_user`(`contactId`) ON DELETE CASCADE ON UPDATE RESTRICT
+);

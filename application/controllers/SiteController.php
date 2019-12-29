@@ -107,6 +107,18 @@ class SiteController extends CI_Controller
         $this->load->view('footer');
     }
 
+
+    public function contactsList() {
+        if(!$this->session->userdata('user_logged_in')) {
+            redirect('/UserController/login');
+        }
+//        $userId = $this->session->userdata('userId');
+        $this->load->view('header');
+        $this->load->view('navigation_bar');
+        $this->load->view('user_contacts');
+        $this->load->view('footer');
+    }
+
     /**
      * Validations for handling editing/updating profile section
      */
