@@ -18,23 +18,37 @@ class ApiController extends RestController {
         parent::__construct($config);
         header('Access-Control-Allow-Origin: *');
         $this->load->model('ContactManager');
+        if(!$this->session->userdata('user_logged_in')) {
+            redirect('/UserController/login');
+        }
     }
 
     public function index_get() {
-
     }
 
     public function contact_get() {
         $userId = $this->session->userdata('userId');
-        $lastName = $this->uri->segment(3,false);
+//        $lastName = $this->uri->segment(3,false);
+//        $relationalTag = $this->uri->segment(4,false);
+        $lastName = $this->input->get('lastName');
+        $relationalTag = $this->input->get('relationalTag');
         $output = NULL;
-        if($lastName === false) {
-//            echo 'get all';
-            $output = $this->ContactManager->get_contacts($userId);
-        }else {
-//            echo $contactId;
-            $output = $this->ContactManager->get_contact($userId, urldecode($lastName));
+
+        if(empty($lastName) AND empty($relationalTag)) {
+            //fetch all
+            $output = $this->ContactManager->getAllContacts($userId);
+        }elseif(!empty($lastName) AND empty($relationalTag)) {
+            //fetch using name only
+            $output = $this->ContactManager->getLastNameContact($userId, urldecode($lastName));
+        }elseif(empty($lastName) AND !empty($relationalTag)) {
+            //fetch using tag only
+            $output = $this->ContactManager->getRelationalTagContact($userId, urldecode($relationalTag));
+//            echo urldecode($relationalTag);
+        }else{
+            //fetch using both name & tag
+            $output = $this->ContactManager->getBothContact($userId, urldecode($lastName), urldecode($relationalTag));
         }
+
 
         print_r(json_encode($output));
 
