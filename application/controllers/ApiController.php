@@ -27,6 +27,7 @@ class ApiController extends RestController {
     }
 
     public function contact_get() {
+        header('Content-type: application/json');
         $userId = $this->session->userdata('userId');
 //        $lastName = $this->uri->segment(3,false);
 //        $relationalTag = $this->uri->segment(4,false);
@@ -50,7 +51,8 @@ class ApiController extends RestController {
         }
 
 
-        print_r(json_encode($output));
+        print json_encode($output);
+
 
     }
 
