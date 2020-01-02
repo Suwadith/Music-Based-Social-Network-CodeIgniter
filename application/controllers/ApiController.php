@@ -57,15 +57,58 @@ class ApiController extends RestController {
     }
 
     public function contact_post() {
+        header('Content-type: application/json');
+        $userId = $this->session->userdata('userId');
+        $firstName = $this->input->post('firstName');
+        $lastName = $this->input->post('lastName');
+        $emailAddress = $this->input->post('emailAddress');
+        $telephoneNumber = $this->input->post('telephoneNumber');
+        $relationalTag = $this->input->post('relationalTag');
+        $output = NULL;
 
+         if(!empty($firstName) AND !empty($lastName) AND !empty($emailAddress) AND !empty($telephoneNumber) AND !empty($relationalTag)) {
+             $output = $this->ContactManager->addBothContact($userId, urldecode($firstName), urldecode($lastName),
+                 urldecode($emailAddress), urldecode($telephoneNumber), urldecode($relationalTag));
+         }elseif(!empty($firstName) AND !empty($lastName) AND !empty($emailAddress) AND !empty($telephoneNumber) AND empty($relationalTag)) {
+             $output = $this->ContactManager->addNormalContact($userId, urldecode($firstName), urldecode($lastName),
+                 urldecode($emailAddress), urldecode($telephoneNumber));
+         }
+        print json_encode($output);
     }
 
     public function contact_put() {
+        header('Content-type: application/json');
+        $userId = $this->session->userdata('userId');
+        $contactId = $this->put('contactId');
+        $firstName = $this->put('firstName');
+        $lastName = $this->put('lastName');
+        $emailAddress = $this->put('emailAddress');
+        $telephoneNumber = $this->put('telephoneNumber');
+        $relationalTag = $this->put('relationalTag');
+        $output = NULL;
+
+        if(!empty($contactId) AND !empty($firstName) AND !empty($lastName) AND !empty($emailAddress) AND !empty($telephoneNumber) AND !empty($relationalTag)) {
+            $output = $this->ContactManager->updateBothContact($userId, urldecode($contactId), urldecode($firstName), urldecode($lastName),
+                urldecode($emailAddress), urldecode($telephoneNumber), urldecode($relationalTag));
+        }elseif(!empty($contactId) AND !empty($firstName) AND !empty($lastName) AND !empty($emailAddress) AND !empty($telephoneNumber) AND empty($relationalTag)) {
+            $output = $this->ContactManager->updateNormalContact($userId, urldecode($contactId), urldecode($firstName), urldecode($lastName),
+                urldecode($emailAddress), urldecode($telephoneNumber));
+        }
+
+        print json_encode($output);
+
 
     }
 
     public function contact_delete() {
+        header('Content-type: application/json');
+        $userId = $this->session->userdata('userId');
+        $contactId = $this->uri->segment(3);
+        $output = NULL;
 
+        $output = $this->ContactManager->deleteContact($userId, $contactId);
+
+        print json_encode($output);
     }
 
 }

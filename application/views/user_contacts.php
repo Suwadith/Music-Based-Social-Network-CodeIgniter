@@ -28,7 +28,7 @@
 </style>
 
 <div class="search_contact_form" id="search_contact_form">
-    <form action="" method="GET">
+<!--    <form action="" method="GET">-->
     <div class="ui segment ui input focus textField">
         <input type="text" id="lastName" name="lastName" placeholder="Last Name / Surname" value="" required>
     </div>
@@ -46,11 +46,11 @@
         </div>
     </div>
     <br><br>
-    <button class="ui grey button" type="submit">Submit</button>
+    <button id="search" class="ui grey button" type="submit">Submit</button>
     <br><br>
-    </form>
+<!--    </form>-->
 
-    <div id="contactTitle">
+    <div id="searchData">
     </div>
 </div>
 <script>

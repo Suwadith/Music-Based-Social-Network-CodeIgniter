@@ -118,15 +118,87 @@ class ContactManager extends CI_Model {
 
 
 
-    public function add_contact($userId) {
+    public function addBothContact($userId, $firstName, $lastName, $emailAddress, $telephoneNumber, $relationalTag) {
+        $contact = array('userId' => $userId, 'firstName' => $firstName,
+            'lastName' => $lastName, 'emailAddress' => $emailAddress,
+            'telephoneNumber' => $telephoneNumber);
+
+        $this->db->trans_start();
+
+        $insertContactResult = $this->db->insert('contact_user', $contact);
+
+        $this->db->where('userId', $userId);
+        $this->db->order_by('contactId', 'desc');
+        $this->db->limit(1);
+        $getContactResult = $this->db->get('contact_user');
+
+        if ($getContactResult->num_rows() == 1) {
+
+            $contactId = $getContactResult->row(0)->contactId;
+            $tag = array('contactId' => $contactId, 'relationalTag' => $relationalTag);
+            $tagResult = $this->db->insert('contact_tag', $tag);
+            $this->db->trans_complete();
+        }
+
+
 
     }
 
-    public function update_contact($userId, $contactId) {
+    public function addNormalContact($userId, $firstName, $lastName, $emailAddress, $telephoneNumber) {
+        $contact = array('userId' => $userId, 'firstName' => $firstName,
+            'lastName' => $lastName, 'emailAddress' => $emailAddress,
+            'telephoneNumber' => $telephoneNumber);
+
+        $this->db->trans_start();
+
+        $insertContactResult = $this->db->insert('contact_user', $contact);
+
+        $this->db->where('userId', $userId);
+        $this->db->order_by('contactId', 'desc');
+        $this->db->limit(1);
+        $getContactResult = $this->db->get('contact_user');
+
+        if ($getContactResult->num_rows() == 1) {
+
+            $contactId = $getContactResult->row(0)->contactId;
+            $tag = array('contactId' => $contactId, 'relationalTag' => '');
+            $tagResult = $this->db->insert('contact_tag', $tag);
+            $this->db->trans_complete();
+        }
 
     }
 
-    public function delete_contact($userId, $contactId) {
+    public function updateBothContact($userId, $contactId, $firstName, $lastName, $emailAddress, $telephoneNumber, $relationalTag) {
+        $contact = array('firstName' => $firstName, 'lastName' => $lastName,
+            'emailAddress' => $emailAddress, 'telephoneNumber' => $telephoneNumber);
+
+        $tag = array('relationalTag' => $relationalTag);
+
+        $this->db->trans_start();
+        $this->db->where('userId', $userId);
+        $this->db->where('contactId', $contactId);
+        $contactResult = $this->db->update('contact_user', $contact);
+
+        $this->db->where('contactId', $contactId);
+        $tagResult = $this->db->update('contact_tag', $tag);
+        $this->db->trans_complete();
+
+    }
+
+    public function updateNormalContact($userId, $contactId, $firstName, $lastName, $emailAddress, $telephoneNumber) {
+        $contact = array('firstName' => $firstName, 'lastName' => $lastName,
+            'emailAddress' => $emailAddress, 'telephoneNumber' => $telephoneNumber);
+
+        $this->db->where('userId', $userId);
+        $this->db->where('contactId', $contactId);
+        $result = $this->db->update('contact_user', $contact);
+    }
+
+    public function deleteContact($userId, $contactId) {
+
+        $this->db->where('userId', $userId);
+        $this->db->where('contactId', $contactId);
+        $this->db->delete('contact_user');
 
     }
 
