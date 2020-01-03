@@ -1,26 +1,26 @@
 var ContactItemView = Backbone.View.extend({
     tagName: "li",
     initialize: function(options) {
-      if(!(options && options.model)){
-          throw new Error("model is not specified.");
-      }
+        if(!(options && options.model)){
+            throw new Error("model is not specified.");
+        }
 
         // this.model.on("destroy", this.onClickDelete, this);
     },
 
     events: {
-      "click #delete": "onClickDelete"
+        "click #delete": "onClickDelete"
     },
 
     onClickDelete: function() {
-      // console.log("Delete Clicked");
+        // console.log("Delete Clicked");
         this.model.destroy(
-        //     {
-        //     success: function() {
-        //         // $(event.currentTarget).closest('li').remove();
-        //         // console.log("Deleted");
-        //     }
-        // }
+            //     {
+            //     success: function() {
+            //         // $(event.currentTarget).closest('li').remove();
+            //         // console.log("Deleted");
+            //     }
+            // }
         );
     },
 

@@ -13,15 +13,15 @@ $(document).ready(function () {
     // ]);
 
     var contacts = new Contacts();
-    contacts.fetch(
-    //     {
-    //     success: function () {
-    //         // To get all contacts on load
-    //         var contactItemsView = new ContactItemsView({model: contacts});
-    //         $("#contactTitle").append(contactItemsView.render().$el);
-    //     }
-    // }
-    );
+    // contacts.fetch(
+    // //     {
+    // //     success: function () {
+    // //         // To get all contacts on load
+    // //         var contactItemsView = new ContactItemsView({model: contacts});
+    // //         $("#contactTitle").append(contactItemsView.render().$el);
+    // //     }
+    // // }
+    // );
 
     var contactItemsView = new ContactItemsView({model: contacts});
     $("#searchData").append(contactItemsView.render().$el);

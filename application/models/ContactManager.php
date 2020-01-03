@@ -42,12 +42,12 @@ class ContactManager extends CI_Model {
 
     public function getLastNameContact($userId, $lastName) {
         $contacts = array();
-        $this->db->select('contact_user.contactId, contact_user.userId, contact_user.firstName, 
+        $this->db->select('contact_user.contactId, contact_user.userId, contact_user.firstName,
         contact_user.lastName, contact_user.emailAddress, contact_user.telephoneNumber, contact_tag.relationalTag');
         $this->db->from('contact_user');
         $this->db->join('contact_tag', 'contact_tag.contactId = contact_user.contactId');
         $this->db->where('contact_user.userId', $userId);
-        $this->db->where('contact_user.lastName', $lastName);
+        $this->db->like('contact_user.lastName', $lastName);
         $this->db->order_by('contact_user.lastName', 'asc');
         $result = $this->db->get();
 
@@ -64,6 +64,7 @@ class ContactManager extends CI_Model {
         }
         return $contacts;
     }
+
 
     public function getRelationalTagContact($userId, $relationalTag) {
         $contacts = array();
@@ -92,12 +93,12 @@ class ContactManager extends CI_Model {
 
     public function getBothContact($userId, $lastName, $relationalTag) {
         $contacts = array();
-        $this->db->select('contact_user.contactId, contact_user.userId, contact_user.firstName, 
+        $this->db->select('contact_user.contactId, contact_user.userId, contact_user.firstName,
         contact_user.lastName, contact_user.emailAddress, contact_user.telephoneNumber, contact_tag.relationalTag');
         $this->db->from('contact_user');
         $this->db->join('contact_tag', 'contact_tag.contactId = contact_user.contactId');
         $this->db->where('contact_user.userId', $userId);
-        $this->db->where('contact_user.lastName', $lastName);
+        $this->db->like('contact_user.lastName', $lastName);
         $this->db->like('contact_tag.relationalTag', $relationalTag);
         $this->db->order_by('contact_user.lastName', 'asc');
         $result = $this->db->get();
