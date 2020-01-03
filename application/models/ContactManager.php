@@ -41,13 +41,15 @@ class ContactManager extends CI_Model {
     }
 
     public function getLastNameContact($userId, $lastName) {
+        $lastName = json_decode($lastName);
         $contacts = array();
-        $this->db->select('contact_user.contactId, contact_user.userId, contact_user.firstName, 
+        $this->db->select('contact_user.contactId, contact_user.userId, contact_user.firstName,
         contact_user.lastName, contact_user.emailAddress, contact_user.telephoneNumber, contact_tag.relationalTag');
         $this->db->from('contact_user');
         $this->db->join('contact_tag', 'contact_tag.contactId = contact_user.contactId');
         $this->db->where('contact_user.userId', $userId);
-        $this->db->where('contact_user.lastName', $lastName);
+//        $this->db->where('contact_user.lastName', $lastName);
+        $this->db->where_in('contact_user.lastName', $lastName);
         $this->db->order_by('contact_user.lastName', 'asc');
         $result = $this->db->get();
 
@@ -65,14 +67,42 @@ class ContactManager extends CI_Model {
         return $contacts;
     }
 
+//    public function getLastNameContact($userId, $lastName) {
+//        $contacts = array();
+//        $this->db->select('contact_user.contactId, contact_user.userId, contact_user.firstName,
+//        contact_user.lastName, contact_user.emailAddress, contact_user.telephoneNumber, contact_tag.relationalTag');
+//        $this->db->from('contact_user');
+//        $this->db->join('contact_tag', 'contact_tag.contactId = contact_user.contactId');
+//        $this->db->where('contact_user.userId', $userId);
+//        $where = '(contact_user.lastName="'.$lastName.'" or contact_tag.relationalTag like "%'.$lastName.'%")';
+//        $this->db->where($where);
+//        $this->db->order_by('contact_user.lastName', 'asc');
+//        $result = $this->db->get();
+//
+//        if($result->num_rows() > 0) {
+//            foreach ($result->result() as $row) {
+//                $contact = array('contactId' => $row->contactId, 'userId' => $row->userId,
+//                    'firstName' => $row->firstName, 'lastName' => $row->lastName,
+//                    'emailAddress' => $row->emailAddress, 'telephoneNumber' => $row->telephoneNumber,
+//                    'relationalTag' => $row->relationalTag);
+//                $contacts[] = $contact;
+//            }
+//        }else {
+////            $contacts[] = array('Message' => 'Not Found');
+//        }
+//        return $contacts;
+//    }
+
     public function getRelationalTagContact($userId, $relationalTag) {
+        $relationalTag = json_decode($relationalTag);
         $contacts = array();
         $this->db->select('contact_user.contactId, contact_user.userId, contact_user.firstName, 
         contact_user.lastName, contact_user.emailAddress, contact_user.telephoneNumber, contact_tag.relationalTag');
         $this->db->from('contact_user');
         $this->db->join('contact_tag', 'contact_tag.contactId = contact_user.contactId');
         $this->db->where('contact_user.userId', $userId);
-        $this->db->like('contact_tag.relationalTag', $relationalTag);
+//        $this->db->like('contact_tag.relationalTag', $relationalTag);
+        $this->db->where_in('contact_tag.relationalTag', $relationalTag);
         $this->db->order_by('contact_user.lastName', 'asc');
         $result = $this->db->get();
 
@@ -92,7 +122,7 @@ class ContactManager extends CI_Model {
 
     public function getBothContact($userId, $lastName, $relationalTag) {
         $contacts = array();
-        $this->db->select('contact_user.contactId, contact_user.userId, contact_user.firstName, 
+        $this->db->select('contact_user.contactId, contact_user.userId, contact_user.firstName,
         contact_user.lastName, contact_user.emailAddress, contact_user.telephoneNumber, contact_tag.relationalTag');
         $this->db->from('contact_user');
         $this->db->join('contact_tag', 'contact_tag.contactId = contact_user.contactId');
@@ -115,6 +145,32 @@ class ContactManager extends CI_Model {
         }
         return $contacts;
     }
+
+//    public function getBothContact($userId, $lastName, $relationalTag) {
+//        $contacts = array();
+//        $this->db->select('contact_user.contactId, contact_user.userId, contact_user.firstName,
+//        contact_user.lastName, contact_user.emailAddress, contact_user.telephoneNumber, contact_tag.relationalTag');
+//        $this->db->from('contact_user');
+//        $this->db->join('contact_tag', 'contact_tag.contactId = contact_user.contactId');
+//        $this->db->where('contact_user.userId', $userId);
+//        $where = '(contact_user.lastName="'.$lastName.'" or contact_tag.relationalTag like "%'.$relationalTag.'%")';
+//        $this->db->where($where);
+//        $this->db->order_by('contact_user.lastName', 'asc');
+//        $result = $this->db->get();
+//
+//        if($result->num_rows() > 0) {
+//            foreach ($result->result() as $row) {
+//                $contact = array('contactId' => $row->contactId, 'userId' => $row->userId,
+//                    'firstName' => $row->firstName, 'lastName' => $row->lastName,
+//                    'emailAddress' => $row->emailAddress, 'telephoneNumber' => $row->telephoneNumber,
+//                    'relationalTag' => $row->relationalTag);
+//                $contacts[] = $contact;
+//            }
+//        }else {
+////            $contacts[] = array('Message' => 'Not Found');
+//        }
+//        return $contacts;
+//    }
 
 
 
