@@ -53,6 +53,7 @@
     <div id="searchData">
     </div>
 </div>
+
 <script>
     $('.ui.dropdown').dropdown();
 

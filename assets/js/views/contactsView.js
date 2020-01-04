@@ -1,5 +1,6 @@
 var ContactItemsView = Backbone.View.extend({
     tagName: "ul",
+    // el: ".search_contact_form",
     id: "contactItems",
 
     initialize: function(options) {
