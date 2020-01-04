@@ -27,14 +27,62 @@
     }
 </style>
 
-<div class="search_contact_form" id="search_contact_form">
-<!--    <form action="" method="GET">-->
+<!--<div class="search_contact_form" id="search_contact_form">-->
+<!--   <form action="" method="GET">-->
+<!--    <div class="ui segment ui input focus textField">-->
+<!--        <input type="text" id="lastName" name="lastName" placeholder="Last Name / Surname" value="" required>-->
+<!--    </div>-->
+<!---->
+<!--    <div class="ui segment ui input focus tagField">-->
+<!--        <div class="ui fluid search selection dropdown">-->
+<!--            <input type="hidden" name="relationalTag" id="relationalTag" value="">-->
+<!--            <i class="dropdown icon"></i>-->
+<!--            <div class="default text">Select Relationship</div>-->
+<!--            <div class="menu">-->
+<!--                <div class="item" data-value="family">Family</div>-->
+<!--                <div class="item" data-value="friend">Friend</div>-->
+<!--                <div class="item" data-value="work">Work</div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <br><br>-->
+<!--    <button id="search" class="ui grey button" type="submit">Submit</button>-->
+<!--    <br><br>-->
+<!--   </form>-->
+<!---->
+<!--    <div id="searchData">-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<table class="ui very basic collapsing celled table">
+    <thead>
+    <tr><th>Name</th>
+        <th>Email Address</th>
+        <th>Telephone Number</th>
+        <th>Relational Tag</th>
+    </tr></thead>
+    <tbody id="contact_list">
+
+    </tbody>
+</table>
+
+<div class="add_new_contact" id="add_new_contact">
     <div class="ui segment ui input focus textField">
-        <input type="text" id="lastName" name="lastName" placeholder="Last Name / Surname" value="" required>
+        <input type="text" id="firstName" name="firstName" placeholder="First Name" value="" required>
+    </div>
+    <div class="ui segment ui input focus textField">
+        <input type="text" id="lastName" name="lastName" placeholder="Last Name" value="" required>
+    </div>
+    <div class="ui segment ui input focus textField">
+        <input type="email" id="emailAddress" name="emailAddress" placeholder="example@gmail.com" value="" required>
+    </div>
+    <div class="ui segment ui input focus textField">
+        <input type="text" id="telephoneNumber" name="telephoneNumber" placeholder="+94714150056" value="" required>
     </div>
 
     <div class="ui segment ui input focus tagField">
-        <div class="ui fluid search selection dropdown">
+        <div class="ui fluid multiple search selection dropdown">
             <input type="hidden" name="relationalTag" id="relationalTag" value="">
             <i class="dropdown icon"></i>
             <div class="default text">Select Relationship</div>
@@ -46,13 +94,15 @@
         </div>
     </div>
     <br><br>
-    <button id="search" class="ui grey button" type="submit">Submit</button>
+    <button id="addNew" class="ui grey button">Submit</button>
     <br><br>
-<!--    </form>-->
 
-    <div id="searchData">
-    </div>
+
+
 </div>
+
+
+
 
 <script>
     $('.ui.dropdown').dropdown();
@@ -64,14 +114,17 @@
 </script>
 
 
+
 <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>-->
 <script src="/2015214/assets/js/underscore-min.js"></script>
 <script src="/2015214/assets/js/backbone-min.js"></script>
-<script type="text/javascript" src="/2015214/assets/js/models/contact.js"></script>
-<script type="text/javascript" src="/2015214/assets/js/collections/contacts.js"></script>
-<script type="text/javascript" src="/2015214/assets/js/views/contactView.js"></script>
-<script type="text/javascript" src="/2015214/assets/js/views/contactsView.js"></script>
-<script type="text/javascript" src="/2015214/assets/js/main.js"></script>
+<!--<script type="text/javascript" src="/2015214/assets/js/models/contact.js"></script>-->
+<!--<script type="text/javascript" src="/2015214/assets/js/collections/contacts.js"></script>-->
+<!--<script type="text/javascript" src="/2015214/assets/js/views/contactView.js"></script>-->
+<!--<script type="text/javascript" src="/2015214/assets/js/views/contactsView.js"></script>-->
+<!--<script type="text/javascript" src="/2015214/assets/js/main.js"></script>-->
+<script type="text/javascript" src="/2015214/assets/js/test.js"></script>
+
 
 <!--<script language="javascript">-->
 <!---->

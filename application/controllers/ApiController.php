@@ -59,11 +59,11 @@ class ApiController extends RestController {
     public function contact_post() {
         header('Content-type: application/json');
         $userId = $this->session->userdata('userId');
-        $firstName = $this->input->post('firstName');
-        $lastName = $this->input->post('lastName');
-        $emailAddress = $this->input->post('emailAddress');
-        $telephoneNumber = $this->input->post('telephoneNumber');
-        $relationalTag = $this->input->post('relationalTag');
+        $firstName = $this->post('firstName');
+        $lastName = $this->post('lastName');
+        $emailAddress = $this->post('emailAddress');
+        $telephoneNumber = $this->post('telephoneNumber');
+        $relationalTag = $this->post('relationalTag');
         $output = NULL;
 
          if(!empty($firstName) AND !empty($lastName) AND !empty($emailAddress) AND !empty($telephoneNumber) AND !empty($relationalTag)) {
