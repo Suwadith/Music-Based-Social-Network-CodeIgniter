@@ -17,8 +17,8 @@ var ContactItemView = Backbone.View.extend({
         this.model.destroy(
             //     {
             //     success: function() {
-            //         // $(event.currentTarget).closest('li').remove();
-            //         // console.log("Deleted");
+            //         $(event.currentTarget).closest('li').remove();
+            //         console.log("Deleted");
             //     }
             // }
         );

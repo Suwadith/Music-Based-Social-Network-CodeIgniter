@@ -1,7 +1,7 @@
 var ContactModel = Backbone.Model.extend({
     defaults: {
         // contactId: "",
-        userId: "",
+        // userId: "",
         firstName: "",
         lastName: "",
         emailAddress: "",
@@ -13,11 +13,11 @@ var ContactModel = Backbone.Model.extend({
 
     urlRoot: "http://localhost/2015214/index.php/ApiController/contact",
 
-    // validate: function (attrs) {
-    //     if(!attrs.firstName && !attrs.lastName && !attrs.emailAddress && !attrs.telephoneNumber){
-    //         return "Only Relational Tag can be left empty!";
-    //     }
-    // }
+    validate: function (attrs) {
+        if(!attrs.firstName && !attrs.lastName && !attrs.emailAddress && !attrs.telephoneNumber){
+            return "Only Relational Tag can be left empty!";
+        }
+    }
 });
 
 var ContactsCollection = Backbone.Collection.extend({
@@ -27,8 +27,106 @@ var ContactsCollection = Backbone.Collection.extend({
 
 var contacts = new ContactsCollection();
 
+var ContactSearchView = Backbone.View.extend({
+    el: "#search_contact_form",
+
+    initialize : function () {
+        this.$search_contact_list = this.$('#search_contact_list')
+    },
+    render : function () {
+        return this;
+    },
+
+    events : {
+        "click #search" : 'searchContact',
+        "click #returnAll" : 'getAll'
+    },
+
+    searchContact: function () {
+        console.log('in');
+        var lastName = $('#searchLastName').val();
+        var relationalTag = $('#searchRelationalTag').val();
+        console.log(lastName);
+        console.log(relationalTag);
+        var self = this;
+        self.$search_contact_list.empty();
+
+        if(lastName !== '' || relationalTag !== ''){
+            // var contactss = new ContactsCollection();
+            contacts.fetch({
+                data: {
+                    lastName: lastName,
+                    relationalTag: relationalTag
+                },
+                success: function(response) {
+                    console.log(response);
+
+                    response.each(function (contact) {
+
+                        var view = new ContactResultView({model: contact});
+                        self.$search_contact_list.append(view.render().el);
+                    })
+
+                    // console.log(contact);
+                },
+                error: function() {}
+            });
+
+        }else {
+            alert("Both the search fields can't be empty");
+        }
+    },
+
+    getAll: function () {
+        console.log('in');
+        var self = this;
+        self.$search_contact_list.empty();
+
+
+            // var contactss = new ContactsCollection();
+            contacts.fetch({
+                data: {
+                    lastName: '',
+                    relationalTag: ''
+                },
+                success: function(response) {
+                    console.log(response);
+
+                    response.each(function (contact) {
+
+                        var view = new ContactResultView({model: contact});
+                        self.$search_contact_list.append(view.render().el);
+                    })
+
+                    // console.log(contact);
+                },
+                error: function() {}
+            });
+
+    }
+});
+
+var ContactResultView = Backbone.View.extend({
+
+    template: _.template($("#searchTable").html()),
+
+    tagName: "tr",
+
+    initialize : function () {
+        this.$el.html(this.template(this.model.toJSON()));
+    },
+
+    render : function () {
+        return this;
+    },
+});
+
+var contactSearchView = new ContactSearchView();
+
+
 var ContactAddView = Backbone.View.extend({
     el: "#add_new_contact",
+
 
     initialize : function () {
 
@@ -62,7 +160,8 @@ var contactAddView = new ContactAddView();
 var ContactAreaView = Backbone.View.extend(
     {
         model: contacts, // connect view to collections object
-        el : $('#contact_list'), // connect view to page area
+        el : $('#contact_list'),
+        // connect view to page area
         initialize : function () {
             // when view object created, we want something to
             // happen to load initial content
@@ -78,15 +177,24 @@ var ContactAreaView = Backbone.View.extend(
                 // var cimg = "<div class='celebimg'><img src='" + c.get('imageurl') + "'>";
                 // self.$el.append(cimg)
 
-                var table = '<tr><td><h4 class="ui image header">' +
+                var table = '<tr id="' + contact.get('contactId') + '"><td><h4 class="ui image header">' +
                     '<img src="https://semantic-ui.com/images/avatar2/small/matthew.png" class="ui mini rounded image">' +
                     '<div class="content">' + contact.get('firstName') + '<div class="sub header">' + contact.get('lastName') + '</div></div></h4></td>' +
                     '<td>' + contact.get('emailAddress') + '</td>' +
                     '<td>' + contact.get('telephoneNumber') + '</td>' +
-                    '<td>' + contact.get('relationalTag') + '</tr>';
+                    '<td>' + contact.get('relationalTag') + '</td>' +
+                    '<td><button class="ui red button" id="deleteContact">Delete</button></td></tr>';
+
                 self.$el.append(table);
 
             })
+        },
+        events : {
+            "click #deleteContact" : 'deleteContact'
+        },
+
+        deleteContact: function () {
+            this.model.destroy();
         }
     }
 );
