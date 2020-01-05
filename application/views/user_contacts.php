@@ -22,6 +22,12 @@
         text-align: center;
     }
 
+
+    #searchData {
+        min-width: 80%;
+        text-align: center;
+    }
+
     .errorMessage {
         color: red;
     }
@@ -40,6 +46,7 @@
             <i class="dropdown icon"></i>
             <div class="default text">Select Relationship</div>
             <div class="menu">
+                <div class="item" data-value="">None</div>
                 <div class="item" data-value="family">Family</div>
                 <div class="item" data-value="friend">Friend</div>
                 <div class="item" data-value="work">Work</div>
@@ -52,17 +59,16 @@
     <br><br>
 
 
-    <div id="searchData">
+    <div id="searchData" class="ui raised very padded text container segment">
 
-        <table class="ui very basic collapsing celled table">
+        <table class="ui celled padded table">
             <thead>
-            <tr>
-                <th>Name</th>
+            <tr><th class="single line">Name</th>
                 <th>Email Address</th>
                 <th>Telephone Number</th>
                 <th>Relational Tag</th>
-            </tr>
-            </thead>
+                <th>Options</th>
+            </tr></thead>
             <tbody id="search_contact_list">
 
 
@@ -70,6 +76,7 @@
         </table>
 
     </div>
+
 </div>
 
 <script type="text/template" id="searchTable">
@@ -96,29 +103,15 @@
         </td>
         <td>
             <button class="ui blue button" id="editContact">Edit</button>
-        </td>
-        <td>
+
             <button class="ui red button" id="deleteContact">Delete</button>
         </td>
 
 </script>
 
 
-<!--<table class="ui very basic collapsing celled table">-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>Name</th>-->
-<!--        <th>Email Address</th>-->
-<!--        <th>Telephone Number</th>-->
-<!--        <th>Relational Tag</th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody id="contact_list">-->
-<!---->
-<!--    </tbody>-->
-<!--</table>-->
 
-<div class="add_new_contact" id="add_new_contact">
+<div class="add_new_contact ui raised very padded text container segment center aligned" id="add_new_contact" >
     <div class="ui segment ui input focus textField">
         <input type="text" id="firstName" name="firstName" placeholder="First Name" value="" required>
     </div>
@@ -132,9 +125,42 @@
         <input type="text" id="telephoneNumber" name="telephoneNumber" placeholder="+94714150056" value="" required>
     </div>
 
-    <div class="ui segment ui input focus tagField">
+    <div class="ui segment ui input focus tagField" style="min-width: 80%">
         <div class="ui fluid multiple search selection dropdown">
             <input type="hidden" name="relationalTag" id="relationalTag" value="">
+            <i class="dropdown icon"></i>
+            <div class="default text">Select Relationship</div>
+            <div class="menu">
+                <div class="item" data-value="family">Family</div>
+                <div class="item" data-value="friend">Friend</div>
+                <div class="item" data-value="work">Work</div>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <button id="addNew" class="ui grey button">Submit</button>
+    <br><br>
+
+
+</div>
+
+<div class="edit_contact ui raised very padded text container segment center aligned" id="edit_contact" >
+    <div class="ui segment ui input focus textField">
+        <input type="text" id="editFirstName" name="editFirstName" placeholder="First Name" value="" required>
+    </div>
+    <div class="ui segment ui input focus textField">
+        <input type="text" id="editLastName" name="editLastName" placeholder="Last Name" value="" required>
+    </div>
+    <div class="ui segment ui input focus textField">
+        <input type="email" id="editEmailAddress" name="editEmailAddress" placeholder="example@gmail.com" value="" required>
+    </div>
+    <div class="ui segment ui input focus textField">
+        <input type="text" id="editTelephoneNumber" name="editTelephoneNumber" placeholder="+94714150056" value="" required>
+    </div>
+
+    <div class="ui segment ui input focus tagField" style="min-width: 80%">
+        <div class="ui fluid multiple search selection dropdown">
+            <input type="hidden" name="editRelationalTag" id="editRelationalTag" value="">
             <i class="dropdown icon"></i>
             <div class="default text">Select Relationship</div>
             <div class="menu">

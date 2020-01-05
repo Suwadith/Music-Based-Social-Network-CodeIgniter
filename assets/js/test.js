@@ -31,9 +31,11 @@ var ContactSearchView = Backbone.View.extend({
     el: "#search_contact_form",
 
     initialize : function () {
-        this.$search_contact_list = this.$('#search_contact_list')
+        this.$search_contact_list = this.$('#search_contact_list');
+        this.$searchData = this.$('#searchData').hide();
     },
     render : function () {
+
         return this;
     },
 
@@ -42,7 +44,9 @@ var ContactSearchView = Backbone.View.extend({
         "click #returnAll" : 'getAll'
     },
 
+
     searchContact: function () {
+
         console.log('in');
         var lastName = $('#searchLastName').val();
         var relationalTag = $('#searchRelationalTag').val();
@@ -60,6 +64,11 @@ var ContactSearchView = Backbone.View.extend({
                 },
                 success: function(response) {
                     console.log(response);
+                    if(response.size()>0){
+                        self.$searchData.show();
+                    }else{
+                        self.$searchData.hide();
+                    }
 
                     response.each(function (contact) {
 
@@ -73,7 +82,9 @@ var ContactSearchView = Backbone.View.extend({
             });
 
         }else {
-            alert("Both the search fields can't be empty");
+            // alert("Both the search fields can't be empty");
+            self.$searchData.hide();
+
         }
     },
 
@@ -91,7 +102,11 @@ var ContactSearchView = Backbone.View.extend({
                 },
                 success: function(response) {
                     console.log(response);
-
+                    if(response.size()>0){
+                        self.$searchData.show();
+                    }else{
+                        self.$searchData.hide();
+                    }
                     response.each(function (contact) {
 
                         var view = new ContactResultView({model: contact});
@@ -116,9 +131,22 @@ var ContactResultView = Backbone.View.extend({
         this.$el.html(this.template(this.model.toJSON()));
     },
 
+    events: {
+        "click #deleteContact": "deleteContact"
+    },
+
     render : function () {
+        this.$el.attr("id", this.model.escape("contactId"));
         return this;
     },
+
+    deleteContact: function (ev) {
+        this.model.destroy();
+        var $tr = $(ev.target).closest('tr');
+        // Now $tr is the jQuery object for the <tr> containing the .delete
+        // element that was clicked.
+        $tr.remove();
+    }
 });
 
 var contactSearchView = new ContactSearchView();
