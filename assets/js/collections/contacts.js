@@ -1,4 +1,4 @@
-var Contacts = Backbone.Collection.extend({
+var ContactsCollection = Backbone.Collection.extend({
     model: Contact,
     url: "http://localhost/2015214/index.php/ApiController/contact"
 });

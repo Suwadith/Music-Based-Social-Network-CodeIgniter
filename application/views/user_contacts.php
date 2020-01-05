@@ -31,6 +31,10 @@
     .errorMessage {
         color: red;
     }
+
+    #relationship {
+        color: black;
+    }
 </style>
 
 <div class="search_contact_form" id="search_contact_form">
@@ -56,6 +60,7 @@
     <br><br>
     <button id="search" class="ui grey button">Search</button>
     <button id="returnAll" class="ui grey button">Get All Contacts</button>
+    <button id="addNewContact" class="ui blue button">Add New Contact</button>
     <br><br>
 
 
@@ -162,7 +167,7 @@
         <div class="ui fluid multiple search selection dropdown">
             <input type="hidden" name="editRelationalTag" id="editRelationalTag" value="">
             <i class="dropdown icon"></i>
-            <div class="default text">Select Relationship</div>
+            <div id="relationship" class="default text">Select Relationship</div>
             <div class="menu">
                 <div class="item" data-value="family">Family</div>
                 <div class="item" data-value="friend">Friend</div>
@@ -171,7 +176,7 @@
         </div>
     </div>
     <br><br>
-    <button id="addNew" class="ui grey button">Submit</button>
+    <button id="edit" class="ui grey button">Submit</button>
     <br><br>
 
 
@@ -193,7 +198,10 @@
 <script src="/2015214/assets/js/backbone-min.js"></script>
 <!--<script type="text/javascript" src="/2015214/assets/js/models/contact.js"></script>-->
 <!--<script type="text/javascript" src="/2015214/assets/js/collections/contacts.js"></script>-->
-<!--<script type="text/javascript" src="/2015214/assets/js/views/contactView.js"></script>-->
+<!--<script type="text/javascript" src="/2015214/assets/js/views/contactAddView.js"></script>-->
+<!--<script type="text/javascript" src="/2015214/assets/js/views/contactEditView.js"></script>-->
+<!--<script type="text/javascript" src="/2015214/assets/js/views/contactResultView.js"></script>-->
+<!--<script type="text/javascript" src="/2015214/assets/js/views/contactSearchView.js"></script>-->
 <!--<script type="text/javascript" src="/2015214/assets/js/views/contactsView.js"></script>-->
 <!--<script type="text/javascript" src="/2015214/assets/js/main.js"></script>-->
 <script type="text/javascript" src="/2015214/assets/js/test.js"></script>

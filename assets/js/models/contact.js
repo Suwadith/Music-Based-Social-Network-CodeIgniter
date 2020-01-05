@@ -1,7 +1,5 @@
 var Contact = Backbone.Model.extend({
     defaults: {
-        contactId: "",
-        userId: "",
         firstName: "",
         lastName: "",
         emailAddress: "",
@@ -14,7 +12,7 @@ var Contact = Backbone.Model.extend({
     urlRoot: "http://localhost/2015214/index.php/ApiController/contact",
 
     validate: function (attrs) {
-        if(!attrs.firstName && !attrs.lastName && !attrs.emailAddress && !attrs.telephoneNumber){
+        if (!attrs.firstName && !attrs.lastName && !attrs.emailAddress && !attrs.telephoneNumber) {
             return "Only Relational Tag can be left empty!";
         }
     }
