@@ -193,71 +193,9 @@
 </script>
 
 
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>-->
 <script src="/2015214/assets/js/underscore-min.js"></script>
 <script src="/2015214/assets/js/backbone-min.js"></script>
-<!--<script type="text/javascript" src="/2015214/assets/js/models/contact.js"></script>-->
-<!--<script type="text/javascript" src="/2015214/assets/js/collections/contacts.js"></script>-->
-<!--<script type="text/javascript" src="/2015214/assets/js/views/contactAddView.js"></script>-->
-<!--<script type="text/javascript" src="/2015214/assets/js/views/contactEditView.js"></script>-->
-<!--<script type="text/javascript" src="/2015214/assets/js/views/contactResultView.js"></script>-->
-<!--<script type="text/javascript" src="/2015214/assets/js/views/contactSearchView.js"></script>-->
-<!--<script type="text/javascript" src="/2015214/assets/js/views/contactsView.js"></script>-->
-<!--<script type="text/javascript" src="/2015214/assets/js/main.js"></script>-->
-<script type="text/javascript" src="/2015214/assets/js/test.js"></script>
-
-
-<!--<script language="javascript">-->
-<!---->
-<!--    var Contact = Backbone.Model.extend({-->
-<!--        url : function () {-->
-<!--            return "http://localhost/2015214/index.php/ApiController/contact?lastName=" + this.get('lastName') + "&relationalTag=" + this.get('relationalTag');-->
-<!--        },-->
-<!--        default : {-->
-<!--            contactId : '',-->
-<!--            userId : '',-->
-<!--            firstName : '',-->
-<!--            lastName : '',-->
-<!--            emailAddress : '',-->
-<!--            telephoneNumber : '',-->
-<!--            relationalTag : ''-->
-<!--        }-->
-<!--    });-->
-<!---->
-<!--    var contact = new Contact({lastName : '', relationalTag: ''});-->
-<!---->
-<!--    var ContactView = Backbone.View.extend({-->
-<!--        el : "#search_contact_form",-->
-<!--        events : {-->
-<!--            "submit form" : "getcontact"-->
-<!--        },-->
-<!--        initialize : function () {-->
-<!--            this.listenTo(this.model,"sync change",this.displayContact)-->
-<!--        },-->
-<!--        getcontact : function (event) {-->
-<!--            event.preventDefault();-->
-<!--            this.model.set({lastName: $('#lastName').val(), relationalTag: $('#relationalTag').val()});-->
-<!--            this.model.fetch({-->
-<!--               success: function (response) {-->
-<!--                   console.log(response.toJSON());-->
-<!--               }-->
-<!--            });-->
-<!---->
-<!--        },-->
-<!--        displayContact : function () {-->
-<!--            $('#contactTitle').html(this.model.get('lastName') + this.model.get('relationalTag'));-->
-<!--            // console.log(this.model);-->
-<!--        }-->
-<!--    });-->
-<!--    view = new ContactView({model : contact});-->
-<!---->
-<!--    //movie.fetch();-->
-<!--    //movie.on("change",function (model) {-->
-<!--    //    alert('Title is ' + model.get('title') + ' for year ' + model.get('year'));-->
-<!--    //});-->
-<!---->
-<!---->
-<!--</script>-->
+<script type="text/javascript" src="/2015214/assets/js/main.js"></script>
 
 
 <script>
