@@ -38,7 +38,7 @@ Asset Paths
 
 2. Custom bootstrap - assets/semantic
 
-2. MySQL DB - assets/sql
+3. MySQL DB - assets/sql
 
 **********
 Screnshots
